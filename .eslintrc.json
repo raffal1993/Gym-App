@@ -25,17 +25,39 @@
   "rules": {
     "@typescript-eslint/semi": ["off"],
     "@typescript-eslint/indent": ["off"],
-    "padded-blocks": "off",
-    "arrow-spacing": "off",
+    "@typescript-eslint/object-curly-spacing": ["off"],
     "@typescript-eslint/no-unused-vars": ["warn"],
     "@typescript-eslint/quotes": ["off"],
-    "linebreak-style": ["off"],
+    "react/button-has-type": ["off"],
+    "react/jsx-one-expression-per-line": ["warn"],
+    "react/jsx-wrap-multilines": ["off"],
     "react/react-in-jsx-scope": ["off"],
     "react/jsx-no-useless-fragment": ["off"],
+    "react/function-component-definition": ["off"],
+    "react/jsx-indent": ["off"],
+    "react/self-closing-comp": [
+      "off",
+      {
+        "component": false,
+        "html": false
+      }
+    ],
+    "react/jsx-closing-tag-location": ["off"],
+    "react/jsx-tag-spacing": ["off"],
     "react/jsx-filename-extension": [
       1,
       { "extensions": [".js", ".jsx", ".tsx"] }
     ],
-    "no-multiple-empty-lines": "off"
+    "jsx-a11y/control-has-associated-label": ["warn"],
+    "jsx-a11y/heading-has-content": ["warn"],
+    "jsx-quotes": ["off"],
+    "no-multiple-empty-lines": "off",
+    "eol-last": "off",
+    "padded-blocks": "off",
+    "arrow-spacing": "off",
+    "linebreak-style": ["off"],
+    "arrow-body-style": "off",
+    "no-trailing-spaces": "off",
+    "no-multi-spaces": "off"
   }
 }

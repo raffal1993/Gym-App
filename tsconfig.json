@@ -13,9 +13,11 @@
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "baseUrl": "src",
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "src/contexts"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }
