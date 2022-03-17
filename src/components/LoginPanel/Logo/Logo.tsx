@@ -1,15 +1,15 @@
-import { ReactComponent as MyIcon } from '../../../assets/images/arm.svg';
+import { StyledSvgIcon, StyledTitle, Wrapper } from './Logo.styled';
 
 const Logo = () => {
   return (
-    <div className="logo">
-      <MyIcon className="logo__arm-left" />
-      <h1 className="logo__title">
+    <Wrapper>
+      <StyledSvgIcon arm_to_rotate="true" />
+      <StyledTitle>
         <p>Welcome to</p>
         Gym App
-      </h1>
-      <MyIcon className="logo__arm-right" />
-    </div>
+      </StyledTitle>
+      <StyledSvgIcon />
+    </Wrapper>
   );
 };
 
