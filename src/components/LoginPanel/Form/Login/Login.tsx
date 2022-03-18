@@ -83,8 +83,25 @@ const Login = () => {
       </p>
       <p className="info_forgotPassword">
         Forgot you password?&nbsp;
-        <Link to="/">Click here</Link>
+        <Link to="/forgot-password">Click here</Link>
       </p>
+
+      {/* INSERT TEST USER */}
+      <p style={{ marginTop: 10 }}>
+        Or if You are just lazy
+        <a
+          onClick={(e) => {
+            e.preventDefault();
+            setEmail(`test@wp.pl`);
+            setPassword(`test1234`);
+          }}
+          style={{ marginLeft: 5, textDecoration: 'underline' }}
+          href="/"
+        >
+          Click here
+        </a>
+      </p>
+      {/*  / / / / / / / / / / / / / / / / */}
     </>
   );
 };

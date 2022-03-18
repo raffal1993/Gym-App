@@ -8,9 +8,9 @@ import {
 } from '@mui/material';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { ChangeEvent, MouseEvent, useState } from 'react';
-import { ButtonStyled, FormControlStyled } from '../Form.styled';
+import { ButtonStyled, FormControlStyled, LinkStyled } from '../Form.styled';
 import googleIconRegister from '../../../../assets/images/googleIconRegister.webp';
-import { GoogleSignInStyled, LinkStyled } from './Register.styled';
+import { GoogleSignInStyled } from './Register.styled';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState<boolean>();
@@ -101,7 +101,7 @@ const Login = () => {
       <GoogleSignInStyled>
         <p>or... </p>
         <img src={googleIconRegister} alt="" />
-        <LinkStyled to="/">
+        <LinkStyled to="/login">
           <KeyboardBackspaceIcon />
           <p>Back to login</p>
         </LinkStyled>

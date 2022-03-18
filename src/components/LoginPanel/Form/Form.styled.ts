@@ -6,6 +6,7 @@ import {
   FormControl,
   FormControlProps,
 } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 export const FormGroupStyled = styled(FormGroup)(({ theme }) => ({
   display: 'flex',
@@ -78,5 +79,20 @@ export const FormControlStyled = styled(FormControl)<FormControlProps>({
   },
   '.MuiInputLabel-shrink': {
     fontSize: '1.1rem',
+  },
+});
+
+export const LinkStyled = styled(Link)({
+  display: 'flex',
+
+  '& > p': {
+    fontWeight: '600',
+    fontSize: '1.2rem',
+    marginLeft: '10px',
+  },
+
+  '& > svg': {
+    display: 'block',
+    margin: 'auto',
   },
 });
