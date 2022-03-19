@@ -18,6 +18,18 @@ const globalStyle = {
     color: 'inherit',
     textDecoration: 'none',
   },
+  '::-webkit-scrollbar': {
+    width: '8px',
+  },
+  '::-webkit-scrollbar-track': {
+    backgroundColor: 'grey',
+  },
+  '::-webkit-scrollbar-thumb': {
+    backgroundColor: 'rgb(218, 218, 218)',
+  },
+  '::-webkit-scrollbar-thumb:hover': {
+    backgroundColor: 'rgb(255, 255, 255)',
+  },
 };
 
 export default globalStyle;
