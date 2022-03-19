@@ -1,5 +1,5 @@
 import { styled } from '@mui/material';
-import { ReactComponent as MyIcon } from '../../../assets/images/arm.svg';
+import { ReactComponent as MyIcon } from 'assets/images/arm.svg';
 
 export const Wrapper = styled(`div`)({
   display: 'flex',
