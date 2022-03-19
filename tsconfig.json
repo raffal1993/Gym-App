@@ -13,12 +13,12 @@
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "baseUrl": "./src",
+    "baseUrl": "src",
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
     "paths": { "@mui/styled-engine": ["./node_modules/@mui/styled-engine-sc"] }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "src/.firebase", "src/.firebase"],
   "exclude": ["node_modules"]
 }

@@ -12,6 +12,9 @@
     "airbnb-typescript",
     "plugin:import/recommended"
   ],
+  "settings": {
+    "import/resolver": "typescript"
+  },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
@@ -30,6 +33,7 @@
     "@typescript-eslint/quotes": ["off"],
     "@typescript-eslint/comma-spacing": ["off"],
     "@typescript-eslint/comma-dangle": ["off"],
+    "react/jsx-curly-newline": ["off"],
     "react/jsx-props-no-multi-spaces": ["off"],
     "react/button-has-type": ["off"],
     "react/jsx-one-expression-per-line": ["warn"],
@@ -47,22 +51,30 @@
     ],
     "react/jsx-closing-tag-location": ["off"],
     "react/jsx-tag-spacing": ["off"],
-    "react/jsx-filename-extension": [
-      1,
-      { "extensions": [".js", ".jsx", ".tsx"] }
-    ],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx"] }],
     "jsx-a11y/control-has-associated-label": ["warn"],
     "jsx-a11y/heading-has-content": ["warn"],
+    "jsx-a11y/no-noninteractive-element-interactions": ["off"],
+    "jsx-a11y/click-events-have-key-events": ["off"],
     "jsx-quotes": ["off"],
+
     "no-multiple-empty-lines": "off",
     "eol-last": "off",
     "padded-blocks": "off",
     "arrow-spacing": "off",
+    "no-console:": "off",
     "linebreak-style": ["off"],
     "arrow-body-style": "off",
     "no-trailing-spaces": "off",
     "no-multi-spaces": "off",
     "key-spacing": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "object-curly-newline": 0,
+    "implicit-arrow-linebreak": ["off"],
+    "nonblock-statement-body-position": ["off"],
+    "curly": ["off"],
+    "consistent-return": ["off"],
+    "prefer-destructuring": ["warn"],
+    "no-console": "off"
   }
 }
