@@ -1,28 +1,28 @@
-import { TextField } from '@mui/material';
 import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-import {
-  ButtonStyled,
-  FormControlStyled,
-  LinkStyled,
-} from 'components/LoginPanel/LoginPanel.styled';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from 'firebase-cfg/firebase-config';
+import Email from 'components/Atoms/Inputs/Email/Email';
+import Button from 'components/Atoms/Button/Button';
+import BackToLogin from 'components/Atoms/BackToLogin/BackToMainLogin';
+import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
+import LoginPanelTitle from 'components/Atoms/LoginPanelTitle/LoginPanelTitle';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>(``);
+  const [isSucceed, setIsSucceed] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
   const handleEmail = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
 
-  const handleSubmit = (e: MouseEvent) => {
+  const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     sendPasswordResetEmail(auth, email)
       .then(() => {
+        setIsSucceed(true);
         setTimeout(() => {
           navigate('/');
         }, 2000);
@@ -43,21 +43,19 @@ const ForgotPassword = () => {
 
   return (
     <>
-      <h4 className="title">Forgot password?</h4>
+      <LoginPanelTitle title="Forgot password?" />
 
-      {/* Email */}
-      <FormControlStyled>
-        <TextField error={false} label="Email" value={email} onChange={handleEmail} />
-      </FormControlStyled>
+      <Email email={email} handleEmail={handleEmail} isError={!!errorMessage} />
 
-      <ButtonStyled variant="contained" type="submit" onClick={handleSubmit}>
-        Send password
-      </ButtonStyled>
-      {errorMessage && <p className="errorMessage">{errorMessage}</p>}
-      <LinkStyled to="/">
-        <KeyboardBackspaceIcon />
-        <p>Back to login</p>
-      </LinkStyled>
+      <Button
+        isError={!!errorMessage}
+        isSucceed={isSucceed}
+        name="Send password"
+        handleClick={handleSubmit}
+      />
+
+      {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
+      <BackToLogin />
     </>
   );
 };

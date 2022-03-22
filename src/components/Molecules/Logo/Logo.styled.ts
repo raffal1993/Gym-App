@@ -29,10 +29,10 @@ export const StyledTitle = styled(`h1`)(({ theme }) => ({
     },
   },
   [theme.breakpoints.down('xs')]: {
-    fontSize: '1.5rem',
+    fontSize: '2rem',
 
     '& > p': {
-      fontSize: '1rem',
+      fontSize: '1.5rem',
     },
   },
 }));
@@ -48,7 +48,7 @@ export const StyledSvgIcon = styled(MyIcon)<{ arm_to_rotate?: string }>(
       width: '80px',
     },
     [theme.breakpoints.down('xs')]: {
-      width: '50px',
+      width: '60px',
     },
   }),
 );
