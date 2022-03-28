@@ -6,7 +6,8 @@ import Email from 'components/Atoms/Inputs/Email/Email';
 import BackToLogin from 'components/Atoms/BackToLogin/BackToMainLogin';
 import Password from 'components/Atoms/Inputs/Password/Password';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
-import Button from 'components/Atoms/Button/Button';
+import Button from 'components/Atoms/FormButton/FormButton';
+import { useNavigate } from 'react-router-dom';
 import LoginPanelTitle from 'components/Atoms/LoginPanelTitle/LoginPanelTitle';
 import { GoogleSignInStyled } from './Register.styled';
 
@@ -16,6 +17,8 @@ const Register = () => {
   const [confirmPassword, setConfirmSetPassword] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>(``);
   const [isSucceed, setIsSucceed] = useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   const handleEmail = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
   const handlePassword = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
@@ -28,7 +31,12 @@ const Register = () => {
     if (password !== confirmPassword && email) return setErrorMessage(`Passwords are different`);
 
     createUserWithEmailAndPassword(auth, email, password)
-      .then(() => setIsSucceed(true))
+      .then(() => {
+        setIsSucceed(true);
+        setTimeout(() => {
+          navigate('/dashboard');
+        }, 1500);
+      })
       .catch(({ code }) => {
         setErrorMessage(code);
       });
@@ -40,6 +48,9 @@ const Register = () => {
     signInWithPopup(auth, provider)
       .then(() => {
         setIsSucceed(true);
+        setTimeout(() => {
+          navigate('/dashboard');
+        }, 1500);
         setErrorMessage(``);
       })
       .catch((error) => {
