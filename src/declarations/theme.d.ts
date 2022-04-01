@@ -1,7 +1,12 @@
 interface Colors {
-  bgDark?: string;
-  primaryLight?: string;
-  error?: string;
+  bgDark: string;
+  primaryLight: string;
+  error: string;
+  white: string;
+  primary: string;
+  purple: string;
+  darkGrey: string;
+  whiteLight: string;
 }
 
 interface Fonts {
