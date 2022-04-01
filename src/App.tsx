@@ -5,6 +5,7 @@ import LoginPanel from 'components/Pages/LoginPanel/LoginPanel';
 import CustomizedRoutes from 'components/Templates/CustomizedRoutes/CustomizedRoutes';
 import { useAppSelector } from 'app/hooks';
 import { RootState } from 'app/store';
+import PageNotFound from 'components/Organisms/PageNotFound/PageNotFound';
 
 function App() {
   const userEmail = useAppSelector((state: RootState) => state.user.email);
@@ -15,6 +16,7 @@ function App() {
         <CustomizedRoutes>
           <Route path="/*" element={<LoginPanel />} />
           <Route path="/dashboard/*" element={<Dashboard />} />
+          <Route path="/page-not-found" element={<PageNotFound />} />
         </CustomizedRoutes>
       )}
     </Wrapper>
