@@ -1,5 +1,8 @@
 import Navbar from 'components/Molecules/Navbar/Navbar';
-import Sidebar from 'components/Molecules/Sidebar/Sidebar';
+import Food from 'components/Organisms/Food/Food';
+import Profile from 'components/Organisms/Profile/Profile';
+import Weather from 'components/Organisms/Weather/Weather';
+import Workout from 'components/Organisms/Workout/Workout';
 import CustomizedRoutes from 'components/Templates/CustomizedRoutes/CustomizedRoutes';
 import { Route } from 'react-router-dom';
 import { Wrapper } from './Dashboard.styled';
@@ -8,13 +11,12 @@ const Dashboard = () => {
   return (
     <Wrapper>
       <Navbar />
-      <Sidebar />
       <CustomizedRoutes>
-        <Route path="" element={<></>} />
-        <Route path="workout" element={<div> workoutPlan</div>} />
-        <Route path="food" element={<div> food</div>} />
-        <Route path="weather" element={<div> weather</div>} />
-        <Route path="profile" element={<div> profile</div>} />
+        <Route path="/" element={<></>} />
+        <Route path="workout" element={<Workout />} />
+        <Route path="food" element={<Food />} />
+        <Route path="weather" element={<Weather />} />
+        <Route path="profile" element={<Profile />} />
       </CustomizedRoutes>
     </Wrapper>
   );

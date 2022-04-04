@@ -1,4 +1,5 @@
-import { Button, ButtonProps, List, ListProps, styled } from '@mui/material';
+import { List, ListProps, styled, Tabs, TabsProps } from '@mui/material';
+import { darken } from '@mui/system';
 
 // GRID TEMPLATE "/Dashboard.styles.ts"
 // gridTemplateColumns: '45px 205px 1fr',
@@ -13,123 +14,128 @@ export const Wrapper = styled(`div`)(({ theme }) => ({
   marginRight: '5px',
 }));
 
-export const WelcomeLogoStyled = styled(`div`)<{ is_email_long: string }>(
-  ({ theme, is_email_long }) => ({
-    display: 'flex',
-    position: 'relative',
-    flexDirection: 'column',
-    borderRight: `2px solid ${theme.colors.darkGrey}`,
+const SidebarListStyledReduced = {
+  gridArea: '2/1/4/2',
+  overflow: 'hidden',
+  '.MuiListItemButton-root': {
+    paddingLeft: '4px',
+  },
+};
+
+export const SidebarListStyled = styled(List)<ListProps & { is_sidebar_hide: string }>(
+  ({ theme, is_sidebar_hide }) => ({
     backgroundColor: theme.colors.primary,
-    padding: '10px',
-    borderBottomRightRadius: '25px',
-    gridArea: '1/1/3/4',
-    overflow: 'hidden',
+    borderTop: `2px solid ${theme.colors.darkGrey}`,
+    borderRight: `2px solid ${theme.colors.darkGrey}`,
+    gridArea: '3/1/4/3',
+    marginTop: '5px',
 
-    span: {
-      fontSize: '1.2rem',
-    },
-
-    h4: {
-      fontFamily: theme.fonts.montserrat,
-      fontWeight: '600',
-      fontSize: is_email_long === 'true' ? '1.5rem' : '1.9rem',
-      padding: '10px 0',
-      width: '100%',
-      overflow: 'hidden',
-      cursor: 'default',
-    },
-
-    [theme.breakpoints.down('sm')]: {
-      span: { display: 'none' },
-      gridArea: '1/1/2/4',
-      borderRadius: '0px',
-      borderBottom: `2px solid ${theme.colors.darkGrey}`,
-      justifyContent: 'center',
+    '.listNumber': {
       textAlign: 'center',
-      h4: {
-        fontSize: is_email_long === 'true' ? '1.1rem' : '1.4rem',
-        padding: '0px 0px 0px 42px',
+      fontSize: '2rem',
+      minWidth: '30px',
+      borderRight: `2px solid ${theme.colors.bgDark}`,
+    },
+
+    '.MuiListItemButton-root': {
+      marginBottom: '10px',
+
+      '&:hover': {
+        backgroundColor: theme.colors.whiteLight,
       },
     },
 
-    [theme.breakpoints.down('xs')]: {
-      gridArea: '1/1/2/2',
+    '.MuiTypography-root': {
+      fontFamily: theme.fonts.gillSans,
+      textTransform: 'uppercase',
+      fontSize: '1.3rem',
+      fontWeight: '800',
+      textAlign: 'center',
+      paddingLeft: '10px',
     },
+
+    '.Mui-selected, .Mui-selected:hover': {
+      backgroundColor: `${theme.colors.purple} !important`,
+    },
+
+    ...(is_sidebar_hide === 'true' && SidebarListStyledReduced),
   }),
 );
 
-export const LogoutButtonStyled = styled(Button)<ButtonProps>(({ theme }) => ({
+export const TabsStyled = styled(Tabs)<TabsProps>(({ theme }) => ({
   display: 'flex',
-  width: '105%',
-  color: theme.colors.white,
-  backgroundColor: theme.colors.darkGrey,
-  borderRadius: '0px',
-  position: 'absolute',
-  bottom: -2,
-  left: -5,
-
-  '&:hover': {
-    backgroundColor: theme.colors.purple,
-  },
-
-  '& > p': {
-    flexGrow: 1,
-  },
-
-  [theme.breakpoints.down('sm')]: {
-    '& > p': { display: 'none' },
-    height: '100%',
-    minWidth: '42px !important',
-    width: '42px',
-    top: 0,
-    left: 0,
-  },
-}));
-
-export const SidebarListStyled = styled(List)<ListProps>(({ theme }) => ({
-  backgroundColor: theme.colors.primary,
-  borderTop: `2px solid ${theme.colors.darkGrey}`,
-  borderRight: `2px solid ${theme.colors.darkGrey}`,
+  justifyContent: 'center',
   gridArea: '3/1/4/3',
+  gridRowEnd: '2',
+  minWidth: '100vw',
+  height: '50px',
+  backgroundColor: theme.colors.primary,
   marginTop: '5px',
+  border: `2px solid ${theme.colors.darkGrey}`,
 
-  '.listNumber': {
-    textAlign: 'center',
-    fontSize: '2rem',
-    minWidth: '30px',
-    borderRight: `2px solid ${theme.colors.bgDark}`,
-  },
-
-  '.MuiListItemButton-root': {
-    marginBottom: '10px',
-  },
-
-  '.MuiTypography-root': {
+  '.MuiButtonBase-root': {
     fontFamily: theme.fonts.gillSans,
     textTransform: 'uppercase',
     fontSize: '1.3rem',
     fontWeight: '800',
-    textAlign: 'center',
-    paddingLeft: '10px',
+    color: theme.colors.primaryLight,
+    margin: '0 5px',
+
+    '&:hover': { color: `${theme.colors.white} !important` },
   },
 
-  '.MuiListItemButton-root:hover': {
-    backgroundColor: theme.colors.whiteLight,
-  },
-  '.Mui-selected, .Mui-selected:hover': {
-    backgroundColor: `${theme.colors.purple} !important`,
+  '& .Mui-selected': {
+    color: `${theme.colors.white} !important`,
   },
 
-  [theme.breakpoints.down('sm')]: {
-    gridArea: '2/1/4/2',
-    overflow: 'hidden',
+  '.MuiTabScrollButton-root': {
+    svg: {
+      fontSize: '3.5rem',
+      color: theme.colors.bgDark,
 
-    '.MuiListItemButton-root': {
-      padding: 0,
-      paddingLeft: '4px',
+      '&:hover': {
+        color: theme.colors.darkGrey,
+      },
     },
-    '.listNumber': {
-      borderRight: `none`,
-    },
+  },
+
+  '.MuiTabs-indicator': {
+    backgroundColor: theme.colors.purple,
+    height: '4px',
+    borderRadius: '10px',
+    bottom: '5px',
   },
 }));
+
+export const SliderStyled = styled(`div`)<{ is_sidebar_hide: string }>(
+  ({ theme, is_sidebar_hide }) => ({
+    marginTop: '5px',
+    borderTopRightRadius: '20px',
+    gridArea: '3/3/4/4',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: darken(theme.colors.darkGrey, 0.3),
+    opacity: '.5',
+
+    '&:hover': {
+      cursor: 'pointer',
+      transition: '.3s ease-in',
+      opacity: '1',
+
+      svg: {
+        transition: '.3s ease-in',
+      },
+    },
+
+    ...(is_sidebar_hide === 'true' && {
+      gridColumnStart: '2',
+      gridRowStart: '2',
+      width: '15px',
+    }),
+
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  }),
+);

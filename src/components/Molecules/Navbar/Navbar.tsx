@@ -2,7 +2,19 @@ import * as React from 'react';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import { BoxStyled, NavLinkStyled, PagesStyled, Wrapper } from './Navbar.styled';
+import { auth } from 'firebase-cfg/firebase-config';
+import { useNavigate } from 'react-router-dom';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import { useAppSelector } from 'app/hooks';
+import { RootState } from 'app/store';
+import {
+  HamburgerStyled,
+  LogoutButtonStyled,
+  NavLinkStyled,
+  PagesStyled,
+  WelcomeLogoStyled,
+  Wrapper,
+} from './Navbar.styled';
 
 const basicPages = [
   { name: 'Workout', path: 'workout' },
@@ -13,6 +25,10 @@ const basicPages = [
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const navigate = useNavigate();
+
+  const userEmail = useAppSelector((state: RootState) => state.user.email);
+  const isSidebarHide = useAppSelector((state: RootState) => state.interface.isSidebarHide);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -21,8 +37,24 @@ const Navbar = () => {
     setAnchorElNav(null);
   };
 
+  const handleLogout = () => {
+    auth.signOut();
+    navigate('/');
+  };
+
   return (
     <Wrapper>
+      <WelcomeLogoStyled
+        is_sidebar_hide={isSidebarHide!.toString()}
+        is_email_long={userEmail && userEmail?.length > 12 ? 'true' : 'false'}
+      >
+        <span>Welcome</span>
+        <h4>{userEmail}</h4>
+        <LogoutButtonStyled is_sidebar_hide={isSidebarHide!.toString()} onClick={handleLogout}>
+          <KeyboardBackspaceIcon />
+          <p>logout</p>
+        </LogoutButtonStyled>
+      </WelcomeLogoStyled>
       <PagesStyled>
         {basicPages.map(({ name, path }) => (
           <NavLinkStyled to={`${path}`} key={name} onClick={handleCloseNavMenu}>
@@ -31,7 +63,7 @@ const Navbar = () => {
         ))}
       </PagesStyled>
 
-      <BoxStyled>
+      <HamburgerStyled>
         <IconButton
           aria-label="account of current user"
           aria-controls="menu-appbar"
@@ -58,13 +90,18 @@ const Navbar = () => {
         >
           <PagesStyled is_hamburger_menu="true">
             {basicPages.map(({ name, path }) => (
-              <NavLinkStyled is_hamburger_menu_element="true" to={`${path}`} key={name}>
+              <NavLinkStyled
+                onClick={handleCloseNavMenu}
+                is_hamburger_menu_element="true"
+                to={`${path}`}
+                key={name}
+              >
                 {name}
               </NavLinkStyled>
             ))}
           </PagesStyled>
         </Menu>
-      </BoxStyled>
+      </HamburgerStyled>
     </Wrapper>
   );
 };
