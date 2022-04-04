@@ -8,11 +8,11 @@ import { RootState } from 'app/store';
 import PageNotFound from 'components/Organisms/PageNotFound/PageNotFound';
 
 function App() {
-  const userEmail = useAppSelector((state: RootState) => state.user.email);
+  const { isUserChecked } = useAppSelector((state: RootState) => state.user);
 
   return (
     <Wrapper>
-      {userEmail !== null && (
+      {isUserChecked && (
         <CustomizedRoutes>
           <Route path="/*" element={<LoginPanel />} />
           <Route path="/dashboard/*" element={<Dashboard />} />
