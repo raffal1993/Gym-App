@@ -19,7 +19,7 @@ const globalStyle = {
     textDecoration: 'none',
   },
   '::-webkit-scrollbar': {
-    width: '8px',
+    width: '6px',
   },
   '::-webkit-scrollbar-track': {
     backgroundColor: 'grey',

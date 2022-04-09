@@ -1,4 +1,4 @@
-import { List, ListProps, styled, Tabs, TabsProps } from '@mui/material';
+import { List, ListProps, styled } from '@mui/material';
 import { darken } from '@mui/system';
 
 // GRID TEMPLATE "/Dashboard.styles.ts"
@@ -12,32 +12,31 @@ export const Wrapper = styled(`div`)(({ theme }) => ({
   gridTemplateColumns: '40px 1fr 15px',
   gridTemplateRows: `50px 70px 1fr`,
   marginRight: '5px',
+  maxHeight: '100vh',
 }));
-
-const SidebarListStyledReduced = {
-  gridArea: '2/1/4/2',
-  overflow: 'hidden',
-  '.MuiListItemButton-root': {
-    paddingLeft: '4px',
-  },
-};
 
 export const SidebarListStyled = styled(List)<ListProps & { is_sidebar_hide: string }>(
   ({ theme, is_sidebar_hide }) => ({
     backgroundColor: theme.colors.primary,
     borderTop: `2px solid ${theme.colors.darkGrey}`,
     borderRight: `2px solid ${theme.colors.darkGrey}`,
-    gridArea: '3/1/4/3',
+    gridArea: '3/1/3/3',
     marginTop: '5px',
+    overflowY: 'auto',
+    overflowX: 'hidden',
 
-    '.listNumber': {
+    '::-webkit-scrollbar': {
+      width: '4px',
+    },
+
+    '& .listNumber': {
       textAlign: 'center',
       fontSize: '2rem',
       minWidth: '30px',
       borderRight: `2px solid ${theme.colors.bgDark}`,
     },
 
-    '.MuiListItemButton-root': {
+    '& .MuiListItemButton-root': {
       marginBottom: '10px',
 
       '&:hover': {
@@ -45,7 +44,7 @@ export const SidebarListStyled = styled(List)<ListProps & { is_sidebar_hide: str
       },
     },
 
-    '.MuiTypography-root': {
+    '& .MuiTypography-root': {
       fontFamily: theme.fonts.gillSans,
       textTransform: 'uppercase',
       fontSize: '1.3rem',
@@ -54,58 +53,25 @@ export const SidebarListStyled = styled(List)<ListProps & { is_sidebar_hide: str
       paddingLeft: '10px',
     },
 
-    '.Mui-selected, .Mui-selected:hover': {
+    '& .Mui-selected, & .Mui-selected:hover': {
       backgroundColor: `${theme.colors.purple} !important`,
     },
 
-    ...(is_sidebar_hide === 'true' && SidebarListStyledReduced),
+    ...(is_sidebar_hide === 'true' && {
+      ...{
+        gridArea: '2/1/4/2',
+
+        '.MuiListItemButton-root': {
+          paddingLeft: '4px',
+        },
+
+        '.listNumber': {
+          borderRight: 'none',
+        },
+      },
+    }),
   }),
 );
-
-export const TabsStyled = styled(Tabs)<TabsProps>(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'center',
-  gridArea: '3/1/4/3',
-  gridRowEnd: '2',
-  minWidth: '100vw',
-  height: '50px',
-  backgroundColor: theme.colors.primary,
-  marginTop: '5px',
-  border: `2px solid ${theme.colors.darkGrey}`,
-
-  '.MuiButtonBase-root': {
-    fontFamily: theme.fonts.gillSans,
-    textTransform: 'uppercase',
-    fontSize: '1.3rem',
-    fontWeight: '800',
-    color: theme.colors.primaryLight,
-    margin: '0 5px',
-
-    '&:hover': { color: `${theme.colors.white} !important` },
-  },
-
-  '& .Mui-selected': {
-    color: `${theme.colors.white} !important`,
-  },
-
-  '.MuiTabScrollButton-root': {
-    svg: {
-      fontSize: '3.5rem',
-      color: theme.colors.bgDark,
-
-      '&:hover': {
-        color: theme.colors.darkGrey,
-      },
-    },
-  },
-
-  '.MuiTabs-indicator': {
-    backgroundColor: theme.colors.purple,
-    height: '4px',
-    borderRadius: '10px',
-    bottom: '5px',
-  },
-}));
 
 export const SliderStyled = styled(`div`)<{ is_sidebar_hide: string }>(
   ({ theme, is_sidebar_hide }) => ({
