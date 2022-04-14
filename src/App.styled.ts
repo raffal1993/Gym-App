@@ -1,10 +1,10 @@
 import { styled } from '@mui/material';
 
 export const Wrapper = styled('div')(({ theme }) => ({
-  minHeight: '100vh',
   display: 'flex',
+  minHeight: '100vh',
   flexDirection: 'column',
-  justifyContent: 'space-between',
+  justifyContent: 'center',
   alignItems: 'center',
   backgroundColor: theme.colors.bgDark,
 }));

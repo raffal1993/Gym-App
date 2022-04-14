@@ -7,7 +7,7 @@ export const ErrorMessageStyled = styled('p')(({ theme }) => ({
   color: theme.colors.error,
   paddingBottom: '10px',
   letterSpacing: '2px',
-  fontFamily: theme.fonts.gillSans,
+  fontFamily: theme.fonts.roboto,
 
   [theme.breakpoints.down('xs')]: {
     fontSize: '1.3rem',

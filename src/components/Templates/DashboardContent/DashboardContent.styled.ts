@@ -5,10 +5,11 @@ import { styled } from '@mui/material';
 
 export const Wrapper = styled('div')<{ is_sidebar_hide: string }>(({ theme, is_sidebar_hide }) => ({
   gridArea: '2/3/4/3',
-  padding: '5px',
+  padding: '5px 10px',
   display: 'flex',
+  height: '100%',
   overflow: 'hidden',
-  margin: '0px 5px',
+  overflowY: 'auto',
 
   ...(is_sidebar_hide === 'true' && {
     '&': {

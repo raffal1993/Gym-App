@@ -16,7 +16,7 @@ export const TabsStyled = styled(Tabs)<TabsProps>(({ theme }) => ({
   },
 
   '& .MuiButtonBase-root': {
-    fontFamily: theme.fonts.gillSans,
+    fontFamily: theme.fonts.roboto,
     textTransform: 'uppercase',
     fontSize: '1.3rem',
     fontWeight: '800',

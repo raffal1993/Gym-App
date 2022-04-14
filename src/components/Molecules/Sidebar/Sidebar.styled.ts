@@ -12,7 +12,6 @@ export const Wrapper = styled(`div`)(({ theme }) => ({
   gridTemplateColumns: '40px 1fr 15px',
   gridTemplateRows: `50px 70px 1fr`,
   marginRight: '5px',
-  maxHeight: '100vh',
 }));
 
 export const SidebarListStyled = styled(List)<ListProps & { is_sidebar_hide: string }>(
@@ -45,12 +44,12 @@ export const SidebarListStyled = styled(List)<ListProps & { is_sidebar_hide: str
     },
 
     '& .MuiTypography-root': {
-      fontFamily: theme.fonts.gillSans,
+      fontFamily: theme.fonts.roboto,
       textTransform: 'uppercase',
       fontSize: '1.3rem',
-      fontWeight: '800',
       textAlign: 'center',
       paddingLeft: '10px',
+      letterSpacing: '.1rem',
     },
 
     '& .Mui-selected, & .Mui-selected:hover': {

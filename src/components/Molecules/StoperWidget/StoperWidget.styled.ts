@@ -7,17 +7,18 @@ export const Wrapper = styled('div')<{ is_hided: string }>(({ theme, is_hided })
   backgroundColor: darken(theme.colors.primary, 0.5),
   borderBottomLeftRadius: '40px',
   borderTopLeftRadius: '40px',
-  position: 'absolute',
+  position: 'fixed',
   right: '0',
-  top: '100px',
+  top: '40%',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-evenly',
   padding: '0 10px',
   transition: 'all .3s linear',
+  zIndex: '10',
 
   ...(is_hided === 'true' && {
-    right: '-260px',
+    transform: 'translateX(260px)',
   }),
 
   svg: {
