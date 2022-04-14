@@ -1,48 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { ListItemButton, ListItemText, Tab, useTheme } from '@mui/material';
+import { ListItemButton, ListItemText, useTheme } from '@mui/material';
 import { RootState } from 'app/store';
 import { setSidebarVisibility } from 'app/slices/interfaceSlice';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { SidebarListStyled, SliderStyled, TabsStyled, Wrapper } from './Sidebar.styled';
+import { SidebarListStyled, SliderStyled, Wrapper } from './Sidebar.styled';
+import CustomTabs from '../CustomTabs/CustomTabs';
 
-export type SidebarElements = string[];
+export interface SidebarProps {
+  sidebarList: string[];
+}
 
-export default function Sidebar({ elements = [] }: { elements?: SidebarElements }) {
-  const [selectedIndex, setSelectedIndex] = useState(-1);
+const Sidebar: FC<SidebarProps> = ({ sidebarList = [] }) => {
   const [value, setValue] = useState(0);
-  const [width, setWidth] = useState<number>(window.innerWidth);
-
-  const dispatch = useAppDispatch();
-
   const {
     breakpoints: { values },
   } = useTheme();
+
+  const [isSmallWidth, setIsSmallWidth] = useState<boolean>(window.innerWidth < values.sm);
+
+  const dispatch = useAppDispatch();
 
   const { isSidebarHide } = useAppSelector((state: RootState) => state.interface);
 
   useEffect(() => {
     const resize = () => {
-      const windowWidth = window.innerWidth as number;
-      setWidth(windowWidth);
+      if (window.innerWidth < values.sm === isSmallWidth) return;
+      setIsSmallWidth(window.innerWidth < values.sm);
     };
     window.addEventListener('resize', resize);
 
     return () => {
       window.removeEventListener('resize', resize);
     };
-  }, []);
+  }, [isSmallWidth, values.sm]);
 
   const handleListItemClick = (
     _event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     index: number,
   ) => {
-    setSelectedIndex(index);
-  };
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+    setValue(index);
   };
 
   const handleSidebarVisibility = () => {
@@ -51,29 +49,14 @@ export default function Sidebar({ elements = [] }: { elements?: SidebarElements 
 
   return (
     <Wrapper>
-      {width < values.sm ? (
-        <TabsStyled
-          value={value}
-          onChange={handleChange}
-          variant="scrollable"
-          scrollButtons
-          allowScrollButtonsMobile
-          aria-label="scrollable auto tabs example"
-        >
-          {elements.map((el, index) => (
-            <Tab
-              key={`${el + index}`}
-              label={el}
-              onClick={(event) => handleListItemClick(event, index)}
-            ></Tab>
-          ))}
-        </TabsStyled>
+      {isSmallWidth ? (
+        <CustomTabs elements={sidebarList} setValue={setValue} value={value} />
       ) : (
         <SidebarListStyled is_sidebar_hide={isSidebarHide!.toString()}>
-          {elements.map((el, index) => (
+          {sidebarList.map((el, index) => (
             <ListItemButton
               key={`${el + index}`}
-              selected={selectedIndex === index}
+              selected={value === index}
               onClick={(event) => handleListItemClick(event, index)}
             >
               <div className="listNumber">{index + 1}</div>
@@ -92,8 +75,6 @@ export default function Sidebar({ elements = [] }: { elements?: SidebarElements 
       </SliderStyled>
     </Wrapper>
   );
-}
-
-Sidebar.defaultProps = {
-  elements: [],
 };
+
+export default Sidebar;
