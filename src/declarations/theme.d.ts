@@ -7,12 +7,13 @@ interface Colors {
   purple: string;
   darkGrey: string;
   whiteLight: string;
+  burlyWood: string;
 }
 
 interface Fonts {
   montserrat: string;
   sarpanch: string;
-  gillSans: string;
+  roboto: string;
 }
 
 export declare module '@mui/material/styles' {
@@ -26,6 +27,7 @@ export declare module '@mui/material/styles' {
   }
 
   interface BreakpointOverrides {
+    xxs: true;
     xl: false;
   }
 }

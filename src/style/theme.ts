@@ -10,15 +10,16 @@ const theme = createTheme({
     purple: 'rgb(128,0,128)',
     whiteLight: 'rgba(230,230,250,0.3)',
     darkGrey: 'rgb(62,62,62)',
+    burlyWood: 'rgb(222, 184, 135)',
   },
   fonts: {
     montserrat: `'Montserrat', sans-serif`,
     sarpanch: `'Sarpanch', sans-serif`,
-    gillSans: `'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
-    sans-serif`,
+    roboto: `'Roboto', sans-serif`,
   },
   breakpoints: {
     values: {
+      xxs: 320,
       xs: 480,
       sm: 768,
       md: 1024,
