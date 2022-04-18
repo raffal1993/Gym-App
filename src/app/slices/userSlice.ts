@@ -1,29 +1,23 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-// import type { RootState } from 'app/store';
 
 interface UserState {
-  email: string | null;
-  isUserChecked?: boolean;
+  email?: string | null;
 }
 
 const initialState: UserState = {
-  email: null,
-  isUserChecked: false,
+  email: '',
 };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUserInfo: (state, action: PayloadAction<UserState>) => {
-      state.email = action.payload.email;
-      state.isUserChecked = true;
+    setUser: (state, action: PayloadAction<UserState>) => {
+      state.email = action.payload.email || state.email;
     },
   },
 });
 
-export const { setUserInfo } = userSlice.actions;
-
-// export const selectUser = (state: RootState) => state.user.email;
+export const { setUser } = userSlice.actions;
 
 export default userSlice.reducer;
