@@ -5,7 +5,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { auth } from 'firebase-cfg/firebase-config';
 import { useNavigate } from 'react-router-dom';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-import { useAppSelector } from 'app/hooks';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { setPages } from 'app/slices/pagesSlice';
 import { RootState } from 'app/store';
 import {
   HamburgerStyled,
@@ -26,6 +27,7 @@ const basicPages = [
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const userEmail = useAppSelector((state: RootState) => state.user.email);
   const isSidebarHide = useAppSelector((state: RootState) => state.interface.isSidebarHide);
@@ -33,8 +35,9 @@ const Navbar = () => {
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
+  const handleNavMenu = (path: string, isHamburger = false) => {
+    dispatch(setPages({ mainPage: path }));
+    if (isHamburger) setAnchorElNav(null);
   };
 
   const handleLogout = () => {
@@ -57,7 +60,7 @@ const Navbar = () => {
       </WelcomeLogoStyled>
       <PagesStyled>
         {basicPages.map(({ name, path }) => (
-          <NavLinkStyled to={`${path}`} key={name} onClick={handleCloseNavMenu}>
+          <NavLinkStyled to={`${path}`} key={name} onClick={() => handleNavMenu(path)}>
             {name}
           </NavLinkStyled>
         ))}
@@ -86,12 +89,12 @@ const Navbar = () => {
           anchorEl={anchorElNav}
           keepMounted
           open={Boolean(anchorElNav)}
-          onClose={handleCloseNavMenu}
+          onClose={() => setAnchorElNav(null)}
         >
           <PagesStyled is_hamburger_menu="true">
             {basicPages.map(({ name, path }) => (
               <NavLinkStyled
-                onClick={handleCloseNavMenu}
+                onClick={() => handleNavMenu(path, true)}
                 is_hamburger_menu_element="true"
                 to={`${path}`}
                 key={name}
