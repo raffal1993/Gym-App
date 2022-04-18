@@ -1,12 +1,15 @@
 import React, { FC, useEffect, useState } from 'react';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { ListItemButton, ListItemText, useTheme } from '@mui/material';
+import { ListItemButton, ListItemText } from '@mui/material';
 import { RootState } from 'app/store';
 import { setSidebarVisibility } from 'app/slices/interfaceSlice';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { SidebarListStyled, SliderStyled, Wrapper } from './Sidebar.styled';
+import { v4 as uuidv4 } from 'uuid';
+import { setPages } from 'app/slices/pagesSlice';
 import CustomTabs from '../CustomTabs/CustomTabs';
+import useResize from '../../../hooks/useResize';
+import { SidebarListStyled, SliderStyled, Wrapper } from './Sidebar.styled';
 
 export interface SidebarProps {
   sidebarList: string[];
@@ -14,27 +17,12 @@ export interface SidebarProps {
 
 const Sidebar: FC<SidebarProps> = ({ sidebarList = [] }) => {
   const [value, setValue] = useState(0);
-  const {
-    breakpoints: { values },
-  } = useTheme();
-
-  const [isSmallWidth, setIsSmallWidth] = useState<boolean>(window.innerWidth < values.sm);
-
+  const { isWidthSmaller } = useResize('sm');
   const dispatch = useAppDispatch();
-
-  const { isSidebarHide } = useAppSelector((state: RootState) => state.interface);
-
-  useEffect(() => {
-    const resize = () => {
-      if (window.innerWidth < values.sm === isSmallWidth) return;
-      setIsSmallWidth(window.innerWidth < values.sm);
-    };
-    window.addEventListener('resize', resize);
-
-    return () => {
-      window.removeEventListener('resize', resize);
-    };
-  }, [isSmallWidth, values.sm]);
+  const {
+    interface: { isSidebarHide },
+    pages: { mainPage },
+  } = useAppSelector((state: RootState) => state);
 
   const handleListItemClick = (
     _event: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -43,19 +31,30 @@ const Sidebar: FC<SidebarProps> = ({ sidebarList = [] }) => {
     setValue(index);
   };
 
+  useEffect(() => {
+    setValue(0);
+  }, [mainPage]);
+
+  useEffect(() => {
+    dispatch(setPages({ subPage: (value + 1).toString() }));
+    if (sidebarList.length === 0) {
+      dispatch(setPages({ subPage: '0' }));
+    }
+  }, [value, dispatch, mainPage, sidebarList]);
+
   const handleSidebarVisibility = () => {
     dispatch(setSidebarVisibility());
   };
 
   return (
     <Wrapper>
-      {isSmallWidth ? (
-        <CustomTabs elements={sidebarList} setValue={setValue} value={value} />
+      {isWidthSmaller ? (
+        <CustomTabs asLink elements={sidebarList} setValue={setValue} value={value} />
       ) : (
         <SidebarListStyled is_sidebar_hide={isSidebarHide!.toString()}>
           {sidebarList.map((el, index) => (
             <ListItemButton
-              key={`${el + index}`}
+              key={uuidv4()}
               selected={value === index}
               onClick={(event) => handleListItemClick(event, index)}
             >
