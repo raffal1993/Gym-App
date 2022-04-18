@@ -1,13 +1,17 @@
 import { ChangeEvent, FC, KeyboardEvent, useState } from 'react';
-import { TextAreaStyled } from './CustomInput.styled';
+import { TextAreaStyled } from './CustomTextarea.styled';
 
-interface CustomInputProps {
+interface CustomTextareaProps {
   initialValue?: string;
   disabled?: boolean;
   maxWidth?: number;
 }
 
-const CustomInput: FC<CustomInputProps> = ({ initialValue = '', disabled, maxWidth = 80 }) => {
+const CustomTextarea: FC<CustomTextareaProps> = ({
+  initialValue = '',
+  disabled,
+  maxWidth = 80,
+}) => {
   const [value, setValue] = useState<string>(initialValue);
   const [lastKey, setLastKey] = useState<string>('');
   const [deleteValue, setDeleteValue] = useState<boolean>(true);
@@ -42,10 +46,10 @@ const CustomInput: FC<CustomInputProps> = ({ initialValue = '', disabled, maxWid
   );
 };
 
-CustomInput.defaultProps = {
+CustomTextarea.defaultProps = {
   initialValue: '',
   disabled: false,
   maxWidth: 80,
 };
 
-export default CustomInput;
+export default CustomTextarea;
