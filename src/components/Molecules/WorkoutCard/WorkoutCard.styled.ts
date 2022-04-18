@@ -49,6 +49,11 @@ export const TitleStyled = styled(`h3`)(({ theme }) => ({
   textOverflow: 'ellipsis',
   textAlign: 'center',
   margin: '5px',
+  pointerEvents: 'none',
 
   [theme.breakpoints.down('xs')]: {},
+}));
+
+export const VersionsStyled = styled('div')(({ theme }) => ({
+  margin: '0px 0px 10px 10px',
 }));

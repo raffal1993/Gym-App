@@ -37,6 +37,7 @@ export const SidebarListStyled = styled(List)<ListProps & { is_sidebar_hide: str
 
     '& .MuiListItemButton-root': {
       marginBottom: '10px',
+      whiteSpace: 'nowrap',
 
       '&:hover': {
         backgroundColor: theme.colors.whiteLight,

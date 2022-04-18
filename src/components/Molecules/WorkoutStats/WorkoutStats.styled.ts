@@ -15,7 +15,7 @@ export const Wrapper = styled('div')(({ theme }) => ({
   height: '80%',
   display: 'flex',
   flexDirection: 'column',
-  margin: '5px 0px 10px 10px',
+  margin: '5px 0px 15px 10px',
   color: theme.colors.white,
   fontFamily: theme.fonts.sarpanch,
   textShadow: '0px 0px 2px white',
@@ -80,5 +80,24 @@ export const StatsRowStyled = styled('div')(({ theme }) => ({
   },
   '& > div:nth-of-type(4)': {
     width: columnsSize.info,
+  },
+}));
+
+export const SetContainerStyled = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  marginBottom: '50px',
+  paddingLeft: '10px',
+  width: '100%',
+  borderLeft: `4px solid ${theme.colors.burlyWood}`,
+
+  '.stat': {
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+    marginBottom: '8px',
+
+    span: { width: '45%', direction: 'rtl', paddingRight: '10px' },
   },
 }));
