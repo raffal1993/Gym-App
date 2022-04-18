@@ -1,40 +1,32 @@
-import CustomInput from 'components/Atoms/CustomInput/CustomInput';
+import CustomInput from 'components/Atoms/CustomTextarea/CustomTextarea';
+import { Set } from 'components/Organisms/Workout/WorkoutProps';
+import useResize from 'hooks/useResize';
+import { FC } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { HeaderStyled, StatsRowStyled, StatsStyled, Wrapper } from './WorkoutStats.styled';
+import {
+  HeaderStyled,
+  StatsRowStyled,
+  StatsStyled,
+  Wrapper,
+  SetContainerStyled,
+} from './WorkoutStats.styled';
 
 interface Column {
   id: 'set' | 'weight' | 'reps' | 'info';
   label: string;
 }
 
-const headerCells: readonly Column[] = [
+const headerCells: Column[] = [
   { id: 'set', label: 'Set' },
   { id: 'weight', label: 'Weight' },
   {
     id: 'reps',
-    label: 'Reps/Time',
+    label: 'Reps',
   },
   {
     id: 'info',
     label: 'Info',
   },
-];
-
-interface Row {
-  set: string;
-  weight: string;
-  reps: string;
-  info: string;
-}
-
-const tableRows: Row[] = [
-  { set: '1', weight: '15kg', reps: '5', info: 'heat up' },
-  { set: '2', weight: '20kg', reps: '4', info: 'heat up1' },
-  { set: '3', weight: '25kg', reps: '3', info: 'heat up2' },
-  { set: '4', weight: '30kg', reps: '2', info: 'heat up3' },
-  { set: '5', weight: '45kg', reps: '1', info: 'heat up4' },
-  { set: '6', weight: '45kg', reps: '1', info: 'heat up4' },
-  { set: '7', weight: '45kg', reps: '1', info: 'heat up4' },
 ];
 
 const setMaxWidth = (cell: string) => {
@@ -50,35 +42,53 @@ const setMaxWidth = (cell: string) => {
   }
 };
 
-const WorkoutStats = () => {
+interface Sets {
+  stats: Set[];
+}
+
+const WorkoutStats: FC<Sets> = ({ stats }) => {
+  const { isWidthSmaller } = useResize('xs');
+
   return (
     <Wrapper>
-      <HeaderStyled>
-        {headerCells.map((cell) => (
-          <div key={uuidv4()}>{cell.label}</div>
-        ))}
-      </HeaderStyled>
+      {isWidthSmaller ? null : (
+        <HeaderStyled>
+          {headerCells.map((cell) => (
+            <div key={uuidv4()}>{cell.label}</div>
+          ))}
+        </HeaderStyled>
+      )}
+
       <StatsStyled>
-        {tableRows.map((row) => (
-          <StatsRowStyled key={uuidv4()}>
-            {headerCells.map((cell) => (
-              <div key={uuidv4()}>
-                <CustomInput
-                  initialValue={row[cell.id]}
-                  disabled={cell.id === 'set'}
-                  maxWidth={setMaxWidth(cell.id)}
-                />
-              </div>
-            ))}
-          </StatsRowStyled>
-        ))}
+        {stats.map((row) => {
+          return isWidthSmaller ? (
+            <SetContainerStyled key={uuidv4()}>
+              {headerCells.map((cell) => (
+                <div className="stat" key={uuidv4()}>
+                  <span>{cell.label}</span>
+                  <CustomInput
+                    initialValue={row[cell.id]}
+                    disabled={cell.id === 'set'}
+                    maxWidth={setMaxWidth(cell.id)}
+                  />
+                </div>
+              ))}
+            </SetContainerStyled>
+          ) : (
+            <StatsRowStyled key={uuidv4()}>
+              {headerCells.map((cell) => (
+                <div key={uuidv4()}>
+                  <CustomInput
+                    initialValue={row[cell.id]}
+                    disabled={cell.id === 'set'}
+                    maxWidth={setMaxWidth(cell.id)}
+                  />
+                </div>
+              ))}
+            </StatsRowStyled>
+          );
+        })}
       </StatsStyled>
-      <div>
-        V:
-        <button>1</button>
-        <button>2</button>
-        <button>3</button>
-      </div>
     </Wrapper>
   );
 };
