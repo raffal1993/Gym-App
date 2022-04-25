@@ -4,7 +4,8 @@ export const Wrapper = styled(`div`)<{ url: string }>(({ theme, url }) => ({
   background: 'radial-gradient(circle, rgba(83,95,111,1) 0%, rgba(42,50,61,1) 100%)',
   width: '90%',
   minHeight: '300px',
-  marginTop: '30px',
+  marginTop: '10px',
+  marginBottom: '25px',
   borderRadius: '10px',
   display: 'flex',
   flexDirection: 'column',
@@ -55,5 +56,5 @@ export const TitleStyled = styled(`h3`)(({ theme }) => ({
 }));
 
 export const VersionsStyled = styled('div')(({ theme }) => ({
-  margin: '0px 0px 10px 10px',
+  margin: '10px 0px 10px 20px',
 }));
