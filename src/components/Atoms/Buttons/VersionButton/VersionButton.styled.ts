@@ -1,13 +1,14 @@
 import { styled } from '@mui/material';
 
 export const VersionButtonStyled = styled('button')(({ theme }) => ({
-  marginLeft: '10px',
+  marginRight: '10px',
   padding: '5px 15px',
   backgroundColor: 'transparent',
   border: `1px solid ${theme.colors.whiteLight}`,
   color: 'inherit',
   cursor: 'pointer',
   textShadow: 'inherit',
+  borderRadius: '5px',
 
   '&:hover': {
     transform: 'scale(1.1)',
