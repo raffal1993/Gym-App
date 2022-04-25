@@ -1,38 +1,39 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { getLocalStorage, updateLocalStorage } from 'helpers/localStorage';
 
 const getInitialPage = (page: string) => {
   if (window.location.pathname === '/dashboard') return '';
-  return JSON.parse(localStorage.getItem('pages') || '')[page];
+  return getLocalStorage('pages', page) || '';
 };
 
 interface PagesState {
   mainPage?: string;
-  subPage?: string;
+  subPageID?: string;
 }
 const initialState: PagesState = {
   mainPage: getInitialPage('mainPage'),
-  subPage: getInitialPage('subPage'),
+  subPageID: getInitialPage('subPageID'),
 };
 
 export const interfaceSlice = createSlice({
   name: 'pages',
   initialState,
-  reducers: {
-    setPages: (state, action: PayloadAction<PagesState>) => {
-      action.payload.mainPage && (state.mainPage = action.payload.mainPage);
-      action.payload.subPage && (state.subPage = action.payload.subPage);
 
-      localStorage.setItem(
-        'pages',
-        JSON.stringify({
-          mainPage: action.payload.mainPage || state.mainPage,
-          subPage: action.payload.subPage || state.subPage,
-        }),
-      );
+  reducers: {
+    setMainPage: (state, action: PayloadAction<PagesState>) => {
+      state.mainPage = action.payload.mainPage;
+
+      updateLocalStorage('pages', { mainPage: action.payload.mainPage });
+    },
+
+    setSubPageID: (state, action: PayloadAction<PagesState>) => {
+      state.subPageID = action.payload.subPageID;
+
+      updateLocalStorage('pages', { subPageID: action.payload.subPageID });
     },
   },
 });
 
-export const { setPages } = interfaceSlice.actions;
+export const { setMainPage, setSubPageID } = interfaceSlice.actions;
 
 export default interfaceSlice.reducer;
