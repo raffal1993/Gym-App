@@ -6,22 +6,19 @@ import { RootState } from 'app/store';
 import { setSidebarVisibility } from 'app/slices/interfaceSlice';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { v4 as uuidv4 } from 'uuid';
-import { setPages } from 'app/slices/pagesSlice';
-import CustomTabs from '../CustomTabs/CustomTabs';
+import { setSubPageID } from 'app/slices/pagesSlice';
+import SidebarTabs from '../CustomTabs/CustomTabs';
 import useResize from '../../../hooks/useResize';
 import { SidebarListStyled, SliderStyled, Wrapper } from './Sidebar.styled';
+import { SidebarListProps } from './SidebarProps';
 
-export interface SidebarProps {
-  sidebarList: string[];
-}
-
-const Sidebar: FC<SidebarProps> = ({ sidebarList = [] }) => {
+const Sidebar: FC<{ sidebarList: SidebarListProps[] }> = ({ sidebarList = [] }) => {
   const [value, setValue] = useState(0);
   const { isWidthSmaller } = useResize('sm');
   const dispatch = useAppDispatch();
   const {
     interface: { isSidebarHide },
-    pages: { mainPage },
+    pages: { mainPage, subPageID },
   } = useAppSelector((state: RootState) => state);
 
   const handleListItemClick = (
@@ -36,11 +33,14 @@ const Sidebar: FC<SidebarProps> = ({ sidebarList = [] }) => {
   }, [mainPage]);
 
   useEffect(() => {
-    dispatch(setPages({ subPage: (value + 1).toString() }));
     if (sidebarList.length === 0) {
-      dispatch(setPages({ subPage: '0' }));
+      dispatch(setSubPageID({ subPageID: '' }));
+      return;
     }
-  }, [value, dispatch, mainPage, sidebarList]);
+    if (subPageID === sidebarList[value].id) return;
+
+    dispatch(setSubPageID({ subPageID: sidebarList[value].id }));
+  }, [subPageID, sidebarList, value, dispatch]);
 
   const handleSidebarVisibility = () => {
     dispatch(setSidebarVisibility());
@@ -49,7 +49,7 @@ const Sidebar: FC<SidebarProps> = ({ sidebarList = [] }) => {
   return (
     <Wrapper>
       {isWidthSmaller ? (
-        <CustomTabs asLink elements={sidebarList} setValue={setValue} value={value} />
+        <SidebarTabs isSidebarItem elements={sidebarList} setValue={setValue} value={value} />
       ) : (
         <SidebarListStyled is_sidebar_hide={isSidebarHide!.toString()}>
           {sidebarList.map((el, index) => (
@@ -59,7 +59,7 @@ const Sidebar: FC<SidebarProps> = ({ sidebarList = [] }) => {
               onClick={(event) => handleListItemClick(event, index)}
             >
               <div className="listNumber">{index + 1}</div>
-              <ListItemText primary={el} />
+              <ListItemText primary={el.name} />
             </ListItemButton>
           ))}
         </SidebarListStyled>
