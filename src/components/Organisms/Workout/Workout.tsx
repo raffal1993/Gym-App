@@ -1,16 +1,20 @@
-import { useAppSelector } from 'app/hooks';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { RootState } from 'app/store';
 import AddExercise from 'components/Atoms/AddExercise/AddExercise';
-import CustomTabs from 'components/Molecules/CustomTabs/CustomTabs';
+import AddExerciseTabs from 'components/Molecules/CustomTabs/CustomTabs';
 import StoperWidget from 'components/Molecules/StoperWidget/StoperWidget';
 import WorkoutCard from 'components/Molecules/WorkoutCard/WorkoutCard';
-import { PropsCard } from 'components/Organisms/Workout/WorkoutProps';
+import { WorkoutCardProps } from 'components/Organisms/Workout/WorkoutProps';
 import CustomizedRoutes from 'components/Templates/CustomizedRoutes/CustomizedRoutes';
 import WorkoutContent from 'components/Templates/DashboardContent/DashboardContent';
+import CloseIcon from '@mui/icons-material/Close';
+import ConstructionIcon from '@mui/icons-material/Construction';
 import { v4 as uuid4 } from 'uuid';
 import { auth, db } from 'firebase-cfg/firebase-config';
 import { onValue, ref } from 'firebase/database';
+import { clearLocalStorage } from 'helpers/localStorage';
 import { importImages } from 'helpers/importImages';
+import { setAddMode } from 'app/slices/interfaceSlice';
 import { useEffect, useState } from 'react';
 import { Route } from 'react-router-dom';
 import { Wrapper } from './Workout.styled';
@@ -18,51 +22,75 @@ import { Wrapper } from './Workout.styled';
 const { exercises } = importImages();
 
 const Workout = () => {
-  const [workoutList, setWorkoutList] = useState<PropsCard[]>([]);
+  const [workoutList, setWorkoutList] = useState<WorkoutCardProps[]>([]);
 
   const {
-    pages: { subPage },
+    pages: { subPageID },
+    interface: { isAddModeOn },
   } = useAppSelector((state: RootState) => state);
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const uid = auth.currentUser?.uid;
-    if (uid) {
-      const dbRef = ref(db, `users/${uid}/workout`);
+    const dbRef = ref(db, `users/${uid}/workout/${subPageID}`);
 
-      onValue(dbRef, (snapshot) => {
+    return onValue(dbRef, (snapshot) => {
+      if (uid && subPageID) {
         const data = snapshot.val();
+        if (data) {
+          const newArray = [] as WorkoutCardProps[];
 
-        if (subPage) {
-          const list = data[subPage];
-          if (list) {
-            const newObj = {} as typeof list;
-            Object.keys(list).forEach((key: string) => {
-              key !== 'name' && (newObj[key] = list[key]);
-            });
-            setWorkoutList(Object.values(newObj));
+          for (const key in data) {
+            if (data[key].type) {
+              newArray.push({
+                ...data[key],
+                exerciseID: key,
+              });
+            }
           }
+          setWorkoutList(newArray);
         }
-      });
-    }
-  }, [subPage]);
+      } else setWorkoutList([]);
+    });
+  }, [subPageID]);
+
+  useEffect(() => {
+    clearLocalStorage('selectedVersions');
+  }, [subPageID]);
+
+  const handleHideAddExercise = () => {
+    dispatch(setAddMode());
+  };
 
   return (
     <>
       <WorkoutContent>
         <Wrapper>
           <StoperWidget></StoperWidget>
-          <CustomTabs
-            className="addWorkout"
-            elements={exercises}
-            component={<AddExercise />}
-          ></CustomTabs>
+          {isAddModeOn && (
+            <AddExerciseTabs
+              className="addExerciseTabs"
+              elements={exercises}
+              component={<AddExercise />}
+            ></AddExerciseTabs>
+          )}
+          <button onClick={handleHideAddExercise} className="hideAddExerciseButton">
+            {isAddModeOn ? <CloseIcon /> : <ConstructionIcon />}
+          </button>
           <CustomizedRoutes>
             <Route
-              path={`/${subPage}`}
+              path={`/${subPageID}`}
               element={
                 <>
-                  {workoutList.map(({ name, type, versions }) => (
-                    <WorkoutCard key={uuid4()} name={name} type={type} versions={versions} />
+                  {workoutList.map(({ exerciseID, name, type, versions }) => (
+                    <WorkoutCard
+                      key={uuid4()}
+                      exerciseID={exerciseID}
+                      name={name}
+                      type={type}
+                      versions={versions}
+                    />
                   ))}
                 </>
               }
