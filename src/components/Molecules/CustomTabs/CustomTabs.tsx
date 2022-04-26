@@ -4,14 +4,15 @@ import { RootState } from 'app/store';
 import React, { cloneElement, FC, ReactElement, SyntheticEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import { SidebarListProps } from '../Sidebar/SidebarProps';
 import { TabsStyled } from './CustomTabs.styled';
 
 interface CustomTabsProps {
-  elements?: string[];
+  elements?: string[] | SidebarListProps[];
   value?: number | null;
   component?: ReactElement;
   className?: string;
-  asLink?: boolean;
+  isSidebarItem?: boolean;
   setValue?: React.Dispatch<React.SetStateAction<number>>;
 }
 
@@ -21,14 +22,14 @@ const CustomTabs: FC<CustomTabsProps> = ({
   setValue,
   component,
   className,
-  asLink,
+  isSidebarItem,
 }) => {
   const [defaultValue, setDefaultValue] = useState(0);
 
   const navigate = useNavigate();
   const { mainPage } = useAppSelector((state: RootState) => state.pages);
 
-  const handleChange = (event: React.SyntheticEvent, index: number) => {
+  const handleChange = (_event: React.SyntheticEvent, index: number) => {
     if (setValue) setValue(index);
     else setDefaultValue(index);
   };
@@ -38,22 +39,31 @@ const CustomTabs: FC<CustomTabsProps> = ({
   };
 
   return (
-    <TabsStyled
-      className={className}
-      value={value || defaultValue}
-      onChange={handleChange}
-      variant="scrollable"
-      allowScrollButtonsMobile
-      aria-label="scrollable auto tabs example"
-    >
-      {elements.map((el, index) => (
-        <Tab
-          onClick={(e) => asLink && handleRedirect(e, index)}
-          key={uuidv4()}
-          label={component ? cloneElement(component, { name: el }) : el}
-        ></Tab>
-      ))}
-    </TabsStyled>
+    <>
+      <TabsStyled
+        className={className}
+        value={value || defaultValue}
+        onChange={handleChange}
+        variant="scrollable"
+        allowScrollButtonsMobile
+        aria-label="scrollable auto tabs example"
+      >
+        {isSidebarItem
+          ? elements.map((el, index) => (
+              <Tab
+                onClick={(e) => handleRedirect(e, index)}
+                key={uuidv4()}
+                label={(el as SidebarListProps).name}
+              ></Tab>
+            ))
+          : elements.map((el) => (
+              <Tab
+                key={uuidv4()}
+                label={component ? cloneElement(component, { name: el }) : el}
+              ></Tab>
+            ))}
+      </TabsStyled>
+    </>
   );
 };
 
@@ -65,5 +75,5 @@ CustomTabs.defaultProps = {
   component: undefined,
   className: '',
   setValue: undefined,
-  asLink: false,
+  isSidebarItem: false,
 };
