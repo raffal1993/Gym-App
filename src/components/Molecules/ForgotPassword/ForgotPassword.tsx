@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from 'firebase-cfg/firebase-config';
 import Email from 'components/Atoms/Inputs/Email/Email';
-import Button from 'components/Atoms/FormButton/FormButton';
+import Button from 'components/Atoms/Buttons/FormButton/FormButton';
 import BackToLogin from 'components/Atoms/BackToLogin/BackToMainLogin';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
 import LoginPanelTitle from 'components/Atoms/LoginPanelTitle/LoginPanelTitle';

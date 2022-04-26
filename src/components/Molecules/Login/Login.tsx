@@ -1,4 +1,4 @@
-import Button from 'components/Atoms/FormButton/FormButton';
+import Button from 'components/Atoms/Buttons/FormButton/FormButton';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
 import Email from 'components/Atoms/Inputs/Email/Email';
 import Password from 'components/Atoms/Inputs/Password/Password';
@@ -6,7 +6,7 @@ import LoginPanelTitle from 'components/Atoms/LoginPanelTitle/LoginPanelTitle';
 import { auth } from 'firebase-cfg/firebase-config';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { InfoStyled, TestAcc } from './Login.styled';
 
 const Login = () => {
@@ -14,8 +14,6 @@ const Login = () => {
   const [password, setPassword] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>(``);
   const [isSucceed, setIsSucceed] = useState<boolean>(false);
-
-  const navigate = useNavigate();
 
   const handleEmail = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
 
@@ -28,9 +26,6 @@ const Login = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
         setIsSucceed(true);
-        setTimeout(() => {
-          navigate('/dashboard');
-        }, 1500);
       })
       .catch(({ code }) => {
         setErrorMessage(code);
