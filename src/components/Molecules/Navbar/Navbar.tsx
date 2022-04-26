@@ -6,7 +6,7 @@ import { auth } from 'firebase-cfg/firebase-config';
 import { useNavigate } from 'react-router-dom';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { setPages } from 'app/slices/pagesSlice';
+import { setMainPage } from 'app/slices/pagesSlice';
 import { RootState } from 'app/store';
 import {
   HamburgerStyled,
@@ -36,7 +36,7 @@ const Navbar = () => {
     setAnchorElNav(event.currentTarget);
   };
   const handleNavMenu = (path: string, isHamburger = false) => {
-    dispatch(setPages({ mainPage: path }));
+    dispatch(setMainPage({ mainPage: path }));
     if (isHamburger) setAnchorElNav(null);
   };
 
