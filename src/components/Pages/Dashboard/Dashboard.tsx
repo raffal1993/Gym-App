@@ -1,7 +1,8 @@
-import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { useAppSelector } from 'app/hooks';
 import { RootState } from 'app/store';
 import Navbar from 'components/Molecules/Navbar/Navbar';
 import Sidebar from 'components/Molecules/Sidebar/Sidebar';
+import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarProps';
 import Food from 'components/Organisms/Food/Food';
 import Profile from 'components/Organisms/Profile/Profile';
 import Weather from 'components/Organisms/Weather/Weather';
@@ -14,40 +15,62 @@ import { Route, useNavigate } from 'react-router-dom';
 import { Wrapper } from './Dashboard.styled';
 
 const Dashboard = () => {
-  const [sidebarList, setSidebarList] = useState<string[]>([]);
+  const [sidebarList, setSidebarList] = useState<SidebarListProps[]>([]);
   const {
-    user: { email },
-    pages: { mainPage, subPage },
+    pages: { mainPage, subPageID },
   } = useAppSelector((state: RootState) => state);
+
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (window.location.pathname === '/dashboard') return setSidebarList([]);
     const uid = auth.currentUser?.uid;
-    if (email && mainPage && uid) {
-      const dbRef = ref(db, `users/${uid}`);
 
-      onValue(dbRef, (snapshot) => {
+    if (mainPage && uid) {
+      const dbRef = ref(db, `users/${uid}/${mainPage}`);
+
+      return onValue(dbRef, (snapshot) => {
         const data = snapshot.val();
-        const sidebarData = data[mainPage];
 
-        if (sidebarData) {
-          const sidebarListItems = Object.keys(sidebarData).map((key) => sidebarData[key].name);
+        if (data && mainPage) {
+          const newArray = [] as SidebarListProps[];
+
+          for (const key in data) {
+            if (data[key].timestamp) {
+              newArray.push({
+                id: key,
+                name: data[key].name,
+                timestamp: data[key].timestamp,
+              });
+            }
+          }
+
+          const sortedList = newArray.sort((a, b) => {
+            if (a.timestamp && b.timestamp) {
+              if (a.timestamp > b.timestamp) return 1;
+              return -1;
+            }
+            return 0;
+          });
+
+          const sidebarListItems = sortedList.map((value) => ({
+            id: value.id,
+            name: value.name,
+          }));
 
           setSidebarList(sidebarListItems);
         } else setSidebarList([]);
       });
     }
-  }, [email, mainPage, navigate, dispatch]);
+  }, [mainPage]);
 
   useEffect(() => {
+    if (sidebarList.length === 0) return;
     const timeout = setTimeout(() => {
-      if (mainPage) navigate(`/dashboard/${mainPage}/${subPage}`);
-    }, 200);
+      if (mainPage && subPageID) navigate(`/dashboard/${mainPage}/${subPageID}`);
+    }, 100);
 
     return () => clearTimeout(timeout);
-  }, [navigate, mainPage, subPage]);
+  }, [navigate, mainPage, subPageID, sidebarList]);
 
   return (
     <Wrapper>
