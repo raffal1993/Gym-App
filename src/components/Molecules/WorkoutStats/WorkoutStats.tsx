@@ -1,5 +1,9 @@
-import CustomInput from 'components/Atoms/CustomTextarea/CustomTextarea';
-import { Set } from 'components/Organisms/Workout/WorkoutProps';
+import { useAppSelector } from 'app/hooks';
+import { RootState } from 'app/store';
+import CustomTextarea from 'components/Atoms/CustomTextarea/CustomTextarea';
+import AddToDbButton from 'components/Atoms/Buttons/AddToDbButton/AddToDbButton';
+import { Set, CellToChange } from 'components/Organisms/Workout/WorkoutProps';
+import { addSetToDB, updateSetToDB } from 'firebase-cfg/database';
 import useResize from 'hooks/useResize';
 import { FC } from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -11,6 +15,8 @@ import {
   SetContainerStyled,
 } from './WorkoutStats.styled';
 
+const MAX_SETS = 10;
+
 interface Column {
   id: 'set' | 'weight' | 'reps' | 'info';
   label: string;
@@ -21,7 +27,7 @@ const headerCells: Column[] = [
   { id: 'weight', label: 'Weight' },
   {
     id: 'reps',
-    label: 'Reps',
+    label: 'Reps/Time',
   },
   {
     id: 'info',
@@ -42,12 +48,37 @@ const setMaxWidth = (cell: string) => {
   }
 };
 
-interface Sets {
-  stats: Set[];
+interface AdditionalProps {
+  exerciseID: string;
+  selectedVersion: number;
 }
 
-const WorkoutStats: FC<Sets> = ({ stats }) => {
+const WorkoutStats: FC<{ stats: Set[] } & AdditionalProps> = ({
+  stats,
+  exerciseID,
+  selectedVersion,
+}) => {
   const { isWidthSmaller } = useResize('xs');
+
+  const {
+    pages: { subPageID },
+    interface: { isAddModeOn },
+  } = useAppSelector((state: RootState) => state);
+
+  const updateSet = (cellToChange: CellToChange) => {
+    const index = stats.findIndex((set) => set.set === cellToChange.set);
+    const cellName = cellToChange.cell as keyof Set;
+    const newSet: Set = {
+      ...stats[index],
+      [cellName]: cellToChange.value.trim(),
+    };
+
+    updateSetToDB(subPageID || '', exerciseID, Number(selectedVersion - 1), newSet);
+  };
+
+  const handleAddSet = () => {
+    if (subPageID) addSetToDB(exerciseID, subPageID, selectedVersion - 1, stats.length);
+  };
 
   return (
     <Wrapper>
@@ -66,9 +97,10 @@ const WorkoutStats: FC<Sets> = ({ stats }) => {
               {headerCells.map((cell) => (
                 <div className="stat" key={uuidv4()}>
                   <span>{cell.label}</span>
-                  <CustomInput
+                  <CustomTextarea
+                    updateSet={updateSet}
+                    cellData={{ set: row.set, cell: cell.id }}
                     initialValue={row[cell.id]}
-                    disabled={cell.id === 'set'}
                     maxWidth={setMaxWidth(cell.id)}
                   />
                 </div>
@@ -76,18 +108,24 @@ const WorkoutStats: FC<Sets> = ({ stats }) => {
             </SetContainerStyled>
           ) : (
             <StatsRowStyled key={uuidv4()}>
-              {headerCells.map((cell) => (
-                <div key={uuidv4()}>
-                  <CustomInput
-                    initialValue={row[cell.id]}
-                    disabled={cell.id === 'set'}
-                    maxWidth={setMaxWidth(cell.id)}
-                  />
-                </div>
-              ))}
+              {headerCells.map((cell) => {
+                return (
+                  <div key={uuidv4()}>
+                    <CustomTextarea
+                      updateSet={updateSet}
+                      cellData={{ set: row.set, cell: cell.id }}
+                      initialValue={row[cell.id]}
+                      maxWidth={setMaxWidth(cell.id)}
+                    />
+                  </div>
+                );
+              })}
             </StatsRowStyled>
           );
         })}
+        {isAddModeOn && stats.length < MAX_SETS && (
+          <AddToDbButton className="buttonAddSet" onClick={handleAddSet} />
+        )}
       </StatsStyled>
     </Wrapper>
   );
