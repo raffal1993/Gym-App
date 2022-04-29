@@ -5,8 +5,9 @@ import AddToDbButton from 'components/Atoms/Buttons/AddToDbButton/AddToDbButton'
 import { Set, CellToChange } from 'components/Organisms/Workout/WorkoutProps';
 import { addSetToDB, updateSetToDB } from 'firebase-cfg/database';
 import useResize from 'hooks/useResize';
-import { FC } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { getScrollPosition, updateScrollPosition } from 'helpers/scrollPosition';
 import {
   HeaderStyled,
   StatsRowStyled,
@@ -65,6 +66,8 @@ const WorkoutStats: FC<{ stats: Set[] } & AdditionalProps> = ({
     interface: { isAddModeOn },
   } = useAppSelector((state: RootState) => state);
 
+  const ref = useRef<HTMLDivElement>(null);
+
   const updateSet = (cellToChange: CellToChange) => {
     const index = stats.findIndex((set) => set.set === cellToChange.set);
     const cellName = cellToChange.cell as keyof Set;
@@ -80,6 +83,24 @@ const WorkoutStats: FC<{ stats: Set[] } & AdditionalProps> = ({
     if (subPageID) addSetToDB(exerciseID, subPageID, selectedVersion - 1, stats.length);
   };
 
+  useEffect(() => {
+    const refItem = ref.current;
+
+    if (refItem) refItem.scrollTo = getScrollPosition(exerciseID);
+
+    function timeout() {
+      setTimeout(() => {
+        if (refItem && refItem.scrollTop !== 0) {
+          updateScrollPosition({ [exerciseID]: refItem.scrollTop });
+        }
+      }, 300);
+    }
+
+    if (refItem) refItem.addEventListener('scroll', timeout);
+
+    return () => refItem?.removeEventListener('scroll', timeout);
+  }, [exerciseID]);
+
   return (
     <Wrapper>
       {isWidthSmaller ? null : (
@@ -90,7 +111,7 @@ const WorkoutStats: FC<{ stats: Set[] } & AdditionalProps> = ({
         </HeaderStyled>
       )}
 
-      <StatsStyled>
+      <StatsStyled ref={ref}>
         {stats.map((row) => {
           return isWidthSmaller ? (
             <SetContainerStyled key={uuidv4()}>
