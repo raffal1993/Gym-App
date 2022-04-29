@@ -10,12 +10,16 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from 'firebase-cfg/firebase-config';
 import { setUser } from 'app/slices/userSlice';
 import { RootState } from 'app/store';
+import Modal from 'components/Templates/Modal/Modal';
 
 function App() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { email } = useAppSelector((state: RootState) => state.user);
+  const {
+    user: { email },
+    interface: { isModalOpen },
+  } = useAppSelector((state: RootState) => state);
 
   useEffect(() => {
     if (email === auth.currentUser?.email) return;
@@ -46,6 +50,7 @@ function App() {
           <Route path="/page-not-found" element={<PageNotFound />} />
         </CustomizedRoutes>
       )}
+      {isModalOpen && <Modal />}
     </Wrapper>
   );
 }
