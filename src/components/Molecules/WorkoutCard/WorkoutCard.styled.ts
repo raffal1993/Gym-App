@@ -4,6 +4,7 @@ export const Wrapper = styled(`div`)<{ url: string }>(({ theme, url }) => ({
   background: 'radial-gradient(circle, rgba(83,95,111,1) 0%, rgba(42,50,61,1) 100%)',
   width: '90%',
   minHeight: '300px',
+  height: '300px',
   marginTop: '10px',
   marginBottom: '25px',
   borderRadius: '10px',
