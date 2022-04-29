@@ -9,6 +9,13 @@ export const store = configureStore({
     interface: interfaceReducer,
     pages: pagesReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ['interface/setModalOpen'],
+        ignoredPaths: ['interface.modalContent'],
+      },
+    }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
