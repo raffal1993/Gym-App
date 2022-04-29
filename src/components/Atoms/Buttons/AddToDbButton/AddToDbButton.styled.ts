@@ -6,7 +6,9 @@ export const AddToDbButtonStyled = styled('button')(({ theme }) => ({
   border: `1px dashed ${theme.colors.bgDark}`,
   cursor: 'pointer',
   transition: '.2s all ease',
-  borderRadius: '20%',
+  borderRadius: '5px',
+  padding: '2px 7px',
+  color: theme.colors.white,
 
   '&:hover': {
     backgroundColor: theme.colors.purple,
