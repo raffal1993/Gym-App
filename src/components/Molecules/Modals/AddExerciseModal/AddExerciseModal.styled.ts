@@ -1,0 +1,39 @@
+import { styled } from '@mui/material';
+
+export const Wrapper = styled('div')(({ theme }) => ({
+  height: '300px',
+  width: '250px',
+
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '20px',
+  fontFamily: theme.fonts.sarpanch,
+
+  '.title': {
+    fontSize: '1.8rem',
+    color: theme.colors.white,
+    textAlign: 'center',
+  },
+
+  input: {
+    height: '40px',
+    width: '80%',
+    borderRadius: '10px',
+    fontSize: '1.5rem',
+    fontFamily: 'inherit',
+    textAlign: 'center',
+  },
+
+  '.errorMessage': {
+    fontSize: '1.1rem',
+    color: `rgba(239,176,176,1)`,
+  },
+
+  button: {
+    padding: '5px 20px',
+    fontSize: '1.4rem',
+    fontFamily: 'inherit',
+  },
+}));
