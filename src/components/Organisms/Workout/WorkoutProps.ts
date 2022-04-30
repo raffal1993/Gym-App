@@ -12,6 +12,7 @@ export interface WorkoutCardProps {
   name: string;
   type: string;
   versions: VersionSet[];
+  timestamp?: number;
 }
 export interface CellToChange {
   set: string;
