@@ -22,8 +22,8 @@ export const interfaceSlice = createSlice({
     setSidebarVisibility: (state) => {
       state.isSidebarHide = !state.isSidebarHide;
     },
-    setAddMode: (state) => {
-      state.isAddModeOn = !state.isAddModeOn;
+    setAddMode: (state, action) => {
+      state.isAddModeOn = action.payload;
     },
     setModalClose: (state) => {
       state.isModalOpen = false;
