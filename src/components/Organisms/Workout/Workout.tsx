@@ -14,6 +14,7 @@ import { auth, db } from 'firebase-cfg/firebase-config';
 import { onValue, ref } from 'firebase/database';
 import { clearLocalStorage } from 'helpers/localStorage';
 import { importImages } from 'helpers/importImages';
+import { sortedArrayByTimestamp } from 'helpers/sortArrayByTimestamp';
 import { setAddMode } from 'app/slices/interfaceSlice';
 import { useEffect, useState } from 'react';
 import { Route } from 'react-router-dom';
@@ -49,7 +50,10 @@ const Workout = () => {
               });
             }
           }
-          setWorkoutList(newArray);
+
+          const sortedArray = sortedArrayByTimestamp(newArray as Required<WorkoutCardProps>[]);
+
+          setWorkoutList(sortedArray);
         }
       } else setWorkoutList([]);
     });
@@ -60,7 +64,7 @@ const Workout = () => {
   }, [subPageID]);
 
   const handleHideAddExercise = () => {
-    dispatch(setAddMode());
+    dispatch(setAddMode(!isAddModeOn));
   };
 
   return (
@@ -68,7 +72,7 @@ const Workout = () => {
       <WorkoutContent>
         <Wrapper>
           <StoperWidget></StoperWidget>
-          {isAddModeOn && (
+          {isAddModeOn && workoutList.length < 10 && (
             <AddExerciseTabs
               className="addExerciseTabs"
               elements={exercises}

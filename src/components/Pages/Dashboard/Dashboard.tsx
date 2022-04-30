@@ -10,6 +10,7 @@ import Workout from 'components/Organisms/Workout/Workout';
 import CustomizedRoutes from 'components/Templates/CustomizedRoutes/CustomizedRoutes';
 import { auth, db } from 'firebase-cfg/firebase-config';
 import { onValue, ref } from 'firebase/database';
+import { sortedArrayByTimestamp } from 'helpers/sortArrayByTimestamp';
 import { useEffect, useState } from 'react';
 import { Route, useNavigate } from 'react-router-dom';
 import { Wrapper } from './Dashboard.styled';
@@ -44,15 +45,9 @@ const Dashboard = () => {
             }
           }
 
-          const sortedList = newArray.sort((a, b) => {
-            if (a.timestamp && b.timestamp) {
-              if (a.timestamp > b.timestamp) return 1;
-              return -1;
-            }
-            return 0;
-          });
+          const sortedArray = sortedArrayByTimestamp(newArray as Required<SidebarListProps>[]);
 
-          const sidebarListItems = sortedList.map((value) => ({
+          const sidebarListItems = sortedArray.map((value) => ({
             id: value.id,
             name: value.name,
           }));
