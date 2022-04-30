@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { setMainPage } from 'app/slices/pagesSlice';
+import { setAddMode } from 'app/slices/interfaceSlice';
 import { RootState } from 'app/store';
 import {
   HamburgerStyled,
@@ -29,14 +30,17 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const userEmail = useAppSelector((state: RootState) => state.user.email);
-  const isSidebarHide = useAppSelector((state: RootState) => state.interface.isSidebarHide);
+  const {
+    user: { email: userEmail },
+    interface: { isSidebarHide },
+  } = useAppSelector((state: RootState) => state);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
   const handleNavMenu = (path: string, isHamburger = false) => {
     dispatch(setMainPage({ mainPage: path }));
+    dispatch(setAddMode(false));
     if (isHamburger) setAnchorElNav(null);
   };
 
