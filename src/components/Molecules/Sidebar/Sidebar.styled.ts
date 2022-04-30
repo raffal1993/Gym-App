@@ -23,6 +23,7 @@ export const SidebarListStyled = styled(List)<ListProps & { is_sidebar_hide: str
     marginTop: '5px',
     overflowY: 'auto',
     overflowX: 'hidden',
+    textAlign: 'center',
 
     '::-webkit-scrollbar': {
       width: '4px',
@@ -55,6 +56,10 @@ export const SidebarListStyled = styled(List)<ListProps & { is_sidebar_hide: str
 
     '& .Mui-selected, & .Mui-selected:hover': {
       backgroundColor: `${theme.colors.purple} !important`,
+    },
+
+    '.buttonAddSubPage': {
+      border: `2px solid ${theme.colors.white}`,
     },
 
     ...(is_sidebar_hide === 'true' && {
