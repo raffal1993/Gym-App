@@ -1,5 +1,5 @@
 import { Set } from 'components/Organisms/Workout/WorkoutProps';
-import { child, ref, get, set, update } from 'firebase/database';
+import { child, ref, get, set, update, push, serverTimestamp } from 'firebase/database';
 import { auth, db } from './firebase-config';
 
 const getDataFromDB = async (path: string) => {
@@ -100,4 +100,54 @@ const addSetToDB = (
   }
 };
 
-export { updateSetToDB, addVersionToDB, addSetToDB };
+const addExerciseToDB = (subPageID: string, name: string, type: string) => {
+  const uid = auth.currentUser?.uid;
+
+  if (uid) {
+    const targetPath = `users/${uid}/workout/${subPageID}`;
+
+    const newExerciseKey = push(child(ref(db), targetPath)).key;
+    if (!newExerciseKey) return console.error('newExerciseKey is null');
+
+    const newExercise = {
+      name,
+      type,
+      timestamp: serverTimestamp(),
+      versions: [[{ set: '1', reps: '', weight: '', info: '' }]],
+    };
+
+    const updates = {} as {
+      [key: string]: typeof newExercise;
+    };
+
+    updates[targetPath + `/${newExerciseKey}`] = newExercise;
+
+    return update(ref(db), updates);
+  }
+};
+
+const addSubPageToDB = (mainPage: string, subPageName: string) => {
+  const uid = auth.currentUser?.uid;
+
+  if (uid) {
+    const targetPath = `users/${uid}/${mainPage}`;
+
+    const newSubPageKey = push(child(ref(db), targetPath)).key;
+    if (!newSubPageKey) return console.error('newExerciseKey is null');
+
+    const newSubPage = {
+      name: subPageName,
+      timestamp: serverTimestamp(),
+    };
+
+    const updates = {} as {
+      [key: string]: typeof newSubPage;
+    };
+
+    updates[targetPath + `/${newSubPageKey}`] = newSubPage;
+
+    return update(ref(db), updates);
+  }
+};
+
+export { updateSetToDB, addVersionToDB, addSetToDB, addExerciseToDB, addSubPageToDB };
