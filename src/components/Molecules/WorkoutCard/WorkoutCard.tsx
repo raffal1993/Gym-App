@@ -36,31 +36,29 @@ const WorkoutCard: FC<WorkoutCardProps> = ({ exerciseID, name, type, versions })
   };
 
   return (
-    <>
-      <Wrapper key={uuid4()} url={images[type]}>
-        <TitleStyled>{name.toUpperCase()}</TitleStyled>
+    <Wrapper key={uuid4()} url={images[type]}>
+      <TitleStyled>{name.toUpperCase()}</TitleStyled>
 
-        <WorkoutStats
-          stats={versions[selectedVersion - 1]}
-          exerciseID={exerciseID}
-          selectedVersion={selectedVersion}
-        />
+      <WorkoutStats
+        stats={versions[selectedVersion - 1]}
+        exerciseID={exerciseID}
+        selectedVersion={selectedVersion}
+      />
 
-        <VersionsStyled>
-          {versions.map((_version, index) => (
-            <VersionButton
-              key={uuid4()}
-              onClick={(_e: SyntheticEvent) => handleVersion(_e, index + 1)}
-              isActive={index + 1 === selectedVersion}
-              versionNumber={index + 1}
-            />
-          ))}
-          {isAddModeOn && versions.length < MAX_VERSIONS && (
-            <AddToDbButton onClick={handleAddVersion} />
-          )}
-        </VersionsStyled>
-      </Wrapper>
-    </>
+      <VersionsStyled>
+        {versions.map((_version, index) => (
+          <VersionButton
+            key={uuid4()}
+            onClick={(_e: SyntheticEvent) => handleVersion(_e, index + 1)}
+            isActive={index + 1 === selectedVersion}
+            versionNumber={index + 1}
+          />
+        ))}
+        {isAddModeOn && versions.length < MAX_VERSIONS && (
+          <AddToDbButton onClick={handleAddVersion} />
+        )}
+      </VersionsStyled>
+    </Wrapper>
   );
 };
 
