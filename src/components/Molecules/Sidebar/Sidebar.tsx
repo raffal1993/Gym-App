@@ -3,21 +3,23 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { ListItemButton, ListItemText } from '@mui/material';
 import { RootState } from 'app/store';
-import { setSidebarVisibility } from 'app/slices/interfaceSlice';
+import { setModalOpen, setSidebarVisibility } from 'app/slices/interfaceSlice';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
+import AddToDbButton from 'components/Atoms/Buttons/AddToDbButton/AddToDbButton';
 import { v4 as uuidv4 } from 'uuid';
 import { setSubPageID } from 'app/slices/pagesSlice';
 import SidebarTabs from '../CustomTabs/CustomTabs';
 import useResize from '../../../hooks/useResize';
 import { SidebarListStyled, SliderStyled, Wrapper } from './Sidebar.styled';
 import { SidebarListProps } from './SidebarProps';
+import AddToDbModal from '../Modals/AddToDbModal/AddToDbModal';
 
 const Sidebar: FC<{ sidebarList: SidebarListProps[] }> = ({ sidebarList = [] }) => {
   const [value, setValue] = useState(0);
   const { isWidthSmaller } = useResize('sm');
   const dispatch = useAppDispatch();
   const {
-    interface: { isSidebarHide },
+    interface: { isSidebarHide, isAddModeOn },
     pages: { mainPage, subPageID },
   } = useAppSelector((state: RootState) => state);
 
@@ -37,7 +39,8 @@ const Sidebar: FC<{ sidebarList: SidebarListProps[] }> = ({ sidebarList = [] }) 
       dispatch(setSubPageID({ subPageID: '' }));
       return;
     }
-    if (subPageID === sidebarList[value].id) return;
+
+    if (value >= sidebarList.length || subPageID === sidebarList[value].id) return;
 
     dispatch(setSubPageID({ subPageID: sidebarList[value].id }));
   }, [subPageID, sidebarList, value, dispatch]);
@@ -46,10 +49,21 @@ const Sidebar: FC<{ sidebarList: SidebarListProps[] }> = ({ sidebarList = [] }) 
     dispatch(setSidebarVisibility());
   };
 
+  const handleOpenModal = () => {
+    dispatch(setModalOpen(<AddToDbModal typeOfAddition="subPage" title="Enter exercise name: " />));
+  };
+
   return (
     <Wrapper>
       {isWidthSmaller ? (
-        <SidebarTabs isSidebarItem elements={sidebarList} setValue={setValue} value={value} />
+        <SidebarTabs
+          handleOpenModal={handleOpenModal}
+          isAddModeOn={isAddModeOn}
+          isSidebarItem
+          elements={sidebarList}
+          setValue={setValue}
+          value={value}
+        />
       ) : (
         <SidebarListStyled is_sidebar_hide={isSidebarHide!.toString()}>
           {sidebarList.map((el, index) => (
@@ -62,6 +76,9 @@ const Sidebar: FC<{ sidebarList: SidebarListProps[] }> = ({ sidebarList = [] }) 
               <ListItemText primary={el.name} />
             </ListItemButton>
           ))}
+          {isAddModeOn && sidebarList.length < 10 && (
+            <AddToDbButton className="buttonAddSubPage" onClick={handleOpenModal} />
+          )}
         </SidebarListStyled>
       )}
 

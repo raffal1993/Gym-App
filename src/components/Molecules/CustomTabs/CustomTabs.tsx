@@ -1,4 +1,5 @@
 import { Tab } from '@mui/material';
+import AddToDbButton from 'components/Atoms/Buttons/AddToDbButton/AddToDbButton';
 import React, { cloneElement, FC, ReactElement, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { SidebarListProps } from '../Sidebar/SidebarProps';
@@ -11,6 +12,8 @@ interface CustomTabsProps {
   className?: string;
   isSidebarItem?: boolean;
   setValue?: React.Dispatch<React.SetStateAction<number>>;
+  handleOpenModal?: () => void;
+  isAddModeOn?: boolean;
 }
 
 const CustomTabs: FC<CustomTabsProps> = ({
@@ -20,6 +23,8 @@ const CustomTabs: FC<CustomTabsProps> = ({
   component,
   className,
   isSidebarItem,
+  handleOpenModal,
+  isAddModeOn,
 }) => {
   const [defaultValue, setDefaultValue] = useState(0);
 
@@ -27,6 +32,8 @@ const CustomTabs: FC<CustomTabsProps> = ({
     if (setValue) setValue(index);
     else setDefaultValue(index);
   };
+
+  const renderAddButton = isSidebarItem && handleOpenModal && isAddModeOn && elements.length < 10;
 
   return (
     <>
@@ -39,13 +46,16 @@ const CustomTabs: FC<CustomTabsProps> = ({
         aria-label="scrollable auto tabs example"
       >
         {isSidebarItem
-          ? elements.map((el) => <Tab key={uuidv4()} label={(el as SidebarListProps).name}></Tab>)
+          ? elements.map((el) => <Tab key={uuidv4()} label={(el as SidebarListProps).name} />)
           : elements.map((el) => (
               <Tab
                 key={uuidv4()}
                 label={component && cloneElement(component, { name: el as string })}
               ></Tab>
             ))}
+        {renderAddButton && (
+          <AddToDbButton className="buttonAddSubPage" onClick={handleOpenModal} />
+        )}
       </TabsStyled>
     </>
   );
@@ -58,6 +68,8 @@ CustomTabs.defaultProps = {
   value: null,
   component: undefined,
   className: '',
-  setValue: undefined,
+  setValue: () => {},
   isSidebarItem: false,
+  handleOpenModal: () => {},
+  isAddModeOn: false,
 };
