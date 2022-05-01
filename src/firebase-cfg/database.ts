@@ -1,6 +1,7 @@
 import { Set } from 'components/Organisms/Workout/WorkoutProps';
 import { child, ref, get, set, update, push, serverTimestamp } from 'firebase/database';
 import { auth, db } from './firebase-config';
+import { SidebarListProps } from '../components/Molecules/Sidebar/SidebarProps';
 
 const getDataFromDB = async (path: string) => {
   return new Promise((res, rej) => {
@@ -150,4 +151,58 @@ const addSubPageToDB = (mainPage: string, subPageName: string) => {
   }
 };
 
-export { updateSetToDB, addVersionToDB, addSetToDB, addExerciseToDB, addSubPageToDB };
+const removeSubPage = async (mainPage: string, subPageID: string) => {
+  const uid = auth.currentUser?.uid;
+  const targetPath = `users/${uid}/${mainPage}`;
+  if (uid) {
+    const data = (await getDataFromDB(targetPath)
+      .then((res) => res)
+      .catch((err) => err)) as { [key: string]: SidebarListProps };
+
+    const changedPages = {} as { [key: string]: SidebarListProps };
+
+    if (data) {
+      for (const key in data) {
+        if (key !== subPageID) changedPages[key] = data[key];
+      }
+    }
+
+    return set(ref(db, targetPath), changedPages);
+  }
+};
+
+const updateSubPageName = async (
+  mainPage: string,
+  currentSubPageData: SidebarListProps,
+  newSubPageName: string,
+) => {
+  const uid = auth.currentUser?.uid;
+  const targetPath = `users/${uid}/${mainPage}`;
+  if (uid) {
+    const data = (await getDataFromDB(targetPath)
+      .then((res) => res)
+      .catch((err) => err)) as { [key: string]: SidebarListProps };
+
+    const changedPages = {} as { [key: string]: SidebarListProps };
+
+    if (data) {
+      for (const key in data) {
+        if (key === currentSubPageData.id)
+          changedPages[key] = { ...data[key], name: newSubPageName };
+        else changedPages[key] = data[key];
+      }
+    }
+
+    return set(ref(db, targetPath), changedPages);
+  }
+};
+
+export {
+  updateSetToDB,
+  addVersionToDB,
+  addSetToDB,
+  addExerciseToDB,
+  addSubPageToDB,
+  removeSubPage,
+  updateSubPageName,
+};
