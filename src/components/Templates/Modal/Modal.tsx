@@ -16,6 +16,7 @@ const Modal = () => {
   return (
     <div>
       <BasicModal
+        sx={{ minHeight: '650px' }}
         open={isModalOpen}
         onClose={handleCloseModal}
         aria-labelledby="modal-modal-title"

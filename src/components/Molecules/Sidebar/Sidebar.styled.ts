@@ -59,7 +59,8 @@ export const SidebarListStyled = styled(List)<ListProps & { is_sidebar_hide: str
     },
 
     '.buttonAddSubPage': {
-      border: `2px solid ${theme.colors.white}`,
+      border: `2px dashed ${theme.colors.bgDark}`,
+      padding: '3px 7px',
     },
 
     ...(is_sidebar_hide === 'true' && {

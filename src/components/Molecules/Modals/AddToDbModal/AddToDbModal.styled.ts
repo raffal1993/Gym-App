@@ -1,14 +1,14 @@
 import { styled } from '@mui/material';
 
 export const Wrapper = styled('div')(({ theme }) => ({
-  height: '300px',
+  height: '200px',
   width: '250px',
 
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: '20px',
+  gap: '10px',
   fontFamily: theme.fonts.sarpanch,
 
   '.title': {

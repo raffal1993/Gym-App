@@ -8,6 +8,7 @@ interface Colors {
   darkGrey: string;
   whiteLight: string;
   burlyWood: string;
+  orange: string;
 }
 
 interface Fonts {

@@ -13,6 +13,8 @@ const globalStyle = {
   },
   'ol, ul': {
     listStyle: 'none',
+    margin: '0',
+    padding: '0',
   },
   a: {
     color: 'inherit',
