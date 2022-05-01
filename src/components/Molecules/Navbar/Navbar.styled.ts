@@ -8,7 +8,7 @@ import { NavLink, NavLinkProps } from 'react-router-dom';
 export const Wrapper = styled(`div`)(({ theme }) => ({
   display: 'grid',
   color: theme.colors.white,
-  gridArea: '1/1/3/4',
+  gridArea: '1/1/2/4',
   gridTemplateColumns: '40px 210px 5px 1fr 50px',
   gridTemplateRows: `50px 70px 1fr`,
 

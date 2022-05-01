@@ -24,8 +24,4 @@ export const Wrapper = styled('div')<{ is_sidebar_hide: string }>(({ theme, is_s
     margin: '0px 5px',
     padding: '0px',
   },
-
-  '.editButton': {
-    margin: '10px auto 5px auto',
-  },
 }));
