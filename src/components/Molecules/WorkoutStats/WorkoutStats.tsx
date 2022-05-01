@@ -63,7 +63,7 @@ const WorkoutStats: FC<{ stats: Set[] } & AdditionalProps> = ({
 
   const {
     pages: { subPageID },
-    interface: { isAddModeOn },
+    interface: { isEditModeOn },
   } = useAppSelector((state: RootState) => state);
 
   const ref = useRef<HTMLDivElement>(null);
@@ -144,7 +144,7 @@ const WorkoutStats: FC<{ stats: Set[] } & AdditionalProps> = ({
             </StatsRowStyled>
           );
         })}
-        {isAddModeOn && stats.length < MAX_SETS && (
+        {isEditModeOn && stats.length < MAX_SETS && (
           <AddToDbButton className="buttonAddSet" onClick={handleAddSet} />
         )}
       </StatsStyled>

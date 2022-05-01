@@ -19,7 +19,7 @@ const Sidebar = () => {
   const { isWidthSmaller } = useResize('sm');
   const dispatch = useAppDispatch();
   const {
-    interface: { isSidebarHide, isAddModeOn },
+    interface: { isSidebarHide, isEditModeOn },
     pages: { mainPage, subPageID, sidebarList },
   } = useAppSelector((state: RootState) => state);
 
@@ -59,7 +59,7 @@ const Sidebar = () => {
       {isWidthSmaller ? (
         <SidebarTabs
           handleOpenModal={handleOpenModal}
-          isAddModeOn={isAddModeOn}
+          isEditModeOn={isEditModeOn}
           isSidebarItem
           elements={sidebarList}
           setValue={setValue}
@@ -78,7 +78,7 @@ const Sidebar = () => {
                 <ListItemText primary={el.name} />
               </ListItemButton>
             ))}
-          {isAddModeOn && sidebarList && sidebarList.length < 10 && (
+          {isEditModeOn && sidebarList && sidebarList.length < 10 && (
             <AddToDbButton className="buttonAddSubPage" onClick={handleOpenModal}>
               <ConstructionIcon />
             </AddToDbButton>

@@ -22,7 +22,7 @@ const WorkoutCard: FC<WorkoutCardProps> = ({ exerciseID, name, type, versions })
 
   const {
     pages: { subPageID },
-    interface: { isAddModeOn },
+    interface: { isEditModeOn },
   } = useAppSelector((state: RootState) => state);
 
   const handleVersion = (_event: SyntheticEvent, versionNumber: number) => {
@@ -54,7 +54,7 @@ const WorkoutCard: FC<WorkoutCardProps> = ({ exerciseID, name, type, versions })
             versionNumber={index + 1}
           />
         ))}
-        {isAddModeOn && versions.length < MAX_VERSIONS && (
+        {isEditModeOn && versions.length < MAX_VERSIONS && (
           <AddToDbButton onClick={handleAddVersion} />
         )}
       </VersionsStyled>

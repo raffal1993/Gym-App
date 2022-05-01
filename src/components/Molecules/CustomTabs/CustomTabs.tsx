@@ -14,7 +14,7 @@ interface CustomTabsProps {
   isSidebarItem?: boolean;
   setValue?: React.Dispatch<React.SetStateAction<number>>;
   handleOpenModal?: () => void;
-  isAddModeOn?: boolean;
+  isEditModeOn?: boolean;
 }
 
 const CustomTabs: FC<CustomTabsProps> = ({
@@ -25,7 +25,7 @@ const CustomTabs: FC<CustomTabsProps> = ({
   className,
   isSidebarItem,
   handleOpenModal,
-  isAddModeOn,
+  isEditModeOn,
 }) => {
   const [defaultValue, setDefaultValue] = useState(0);
 
@@ -34,7 +34,7 @@ const CustomTabs: FC<CustomTabsProps> = ({
     else setDefaultValue(index);
   };
 
-  const renderAddButton = isSidebarItem && handleOpenModal && isAddModeOn && elements.length < 10;
+  const renderAddButton = isSidebarItem && handleOpenModal && isEditModeOn && elements.length < 10;
 
   return (
     <>
@@ -74,5 +74,5 @@ CustomTabs.defaultProps = {
   setValue: () => {},
   isSidebarItem: false,
   handleOpenModal: () => {},
-  isAddModeOn: false,
+  isEditModeOn: false,
 };

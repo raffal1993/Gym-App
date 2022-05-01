@@ -23,7 +23,7 @@ const Workout = () => {
 
   const {
     pages: { subPageID },
-    interface: { isAddModeOn },
+    interface: { isEditModeOn },
   } = useAppSelector((state: RootState) => state);
 
   useEffect(() => {
@@ -60,7 +60,7 @@ const Workout = () => {
   return (
     <Wrapper>
       <StoperWidget></StoperWidget>
-      {isAddModeOn && workoutList.length < 10 && (
+      {isEditModeOn && workoutList.length < 10 && (
         <AddExerciseTabs
           className="addExerciseTabs"
           elements={exercises}

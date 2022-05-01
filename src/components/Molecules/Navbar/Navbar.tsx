@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { setMainPage } from 'app/slices/pagesSlice';
-import { setAddMode } from 'app/slices/interfaceSlice';
+import { setEditMode } from 'app/slices/interfaceSlice';
 import { RootState } from 'app/store';
 import {
   HamburgerStyled,
@@ -40,7 +40,7 @@ const Navbar = () => {
   };
   const handleNavMenu = (path: string, isHamburger = false) => {
     dispatch(setMainPage({ mainPage: path }));
-    dispatch(setAddMode(false));
+    dispatch(setEditMode(false));
     if (isHamburger) setAnchorElNav(null);
   };
 

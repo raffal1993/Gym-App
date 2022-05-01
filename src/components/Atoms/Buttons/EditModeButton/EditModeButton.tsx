@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { setAddMode } from 'app/slices/interfaceSlice';
+import { setEditMode } from 'app/slices/interfaceSlice';
 import { RootState } from 'app/store';
 import CloseIcon from '@mui/icons-material/Close';
 import ConstructionIcon from '@mui/icons-material/Construction';
@@ -12,17 +12,17 @@ interface EditModeButtonProps {
 
 const EditModeButton: FC<EditModeButtonProps> = ({ className }) => {
   const {
-    interface: { isAddModeOn },
+    interface: { isEditModeOn },
   } = useAppSelector((state: RootState) => state);
 
   const dispatch = useAppDispatch();
 
   const handleHideAddExercise = () => {
-    dispatch(setAddMode(!isAddModeOn));
+    dispatch(setEditMode(!isEditModeOn));
   };
   return (
     <EditModeButtonStyled className={className} onClick={handleHideAddExercise}>
-      {isAddModeOn ? <CloseIcon /> : <ConstructionIcon />}
+      {isEditModeOn ? <CloseIcon /> : <ConstructionIcon />}
     </EditModeButtonStyled>
   );
 };
