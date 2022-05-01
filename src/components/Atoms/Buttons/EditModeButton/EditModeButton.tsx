@@ -1,4 +1,3 @@
-import { FC } from 'react';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { setEditMode } from 'app/slices/interfaceSlice';
 import { RootState } from 'app/store';
@@ -6,11 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import { EditModeButtonStyled } from './EditModeButton.styled';
 
-interface EditModeButtonProps {
-  className?: string;
-}
-
-const EditModeButton: FC<EditModeButtonProps> = ({ className }) => {
+const EditModeButton = () => {
   const {
     interface: { isEditModeOn },
   } = useAppSelector((state: RootState) => state);
@@ -21,14 +16,10 @@ const EditModeButton: FC<EditModeButtonProps> = ({ className }) => {
     dispatch(setEditMode(!isEditModeOn));
   };
   return (
-    <EditModeButtonStyled className={className} onClick={handleHideAddExercise}>
+    <EditModeButtonStyled onClick={handleHideAddExercise}>
       {isEditModeOn ? <CloseIcon /> : <ConstructionIcon />}
     </EditModeButtonStyled>
   );
 };
 
 export default EditModeButton;
-
-EditModeButton.defaultProps = {
-  className: '',
-};

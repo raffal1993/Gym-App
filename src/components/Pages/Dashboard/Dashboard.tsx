@@ -77,7 +77,7 @@ const Dashboard = () => {
       <Navbar />
       <Sidebar />
       <DashboardContent>
-        <EditModeButton className="editButton" />
+        <EditModeButton />
         <CustomizedRoutes>
           <Route path="/" element={<></>} />
           <Route path="/workout/*" element={<Workout />} />
