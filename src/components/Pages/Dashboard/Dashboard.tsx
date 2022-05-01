@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { setSidebarList } from 'app/slices/pagesSlice';
 import { RootState } from 'app/store';
+import EditModeButton from 'components/Atoms/Buttons/EditModeButton/EditModeButton';
 import Navbar from 'components/Molecules/Navbar/Navbar';
 import Sidebar from 'components/Molecules/Sidebar/Sidebar';
 import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarProps';
@@ -9,6 +10,7 @@ import Profile from 'components/Organisms/Profile/Profile';
 import Weather from 'components/Organisms/Weather/Weather';
 import Workout from 'components/Organisms/Workout/Workout';
 import CustomizedRoutes from 'components/Templates/CustomizedRoutes/CustomizedRoutes';
+import DashboardContent from 'components/Templates/DashboardContent/DashboardContent';
 import { auth, db } from 'firebase-cfg/firebase-config';
 import { onValue, ref } from 'firebase/database';
 import { sortedArrayByTimestamp } from 'helpers/sortArrayByTimestamp';
@@ -74,13 +76,16 @@ const Dashboard = () => {
     <Wrapper>
       <Navbar />
       <Sidebar />
-      <CustomizedRoutes>
-        <Route path="/" element={<></>} />
-        <Route path="/workout/*" element={<Workout />} />
-        <Route path="/food/*" element={<Food />} />
-        <Route path="/weather/*" element={<Weather />} />
-        <Route path="/profile/*" element={<Profile />} />
-      </CustomizedRoutes>
+      <DashboardContent>
+        <EditModeButton className="editButton" />
+        <CustomizedRoutes>
+          <Route path="/" element={<></>} />
+          <Route path="/workout/*" element={<Workout />} />
+          <Route path="/food/*" element={<Food />} />
+          <Route path="/weather/*" element={<Weather />} />
+          <Route path="/profile/*" element={<Profile />} />
+        </CustomizedRoutes>
+      </DashboardContent>
     </Wrapper>
   );
 };

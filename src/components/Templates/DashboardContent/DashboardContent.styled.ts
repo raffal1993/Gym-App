@@ -5,8 +5,9 @@ import { styled } from '@mui/material';
 
 export const Wrapper = styled('div')<{ is_sidebar_hide: string }>(({ theme, is_sidebar_hide }) => ({
   gridArea: '2/3/4/3',
-  padding: '5px 10px',
+  padding: '0px 10px',
   display: 'flex',
+  flexDirection: 'column',
   height: '100%',
   overflow: 'hidden',
   overflowY: 'auto',
@@ -22,5 +23,9 @@ export const Wrapper = styled('div')<{ is_sidebar_hide: string }>(({ theme, is_s
     gridArea: '3/1/4/4',
     margin: '0px 5px',
     padding: '0px',
+  },
+
+  '.editButton': {
+    margin: '10px auto 5px auto',
   },
 }));
