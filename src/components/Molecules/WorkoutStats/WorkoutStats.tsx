@@ -5,15 +5,15 @@ import AddToDbButton from 'components/Atoms/Buttons/AddToDbButton/AddToDbButton'
 import { Set, CellToChange } from 'components/Organisms/Workout/WorkoutProps';
 import { addSetToDB, updateSetToDB } from 'firebase-cfg/database';
 import useResize from 'hooks/useResize';
-import { FC, useEffect, useRef } from 'react';
+import { FC, useEffect, useLayoutEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { getScrollPosition, updateScrollPosition } from 'helpers/scrollPosition';
 import {
   HeaderStyled,
-  StatsRowStyled,
+  StatsNormalStyled,
   StatsStyled,
   Wrapper,
-  SetContainerStyled,
+  StatsSmallerStyled,
 } from './WorkoutStats.styled';
 
 const MAX_SETS = 10;
@@ -83,21 +83,23 @@ const WorkoutStats: FC<{ stats: Set[] } & AdditionalProps> = ({
     if (subPageID) addSetToDB(exerciseID, subPageID, selectedVersion - 1, stats.length);
   };
 
+  useLayoutEffect(() => {
+    const refItem = ref.current;
+    if (refItem) refItem.scroll(0, getScrollPosition(exerciseID));
+  }, [exerciseID]);
+
   useEffect(() => {
     const refItem = ref.current;
 
-    if (refItem) refItem.scrollTo = getScrollPosition(exerciseID);
-
     function timeout() {
       setTimeout(() => {
-        if (refItem && refItem.scrollTop !== 0) {
+        if (refItem && refItem.scrollTop) {
           updateScrollPosition({ [exerciseID]: refItem.scrollTop });
         }
       }, 300);
     }
 
     if (refItem) refItem.addEventListener('scroll', timeout);
-
     return () => refItem?.removeEventListener('scroll', timeout);
   }, [exerciseID]);
 
@@ -114,7 +116,7 @@ const WorkoutStats: FC<{ stats: Set[] } & AdditionalProps> = ({
       <StatsStyled ref={ref}>
         {stats.map((row) => {
           return isWidthSmaller ? (
-            <SetContainerStyled key={uuidv4()}>
+            <StatsSmallerStyled key={uuidv4()}>
               {headerCells.map((cell) => (
                 <div className="stat" key={uuidv4()}>
                   <span>{cell.label}</span>
@@ -126,9 +128,9 @@ const WorkoutStats: FC<{ stats: Set[] } & AdditionalProps> = ({
                   />
                 </div>
               ))}
-            </SetContainerStyled>
+            </StatsSmallerStyled>
           ) : (
-            <StatsRowStyled key={uuidv4()}>
+            <StatsNormalStyled key={uuidv4()}>
               {headerCells.map((cell) => {
                 return (
                   <div key={uuidv4()}>
@@ -141,7 +143,7 @@ const WorkoutStats: FC<{ stats: Set[] } & AdditionalProps> = ({
                   </div>
                 );
               })}
-            </StatsRowStyled>
+            </StatsNormalStyled>
           );
         })}
         {isEditModeOn && stats.length < MAX_SETS && (
