@@ -1,4 +1,4 @@
-import { Set } from 'components/Organisms/Workout/WorkoutProps';
+import { Set, Versions, WorkoutCardProps } from 'components/Organisms/Workout/WorkoutProps';
 import { child, ref, get, set, update, push, serverTimestamp } from 'firebase/database';
 import { auth, db } from './firebase-config';
 import { SidebarListProps } from '../components/Molecules/Sidebar/SidebarProps';
@@ -29,7 +29,7 @@ const updateSetToDB = async (
   const uid = auth.currentUser?.uid;
   if (uid) {
     const data = (await getDataFromDB(
-      `users/${uid}/workout/${subPageID}/${exerciseID}/versions/${[versionIndex]}`,
+      `users/${uid}/workout/${subPageID}/${exerciseID}/versions/${[versionIndex]}/sets`,
     )
       .then((res) => res)
       .catch((err) => err)) as Set[];
@@ -43,25 +43,30 @@ const updateSetToDB = async (
     return set(
       ref(
         db,
-        `users/${uid}/workout/${subPageID}/${exerciseID}/versions/${versionIndex}/${indexOfSet}`,
+        `users/${uid}/workout/${subPageID}/${exerciseID}/versions/${versionIndex}/sets/${indexOfSet}`,
       ),
       newSet,
     );
   }
 };
 
-const addVersionToDB = (exerciseID: string, subPageID: string, numberOfNextVersion: number) => {
+const addVersionToDB = (exerciseID: string, subPageID: string, indexOfNextVersion: number) => {
   const uid = auth.currentUser?.uid;
 
   if (uid) {
-    const targetPath = `users/${uid}/workout/${subPageID}/${exerciseID}/versions/${numberOfNextVersion}/0`;
+    const targetPath = `users/${uid}/workout/${subPageID}/${exerciseID}/versions/${indexOfNextVersion}`;
 
     const newVersion = {
-      set: '1',
-      reps: '',
-      weight: '',
-      info: '',
-    } as Set;
+      alternativeName: '',
+      sets: [
+        {
+          set: '1',
+          reps: '',
+          weight: '',
+          info: '',
+        },
+      ],
+    } as Versions;
 
     const updates = {} as {
       [key: string]: typeof newVersion;
@@ -76,16 +81,16 @@ const addVersionToDB = (exerciseID: string, subPageID: string, numberOfNextVersi
 const addSetToDB = (
   exerciseID: string,
   subPageID: string,
-  selectedVersion: number,
-  numberOfNextSet: number,
+  indexOfSelectedVersion: number,
+  indexOfNextSet: number,
 ) => {
   const uid = auth.currentUser?.uid;
 
   if (uid) {
-    const targetPath = `users/${uid}/workout/${subPageID}/${exerciseID}/versions/${selectedVersion}/${numberOfNextSet}`;
+    const targetPath = `users/${uid}/workout/${subPageID}/${exerciseID}/versions/${indexOfSelectedVersion}/sets/${indexOfNextSet}`;
 
     const newSet = {
-      set: `${numberOfNextSet + 1}`,
+      set: `${indexOfNextSet + 1}`,
       reps: '',
       weight: '',
       info: '',
@@ -114,8 +119,8 @@ const addExerciseToDB = (subPageID: string, name: string, type: string) => {
       name,
       type,
       timestamp: serverTimestamp(),
-      versions: [[{ set: '1', reps: '', weight: '', info: '' }]],
-    };
+      versions: [{ alternativeName: 'name', sets: [{ set: '1', reps: '', weight: '', info: '' }] }],
+    } as unknown as Omit<WorkoutCardProps, 'exerciseID'>;
 
     const updates = {} as {
       [key: string]: typeof newExercise;

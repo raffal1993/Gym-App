@@ -13,7 +13,7 @@ import { WorkoutCardProps } from '../../Organisms/Workout/WorkoutProps';
 
 const { images } = importImages();
 
-const MAX_VERSIONS = 4;
+const MAX_VERSIONS = 5;
 
 const WorkoutCard: FC<WorkoutCardProps> = ({ exerciseID, name, type, versions }) => {
   const [selectedVersion, setSelectedVersion] = useState<number>(
@@ -37,10 +37,12 @@ const WorkoutCard: FC<WorkoutCardProps> = ({ exerciseID, name, type, versions })
 
   return (
     <Wrapper key={uuid4()} url={images[type]}>
-      <TitleStyled>{name.toUpperCase()}</TitleStyled>
+      <TitleStyled>
+        {versions[selectedVersion - 1].alternativeName?.toUpperCase() || name.toUpperCase()}
+      </TitleStyled>
 
       <WorkoutStats
-        stats={versions[selectedVersion - 1]}
+        stats={versions[selectedVersion - 1].sets}
         exerciseID={exerciseID}
         selectedVersion={selectedVersion}
       />

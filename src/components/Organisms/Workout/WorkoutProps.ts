@@ -5,13 +5,16 @@ export interface Set {
   set: string;
 }
 
-type VersionSet = Set[];
+export interface Versions {
+  alternativeName?: string;
+  sets: Set[];
+}
 
 export interface WorkoutCardProps {
   exerciseID: string;
   name: string;
   type: string;
-  versions: VersionSet[];
+  versions: Versions[];
   timestamp?: number;
 }
 export interface CellToChange {
@@ -19,5 +22,3 @@ export interface CellToChange {
   cell: string;
   value: string;
 }
-
-export type PropsCard = WorkoutCardProps;
