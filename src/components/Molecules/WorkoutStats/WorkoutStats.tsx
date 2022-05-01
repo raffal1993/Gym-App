@@ -5,7 +5,7 @@ import AddToDbButton from 'components/Atoms/Buttons/AddToDbButton/AddToDbButton'
 import { Set, CellToChange } from 'components/Organisms/Workout/WorkoutProps';
 import { addSetToDB, updateSetToDB } from 'firebase-cfg/database';
 import useResize from 'hooks/useResize';
-import { FC, useEffect, useLayoutEffect, useRef } from 'react';
+import { FC, useLayoutEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { getScrollPosition, updateScrollPosition } from 'helpers/scrollPosition';
 import {
@@ -85,15 +85,12 @@ const WorkoutStats: FC<{ stats: Set[] } & AdditionalProps> = ({
 
   useLayoutEffect(() => {
     const refItem = ref.current;
-    if (refItem) refItem.scroll(0, getScrollPosition(exerciseID));
-  }, [exerciseID]);
 
-  useEffect(() => {
-    const refItem = ref.current;
+    if (refItem) refItem.scrollTop = getScrollPosition(exerciseID);
 
     function timeout() {
       setTimeout(() => {
-        if (refItem && refItem.scrollTop) {
+        if (refItem) {
           updateScrollPosition({ [exerciseID]: refItem.scrollTop });
         }
       }, 300);
