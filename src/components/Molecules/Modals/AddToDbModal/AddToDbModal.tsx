@@ -3,17 +3,26 @@ import { setModalClose } from 'app/slices/interfaceSlice';
 import { RootState } from 'app/store';
 import AddToDbButton from 'components/Atoms/Buttons/AddToDbButton/AddToDbButton';
 import { ChangeEvent, FC, KeyboardEvent, useEffect, useRef, useState } from 'react';
-import { addExerciseToDB, addSubPageToDB } from 'firebase-cfg/database';
+import { addExerciseToDB, addSubPageToDB, updateSubPageName } from 'firebase-cfg/database';
+import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarProps';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
 import { Wrapper } from './AddToDbModal.styled';
 
 interface AddToDbModalProps {
   type?: string;
   title: string;
-  typeOfAddition: 'exercise' | 'subPage';
+  buttonText: string;
+  typeOfAddition: 'addExercise' | 'addSubPage' | 'changeSubPage';
+  subPageDataForChange?: SidebarListProps;
 }
 
-const AddToDbModal: FC<AddToDbModalProps> = ({ type, title, typeOfAddition }) => {
+const AddToDbModal: FC<AddToDbModalProps> = ({
+  type,
+  title,
+  typeOfAddition,
+  buttonText,
+  subPageDataForChange,
+}) => {
   const [name, setName] = useState<string>('');
   const [isErrorMessage, setIsErrorMessage] = useState<boolean>(false);
 
@@ -26,7 +35,7 @@ const AddToDbModal: FC<AddToDbModalProps> = ({ type, title, typeOfAddition }) =>
   const dispatch = useAppDispatch();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
+    setName(e.target.value.toUpperCase());
   };
 
   const updateToDB = () => {
@@ -34,10 +43,27 @@ const AddToDbModal: FC<AddToDbModalProps> = ({ type, title, typeOfAddition }) =>
       setIsErrorMessage(true);
       return;
     }
-    if (typeOfAddition === 'exercise' && subPageID && type) addExerciseToDB(subPageID, name, type);
-    if (typeOfAddition === 'subPage' && mainPage) addSubPageToDB(mainPage, name);
 
-    dispatch(setModalClose());
+    switch (typeOfAddition) {
+      case 'addSubPage':
+        if (mainPage) addSubPageToDB(mainPage, name);
+
+        break;
+      case 'addExercise':
+        if (subPageID && type) addExerciseToDB(subPageID, name, type);
+        break;
+
+      case 'changeSubPage':
+        if (mainPage && subPageDataForChange)
+          updateSubPageName(mainPage, subPageDataForChange, name);
+        break;
+
+      default:
+        return;
+    }
+    setName('');
+
+    if (typeOfAddition === 'addExercise') dispatch(setModalClose());
   };
 
   const handleEnterKey = (e: KeyboardEvent) => {
@@ -67,11 +93,12 @@ const AddToDbModal: FC<AddToDbModalProps> = ({ type, title, typeOfAddition }) =>
         type="text"
         value={name}
         onChange={handleInputChange}
+        placeholder={subPageDataForChange?.name || ''}
       />
       {isErrorMessage && (
         <ErrorMessage className="errorMessage" errorMessage="Name must be at least 3 chars !" />
       )}
-      <AddToDbButton buttonText="Add exercise" onClick={updateToDB}></AddToDbButton>
+      <AddToDbButton onClick={updateToDB}>{buttonText}</AddToDbButton>
     </Wrapper>
   );
 };
@@ -80,4 +107,5 @@ export default AddToDbModal;
 
 AddToDbModal.defaultProps = {
   type: '',
+  subPageDataForChange: undefined,
 };
