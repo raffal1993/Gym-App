@@ -59,14 +59,15 @@ export const StatsStyled = styled('div')(({ theme }) => ({
   flexDirection: 'column',
 
   '& .buttonAddSet': {
-    alignSelf: 'center',
-    padding: '0px 15px',
+    margin: '20px 0 10px 0px',
+    padding: '0px',
     fontSize: '2rem',
-    marginBottom: '20px',
+    width: columnsSize.set.width,
+    maxWidth: `${columnsSize.set.maxWidth}`,
   },
 }));
 
-export const StatsRowStyled = styled('div')(({ theme }) => ({
+export const StatsNormalStyled = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'row',
   width: '100%',
@@ -91,7 +92,7 @@ export const StatsRowStyled = styled('div')(({ theme }) => ({
   },
 }));
 
-export const SetContainerStyled = styled('div')(({ theme }) => ({
+export const StatsSmallerStyled = styled('div')(({ theme }) => ({
   display: 'flex',
   position: 'relative',
   flexDirection: 'column',

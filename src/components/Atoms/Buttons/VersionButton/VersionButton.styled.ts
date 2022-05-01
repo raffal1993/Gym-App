@@ -9,6 +9,7 @@ export const VersionButtonStyled = styled('button')(({ theme }) => ({
   cursor: 'pointer',
   textShadow: 'inherit',
   borderRadius: '5px',
+  position: 'relative',
 
   '&:hover': {
     transform: 'scale(1.1)',
