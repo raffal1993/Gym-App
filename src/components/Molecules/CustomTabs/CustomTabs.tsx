@@ -1,5 +1,6 @@
 import { Tab } from '@mui/material';
 import AddToDbButton from 'components/Atoms/Buttons/AddToDbButton/AddToDbButton';
+import ConstructionIcon from '@mui/icons-material/Construction';
 import React, { cloneElement, FC, ReactElement, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { SidebarListProps } from '../Sidebar/SidebarProps';
@@ -54,7 +55,9 @@ const CustomTabs: FC<CustomTabsProps> = ({
               ></Tab>
             ))}
         {renderAddButton && (
-          <AddToDbButton className="buttonAddSubPage" onClick={handleOpenModal} />
+          <AddToDbButton className="buttonAddSubPage" onClick={handleOpenModal}>
+            <ConstructionIcon />
+          </AddToDbButton>
         )}
       </TabsStyled>
     </>

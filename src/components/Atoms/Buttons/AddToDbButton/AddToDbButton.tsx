@@ -1,16 +1,16 @@
-import React, { FC } from 'react';
+import React, { FC, ReactNode } from 'react';
 import { AddToDbButtonStyled } from './AddToDbButton.styled';
 
 interface AddToDbButtonProps {
   onClick: () => void;
   className?: string;
-  buttonText?: string;
+  children?: ReactNode;
 }
 
-const AddToDbButton: FC<AddToDbButtonProps> = ({ onClick, className, buttonText = '' }) => {
+const AddToDbButton: FC<AddToDbButtonProps> = ({ onClick, className, children }) => {
   return (
     <AddToDbButtonStyled className={className && className} onClick={onClick}>
-      {buttonText || '+'}
+      {children || '+'}
     </AddToDbButtonStyled>
   );
 };
@@ -19,5 +19,5 @@ export default AddToDbButton;
 
 AddToDbButton.defaultProps = {
   className: '',
-  buttonText: '',
+  children: '',
 };

@@ -18,7 +18,12 @@ const AddExercise: FC<AddExerciseProps> = ({ name = '' }) => {
   const handleOpenModal = () => {
     dispatch(
       setModalOpen(
-        <AddToDbModal typeOfAddition="exercise" type={name} title="Enter exercise name: " />,
+        <AddToDbModal
+          typeOfAddition="addExercise"
+          type={name}
+          title="Enter exercise name: "
+          buttonText="Add exercise"
+        />,
       ),
     );
   };
