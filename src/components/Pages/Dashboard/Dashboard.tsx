@@ -1,4 +1,5 @@
-import { useAppSelector } from 'app/hooks';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { setSidebarList } from 'app/slices/pagesSlice';
 import { RootState } from 'app/store';
 import Navbar from 'components/Molecules/Navbar/Navbar';
 import Sidebar from 'components/Molecules/Sidebar/Sidebar';
@@ -11,15 +12,16 @@ import CustomizedRoutes from 'components/Templates/CustomizedRoutes/CustomizedRo
 import { auth, db } from 'firebase-cfg/firebase-config';
 import { onValue, ref } from 'firebase/database';
 import { sortedArrayByTimestamp } from 'helpers/sortArrayByTimestamp';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Route, useNavigate } from 'react-router-dom';
 import { Wrapper } from './Dashboard.styled';
 
 const Dashboard = () => {
-  const [sidebarList, setSidebarList] = useState<SidebarListProps[]>([]);
   const {
-    pages: { mainPage, subPageID },
+    pages: { mainPage, subPageID, sidebarList },
   } = useAppSelector((state: RootState) => state);
+
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
@@ -47,18 +49,19 @@ const Dashboard = () => {
 
           const sortedArray = sortedArrayByTimestamp(newArray as Required<SidebarListProps>[]);
 
-          const sidebarListItems = sortedArray.map((value) => ({
+          const sidebarListItems: SidebarListProps[] = sortedArray.map((value) => ({
             id: value.id,
             name: value.name,
           }));
 
-          setSidebarList(sidebarListItems);
-        } else setSidebarList([]);
+          dispatch(setSidebarList({ sidebarList: sidebarListItems }));
+        } else dispatch(setSidebarList({ sidebarList: [] }));
       });
     }
-  }, [mainPage]);
+  }, [mainPage, dispatch]);
 
   useEffect(() => {
+    if (!sidebarList) return;
     if (sidebarList.length === 0) return;
     const timeout = setTimeout(() => {
       if (mainPage && subPageID) navigate(`/dashboard/${mainPage}/${subPageID}`);
@@ -70,7 +73,7 @@ const Dashboard = () => {
   return (
     <Wrapper>
       <Navbar />
-      <Sidebar sidebarList={sidebarList} />
+      <Sidebar />
       <CustomizedRoutes>
         <Route path="/" element={<></>} />
         <Route path="/workout/*" element={<Workout />} />

@@ -1,6 +1,7 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ConstructionIcon from '@mui/icons-material/Construction';
 import { ListItemButton, ListItemText } from '@mui/material';
 import { RootState } from 'app/store';
 import { setModalOpen, setSidebarVisibility } from 'app/slices/interfaceSlice';
@@ -11,16 +12,15 @@ import { setSubPageID } from 'app/slices/pagesSlice';
 import SidebarTabs from '../CustomTabs/CustomTabs';
 import useResize from '../../../hooks/useResize';
 import { SidebarListStyled, SliderStyled, Wrapper } from './Sidebar.styled';
-import { SidebarListProps } from './SidebarProps';
-import AddToDbModal from '../Modals/AddToDbModal/AddToDbModal';
+import EditSidebarModal from '../Modals/EditSidebarModal/EditSidebarModal';
 
-const Sidebar: FC<{ sidebarList: SidebarListProps[] }> = ({ sidebarList = [] }) => {
+const Sidebar = () => {
   const [value, setValue] = useState(0);
   const { isWidthSmaller } = useResize('sm');
   const dispatch = useAppDispatch();
   const {
     interface: { isSidebarHide, isAddModeOn },
-    pages: { mainPage, subPageID },
+    pages: { mainPage, subPageID, sidebarList },
   } = useAppSelector((state: RootState) => state);
 
   const handleListItemClick = (
@@ -35,6 +35,7 @@ const Sidebar: FC<{ sidebarList: SidebarListProps[] }> = ({ sidebarList = [] }) 
   }, [mainPage]);
 
   useEffect(() => {
+    if (!sidebarList) return;
     if (sidebarList.length === 0) {
       dispatch(setSubPageID({ subPageID: '' }));
       return;
@@ -50,7 +51,7 @@ const Sidebar: FC<{ sidebarList: SidebarListProps[] }> = ({ sidebarList = [] }) 
   };
 
   const handleOpenModal = () => {
-    dispatch(setModalOpen(<AddToDbModal typeOfAddition="subPage" title="Enter exercise name: " />));
+    dispatch(setModalOpen(<EditSidebarModal />));
   };
 
   return (
@@ -66,18 +67,21 @@ const Sidebar: FC<{ sidebarList: SidebarListProps[] }> = ({ sidebarList = [] }) 
         />
       ) : (
         <SidebarListStyled is_sidebar_hide={isSidebarHide!.toString()}>
-          {sidebarList.map((el, index) => (
-            <ListItemButton
-              key={uuidv4()}
-              selected={value === index}
-              onClick={(event) => handleListItemClick(event, index)}
-            >
-              <div className="listNumber">{index + 1}</div>
-              <ListItemText primary={el.name} />
-            </ListItemButton>
-          ))}
-          {isAddModeOn && sidebarList.length < 10 && (
-            <AddToDbButton className="buttonAddSubPage" onClick={handleOpenModal} />
+          {sidebarList &&
+            sidebarList.map((el, index) => (
+              <ListItemButton
+                key={uuidv4()}
+                selected={value === index}
+                onClick={(event) => handleListItemClick(event, index)}
+              >
+                <div className="listNumber">{index + 1}</div>
+                <ListItemText primary={el.name} />
+              </ListItemButton>
+            ))}
+          {isAddModeOn && sidebarList && sidebarList.length < 10 && (
+            <AddToDbButton className="buttonAddSubPage" onClick={handleOpenModal}>
+              <ConstructionIcon />
+            </AddToDbButton>
           )}
         </SidebarListStyled>
       )}

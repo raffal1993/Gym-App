@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarProps';
 import { getLocalStorage, updateLocalStorage } from 'helpers/localStorage';
 
 const getInitialPage = (page: string) => {
@@ -9,10 +10,12 @@ const getInitialPage = (page: string) => {
 interface PagesState {
   mainPage?: string;
   subPageID?: string;
+  sidebarList?: SidebarListProps[] | [];
 }
 const initialState: PagesState = {
   mainPage: getInitialPage('mainPage'),
   subPageID: getInitialPage('subPageID'),
+  sidebarList: [],
 };
 
 export const interfaceSlice = createSlice({
@@ -31,9 +34,13 @@ export const interfaceSlice = createSlice({
 
       updateLocalStorage('pages', { subPageID: action.payload.subPageID });
     },
+
+    setSidebarList: (state, action: PayloadAction<PagesState>) => {
+      state.sidebarList = action.payload.sidebarList;
+    },
   },
 });
 
-export const { setMainPage, setSubPageID } = interfaceSlice.actions;
+export const { setMainPage, setSubPageID, setSidebarList } = interfaceSlice.actions;
 
 export default interfaceSlice.reducer;
