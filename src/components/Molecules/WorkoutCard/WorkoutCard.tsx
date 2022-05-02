@@ -1,15 +1,18 @@
+import { FC, SyntheticEvent, useState } from 'react';
 import VersionButton from 'components/Atoms/Buttons/VersionButton/VersionButton';
 import { importImages } from 'helpers/importImages';
-import { FC, SyntheticEvent, useState } from 'react';
+import ConstructionIcon from '@mui/icons-material/Construction';
 import { v4 as uuid4 } from 'uuid';
 import { getLocalStorage, updateLocalStorage } from 'helpers/localStorage';
 import { addVersionToDB } from 'firebase-cfg/database';
-import { useAppSelector } from 'app/hooks';
-import AddToDbButton from 'components/Atoms/Buttons/AddToDbButton/AddToDbButton';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
+import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
 import { RootState } from 'app/store';
+import { setModalOpen } from 'app/slices/interfaceSlice';
 import WorkoutStats from '../WorkoutStats/WorkoutStats';
 import { TitleStyled, VersionsStyled, Wrapper } from './WorkoutCard.styled';
 import { WorkoutCardProps } from '../../Organisms/Workout/WorkoutProps';
+import EditExerciseModal from '../Modals/EditExerciseModal/EditExerciseModal';
 
 const { images } = importImages();
 
@@ -19,6 +22,8 @@ const WorkoutCard: FC<WorkoutCardProps> = ({ exerciseID, name, type, versions })
   const [selectedVersion, setSelectedVersion] = useState<number>(
     getLocalStorage('selectedVersions', exerciseID) || 1,
   );
+
+  const dispatch = useAppDispatch();
 
   const {
     pages: { subPageID },
@@ -35,8 +40,19 @@ const WorkoutCard: FC<WorkoutCardProps> = ({ exerciseID, name, type, versions })
       addVersionToDB(exerciseID, subPageID, versions.length);
   };
 
+  const handleOpenModal = () => {
+    dispatch(
+      setModalOpen(<EditExerciseModal exerciseID={exerciseID} subPageID={subPageID || ''} />),
+    );
+  };
+
   return (
     <Wrapper key={uuid4()} url={images[type]}>
+      {isEditModeOn && (
+        <EditDbButton className="buttonEditExercise" onClick={handleOpenModal}>
+          <ConstructionIcon />
+        </EditDbButton>
+      )}
       <TitleStyled>
         {versions[selectedVersion - 1].alternativeName?.toUpperCase() || name.toUpperCase()}
       </TitleStyled>
@@ -57,7 +73,7 @@ const WorkoutCard: FC<WorkoutCardProps> = ({ exerciseID, name, type, versions })
           />
         ))}
         {isEditModeOn && versions.length < MAX_VERSIONS && (
-          <AddToDbButton onClick={handleAddVersion} />
+          <EditDbButton className="addVersionButton" onClick={handleAddVersion} />
         )}
       </VersionsStyled>
     </Wrapper>
