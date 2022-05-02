@@ -1,27 +1,37 @@
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { setModalClose } from 'app/slices/interfaceSlice';
 import { RootState } from 'app/store';
-import AddToDbButton from 'components/Atoms/Buttons/AddToDbButton/AddToDbButton';
+import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
 import { ChangeEvent, FC, KeyboardEvent, useEffect, useRef, useState } from 'react';
-import { addExerciseToDB, addSubPageToDB, updateSubPageName } from 'firebase-cfg/database';
+import {
+  addExerciseToDB,
+  addSubPageToDB,
+  updateExerciseName,
+  updateSubPageName,
+} from 'firebase-cfg/database';
 import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarProps';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
-import { Wrapper } from './AddToDbModal.styled';
+import { Wrapper } from './AddEditNameModal.styled';
+import { EditNameExercise } from '../ModalsProps';
 
-interface AddToDbModalProps {
+interface AddEditNameModalProps {
+  className?: string;
   type?: string;
   title: string;
   buttonText: string;
-  typeOfAddition: 'addExercise' | 'addSubPage' | 'changeSubPage';
+  typeOfAddition: 'addExercise' | 'addSubPage' | 'changeSubPage' | 'changeExercise';
   subPageDataForChange?: SidebarListProps;
+  nameDataForChange?: EditNameExercise;
 }
 
-const AddToDbModal: FC<AddToDbModalProps> = ({
+const AddEditNameModal: FC<AddEditNameModalProps> = ({
   type,
   title,
   typeOfAddition,
   buttonText,
   subPageDataForChange,
+  className,
+  nameDataForChange,
 }) => {
   const [name, setName] = useState<string>('');
   const [isErrorMessage, setIsErrorMessage] = useState<boolean>(false);
@@ -57,6 +67,15 @@ const AddToDbModal: FC<AddToDbModalProps> = ({
         if (mainPage && subPageDataForChange)
           updateSubPageName(mainPage, subPageDataForChange, name);
         break;
+      case 'changeExercise':
+        if (subPageID && nameDataForChange)
+          updateExerciseName(
+            subPageID,
+            nameDataForChange.exerciseID,
+            nameDataForChange.versionIndex,
+            name,
+          );
+        break;
 
       default:
         return;
@@ -83,7 +102,7 @@ const AddToDbModal: FC<AddToDbModalProps> = ({
   }, []);
 
   return (
-    <Wrapper>
+    <Wrapper className={className || undefined}>
       <p className="title">{title}</p>
       <input
         onKeyDown={handleEnterKey}
@@ -93,19 +112,20 @@ const AddToDbModal: FC<AddToDbModalProps> = ({
         type="text"
         value={name}
         onChange={handleInputChange}
-        placeholder={subPageDataForChange?.name || ''}
       />
       {isErrorMessage && (
         <ErrorMessage className="errorMessage" errorMessage="Name must be at least 3 chars !" />
       )}
-      <AddToDbButton onClick={updateToDB}>{buttonText}</AddToDbButton>
+      <EditDbButton onClick={updateToDB}>{buttonText}</EditDbButton>
     </Wrapper>
   );
 };
 
-export default AddToDbModal;
+export default AddEditNameModal;
 
-AddToDbModal.defaultProps = {
+AddEditNameModal.defaultProps = {
   type: '',
   subPageDataForChange: undefined,
+  className: '',
+  nameDataForChange: undefined,
 };

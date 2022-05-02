@@ -1,7 +1,7 @@
 import { useAppSelector } from 'app/hooks';
 import { RootState } from 'app/store';
 import CustomTextarea from 'components/Atoms/CustomTextarea/CustomTextarea';
-import AddToDbButton from 'components/Atoms/Buttons/AddToDbButton/AddToDbButton';
+import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
 import { Set, CellToChange } from 'components/Organisms/Workout/WorkoutProps';
 import { addSetToDB, updateSetToDB } from 'firebase-cfg/database';
 import useResize from 'hooks/useResize';
@@ -144,7 +144,7 @@ const WorkoutStats: FC<{ stats: Set[] } & AdditionalProps> = ({
           );
         })}
         {isEditModeOn && stats.length < MAX_SETS && (
-          <AddToDbButton className="buttonAddSet" onClick={handleAddSet} />
+          <EditDbButton className="buttonAddSet" onClick={handleAddSet} />
         )}
       </StatsStyled>
     </Wrapper>

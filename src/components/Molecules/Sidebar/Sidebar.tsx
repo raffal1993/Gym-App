@@ -6,7 +6,7 @@ import { ListItemButton, ListItemText } from '@mui/material';
 import { RootState } from 'app/store';
 import { setModalOpen, setSidebarVisibility } from 'app/slices/interfaceSlice';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import AddToDbButton from 'components/Atoms/Buttons/AddToDbButton/AddToDbButton';
+import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
 import { v4 as uuidv4 } from 'uuid';
 import { setSubPageID } from 'app/slices/pagesSlice';
 import SidebarTabs from '../CustomTabs/CustomTabs';
@@ -79,9 +79,9 @@ const Sidebar = () => {
               </ListItemButton>
             ))}
           {isEditModeOn && sidebarList && sidebarList.length < 10 && (
-            <AddToDbButton className="buttonAddSubPage" onClick={handleOpenModal}>
+            <EditDbButton className="buttonAddSubPage" onClick={handleOpenModal}>
               <ConstructionIcon />
-            </AddToDbButton>
+            </EditDbButton>
           )}
         </SidebarListStyled>
       )}

@@ -3,7 +3,7 @@ import { importImages } from 'helpers/importImages';
 import AddIcon from '@mui/icons-material/Add';
 import { useAppDispatch } from 'app/hooks';
 import { setModalOpen } from 'app/slices/interfaceSlice';
-import AddToDbModal from 'components/Molecules/Modals/AddToDbModal/AddToDbModal';
+import AddEditNameModal from 'components/Molecules/Modals/AddEditNameModal/AddEditNameModal';
 import { Wrapper } from './AddExercise.styled';
 
 const { images } = importImages();
@@ -18,7 +18,7 @@ const AddExercise: FC<AddExerciseProps> = ({ name = '' }) => {
   const handleOpenModal = () => {
     dispatch(
       setModalOpen(
-        <AddToDbModal
+        <AddEditNameModal
           typeOfAddition="addExercise"
           type={name}
           title="Enter exercise name: "
