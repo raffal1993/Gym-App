@@ -1,4 +1,3 @@
-import AddToDbButton from 'components/Atoms/Buttons/AddToDbButton/AddToDbButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarProps';
 import { useEffect, useState } from 'react';
@@ -6,8 +5,9 @@ import { v4 as uuid4 } from 'uuid';
 import { removeSubPage } from 'firebase-cfg/database';
 import { useAppSelector } from 'app/hooks';
 import { RootState } from 'app/store';
-import AddToDbModal from '../AddToDbModal/AddToDbModal';
+import AddEditNameModal from '../AddEditNameModal/AddEditNameModal';
 import { Wrapper } from './EditSidebarModal.styled';
+import { ConfirmationButtonStyled, NameStyled, RemoveButtonStyled } from '../Modals.styled';
 
 let timeout: NodeJS.Timer;
 
@@ -51,33 +51,33 @@ const EditSidebarModal = () => {
         {sidebarList &&
           sidebarList.map(({ id, name }, index) => (
             <li key={uuid4()}>
-              <AddToDbButton className="remove" onClick={() => handleAddConfirmation(index)}>
+              <RemoveButtonStyled onClick={() => handleAddConfirmation(index)}>
                 <CloseIcon />
-              </AddToDbButton>
+              </RemoveButtonStyled>
               {confirmIndexes.includes(index) && (
-                <AddToDbButton className="confirmation" onClick={() => removePage(id)}>
+                <ConfirmationButtonStyled onClick={() => removePage(id)}>
                   confirm
-                </AddToDbButton>
+                </ConfirmationButtonStyled>
               )}
 
-              <span
+              <NameStyled
                 className={id === nameForChange?.id ? 'active' : ''}
                 onClick={() => handleSetNameForChange({ name, id })}
               >
-                {name}
-              </span>
+                {name.toUpperCase()}
+              </NameStyled>
             </li>
           ))}
       </ul>
       {nameForChange && (
-        <AddToDbModal
+        <AddEditNameModal
           title="Enter new name: "
           typeOfAddition="changeSubPage"
           buttonText="Change name"
           subPageDataForChange={nameForChange}
         />
       )}
-      <AddToDbModal title="Add new page: " typeOfAddition="addSubPage" buttonText="Add page" />
+      <AddEditNameModal title="Add new page: " typeOfAddition="addSubPage" buttonText="Add page" />
     </Wrapper>
   );
 };
