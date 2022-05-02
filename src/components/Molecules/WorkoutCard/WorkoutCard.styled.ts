@@ -31,6 +31,13 @@ export const Wrapper = styled(`div`)<{ url: string }>(({ theme, url }) => ({
     pointerEvents: 'none',
   },
 
+  '& .buttonEditExercise': {
+    position: 'absolute',
+    top: '-3px',
+    left: '15px',
+    padding: `5px 10px 3px 10px`,
+  },
+
   [theme.breakpoints.up('lg')]: {
     width: '60%',
   },
@@ -58,4 +65,8 @@ export const TitleStyled = styled(`h3`)(({ theme }) => ({
 
 export const VersionsStyled = styled('div')(({ theme }) => ({
   margin: '10px 0px 10px 20px',
+
+  '& .addVersionButton': {
+    backgroundColor: theme.colors.green,
+  },
 }));

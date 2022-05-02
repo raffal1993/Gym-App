@@ -23,10 +23,11 @@ export const Wrapper = styled('div')(({ theme }) => ({
   overflow: 'auto',
 }));
 
-export const HeaderStyled = styled('nav')(({ theme }) => ({
+export const HeaderStyled = styled('nav')({
   backgroundColor: 'rgba(0,0,0,0.4)',
   width: '100%',
-  height: '40px',
+  height: '30px',
+  flexShrink: '0',
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
@@ -48,7 +49,7 @@ export const HeaderStyled = styled('nav')(({ theme }) => ({
   '& > div:nth-of-type(4)': {
     width: columnsSize.info,
   },
-}));
+});
 
 export const StatsStyled = styled('div')(({ theme }) => ({
   overflow: 'auto',
@@ -59,15 +60,21 @@ export const StatsStyled = styled('div')(({ theme }) => ({
   flexDirection: 'column',
 
   '& .buttonAddSet': {
-    margin: '20px 0 10px 0px',
+    display: 'block',
+    margin: '40px 0px 10px 3%',
     padding: '0px',
     fontSize: '2rem',
-    width: columnsSize.set.width,
-    maxWidth: `${columnsSize.set.maxWidth}`,
+    alignSelf: 'center',
+    backgroundColor: theme.colors.green,
+    width: '50px',
+
+    [theme.breakpoints.down('xs')]: {
+      margin: '0px 0px 10px 3%',
+    },
   },
 }));
 
-export const StatsNormalStyled = styled('div')(({ theme }) => ({
+export const StatsNormalStyled = styled('div')({
   display: 'flex',
   flexDirection: 'row',
   width: '100%',
@@ -90,7 +97,7 @@ export const StatsNormalStyled = styled('div')(({ theme }) => ({
   '& > div:nth-of-type(4)': {
     width: columnsSize.info,
   },
-}));
+});
 
 export const StatsSmallerStyled = styled('div')(({ theme }) => ({
   display: 'flex',
