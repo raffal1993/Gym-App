@@ -5,7 +5,7 @@ export interface Set {
   set: string;
 }
 
-export interface Versions {
+export interface Version {
   alternativeName?: string;
   sets: Set[];
 }
@@ -14,7 +14,7 @@ export interface WorkoutCardProps {
   exerciseID: string;
   name: string;
   type: string;
-  versions: Versions[];
+  versions: Version[];
   timestamp?: number;
 }
 export interface CellToChange {
