@@ -12,6 +12,7 @@ const theme = createTheme({
     darkGrey: 'rgb(62,62,62)',
     burlyWood: 'rgb(222, 184, 135)',
     orange: 'rgb(190,77, 16)',
+    green: 'rgb(27,106,27)',
   },
   fonts: {
     montserrat: `'Montserrat', sans-serif`,
