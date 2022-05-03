@@ -5,6 +5,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { auth } from 'firebase-cfg/firebase-config';
 import { useNavigate } from 'react-router-dom';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import { v4 as uuid4 } from 'uuid';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { setMainPage } from 'app/slices/pagesSlice';
 import { setEditMode } from 'app/slices/interfaceSlice';
@@ -39,7 +40,7 @@ const Navbar = () => {
     setAnchorElNav(event.currentTarget);
   };
   const handleNavMenu = (path: string, isHamburger = false) => {
-    dispatch(setMainPage({ mainPage: path }));
+    dispatch(setMainPage(path));
     dispatch(setEditMode(false));
     if (isHamburger) setAnchorElNav(null);
   };
@@ -56,7 +57,7 @@ const Navbar = () => {
         is_email_long={userEmail && userEmail?.length > 12 ? 'true' : 'false'}
       >
         <span>Welcome</span>
-        <h4>{userEmail}</h4>
+        <h1>{userEmail}</h1>
         <LogoutButtonStyled is_sidebar_hide={isSidebarHide!.toString()} onClick={handleLogout}>
           <KeyboardBackspaceIcon />
           <p>logout</p>
@@ -64,7 +65,7 @@ const Navbar = () => {
       </WelcomeLogoStyled>
       <PagesStyled>
         {basicPages.map(({ name, path }) => (
-          <NavLinkStyled to={`${path}`} key={name} onClick={() => handleNavMenu(path)}>
+          <NavLinkStyled to={`${path}`} key={uuid4()} onClick={() => handleNavMenu(path)}>
             {name}
           </NavLinkStyled>
         ))}
@@ -101,7 +102,7 @@ const Navbar = () => {
                 onClick={() => handleNavMenu(path, true)}
                 is_hamburger_menu_element="true"
                 to={`${path}`}
-                key={name}
+                key={uuid4()}
               >
                 {name}
               </NavLinkStyled>
