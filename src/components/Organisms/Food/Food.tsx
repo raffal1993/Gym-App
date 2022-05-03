@@ -1,7 +1,7 @@
 import FoodContent from 'components/Templates/DashboardContent/DashboardContent';
 
 const Food = () => {
-  return <FoodContent>s</FoodContent>;
+  return <FoodContent>{}</FoodContent>;
 };
 
 export default Food;

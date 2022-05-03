@@ -1,7 +1,7 @@
 import WeatherContent from 'components/Templates/DashboardContent/DashboardContent';
 
 const Weather = () => {
-  return <WeatherContent>s</WeatherContent>;
+  return <WeatherContent>{}</WeatherContent>;
 };
 
 export default Weather;
