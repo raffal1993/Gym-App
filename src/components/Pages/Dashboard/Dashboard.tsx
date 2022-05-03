@@ -56,8 +56,8 @@ const Dashboard = () => {
             name: value.name,
           }));
 
-          dispatch(setSidebarList({ sidebarList: sidebarListItems }));
-        } else dispatch(setSidebarList({ sidebarList: [] }));
+          dispatch(setSidebarList(sidebarListItems));
+        } else dispatch(setSidebarList([]));
       });
     }
   }, [mainPage, dispatch]);

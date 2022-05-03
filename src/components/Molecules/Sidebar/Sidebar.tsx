@@ -37,13 +37,13 @@ const Sidebar = () => {
   useEffect(() => {
     if (!sidebarList) return;
     if (sidebarList.length === 0) {
-      dispatch(setSubPageID({ subPageID: '' }));
+      dispatch(setSubPageID(''));
       return;
     }
 
     if (value >= sidebarList.length || subPageID === sidebarList[value].id) return;
 
-    dispatch(setSubPageID({ subPageID: sidebarList[value].id }));
+    dispatch(setSubPageID(sidebarList[value].id));
   }, [subPageID, sidebarList, value, dispatch]);
 
   const handleSidebarVisibility = () => {
