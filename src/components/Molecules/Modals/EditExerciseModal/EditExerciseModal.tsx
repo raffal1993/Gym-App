@@ -14,13 +14,11 @@ import { Wrapper } from './EditExerciseModal.styled';
 import { ConfirmationButtonStyled, NameStyled, RemoveButtonStyled } from '../Modals.styled';
 import { EditExerciseModalProps, EditNameExercise } from '../ModalsProps';
 
-let versionsTimeout: NodeJS.Timer;
-let setsTimeout: NodeJS.Timer;
+let timeout: NodeJS.Timer;
 
 const EditExerciseModal: FC<EditExerciseModalProps> = ({ exerciseID, subPageID }) => {
   const [selectedVersionIndex, setSelectedVersionIndex] = useState<number>();
-  const [confirmVersionsIndexes, setConfirmVersionsIndexes] = useState<number[]>([]);
-  const [confirmSetsIndexes, setConfirmSetsIndexes] = useState<string[]>([]);
+  const [confirmItems, setConfirmItems] = useState<(number | string)[]>([]);
   const [versions, setVersions] = useState<Version[]>([]);
   const [mainExerciseName, setMainExerciseName] = useState<string>();
   const [nameDataForChange, setNameDataForChange] = useState<EditNameExercise>();
@@ -29,8 +27,7 @@ const EditExerciseModal: FC<EditExerciseModalProps> = ({ exerciseID, subPageID }
 
   const handeRemoveExercise = () => {
     removeExercise(subPageID, exerciseID);
-    clearTimeout(versionsTimeout);
-    clearTimeout(setsTimeout);
+    clearTimeout(timeout);
     dispatch(setModalClose());
   };
 
@@ -60,23 +57,12 @@ const EditExerciseModal: FC<EditExerciseModalProps> = ({ exerciseID, subPageID }
     setSelectedVersionIndex(index);
   };
 
-  const handleVersionConfirmation = (index: number) => {
-    if (confirmVersionsIndexes.includes(index)) return;
-    setConfirmVersionsIndexes([...confirmVersionsIndexes, index]);
-    clearTimeout(versionsTimeout);
-    versionsTimeout = setTimeout(() => {
-      setConfirmVersionsIndexes([]);
-    }, 2500);
-  };
-
-  const handleSetsConfirmations = (versionIndex: number, set: string) => {
-    const setPlacementInfo = `${versionIndex}.${set}`;
-    if (confirmSetsIndexes.includes(setPlacementInfo)) return;
-
-    setConfirmSetsIndexes([...confirmSetsIndexes, setPlacementInfo]);
-    clearTimeout(setsTimeout);
-    setsTimeout = setTimeout(() => {
-      setConfirmSetsIndexes([]);
+  const handleConfirmations = (index: number | string) => {
+    if (confirmItems.includes(index)) return;
+    setConfirmItems([...confirmItems, index]);
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      setConfirmItems([]);
     }, 2500);
   };
 
@@ -101,10 +87,8 @@ const EditExerciseModal: FC<EditExerciseModalProps> = ({ exerciseID, subPageID }
   }, [subPageID, exerciseID]);
 
   useEffect(() => {
-    clearTimeout(versionsTimeout);
-    clearTimeout(setsTimeout);
-    setConfirmVersionsIndexes([]);
-    setConfirmSetsIndexes([]);
+    clearTimeout(timeout);
+    setConfirmItems([]);
     setSelectedVersionIndex(undefined);
   }, [versions]);
 
@@ -115,10 +99,10 @@ const EditExerciseModal: FC<EditExerciseModalProps> = ({ exerciseID, subPageID }
           versions.map(({ alternativeName, sets }, versionIndex) => (
             <li key={uuid4()}>
               <div className="version">
-                <RemoveButtonStyled onClick={() => handleVersionConfirmation(versionIndex)}>
+                <RemoveButtonStyled onClick={() => handleConfirmations(versionIndex)}>
                   <CloseIcon />
                 </RemoveButtonStyled>
-                {confirmVersionsIndexes.includes(versionIndex) && (
+                {confirmItems.includes(versionIndex) && (
                   <ConfirmationButtonStyled onClick={() => handleRemoveVersion(versionIndex)}>
                     confirm
                   </ConfirmationButtonStyled>
@@ -135,7 +119,7 @@ const EditExerciseModal: FC<EditExerciseModalProps> = ({ exerciseID, subPageID }
                 {sets.map(({ set }, setIndex) => {
                   return (
                     <React.Fragment key={uuid4()}>
-                      {confirmSetsIndexes.includes(`${versionIndex}.${set}`) ? (
+                      {confirmItems.includes(`${versionIndex}.${set}`) ? (
                         <EditDbButton
                           className="removeSet"
                           onClick={() => handleRemoveSet(versionIndex, setIndex)}
@@ -143,7 +127,7 @@ const EditExerciseModal: FC<EditExerciseModalProps> = ({ exerciseID, subPageID }
                           X
                         </EditDbButton>
                       ) : (
-                        <EditDbButton onClick={() => handleSetsConfirmations(versionIndex, set)}>
+                        <EditDbButton onClick={() => handleConfirmations(`${versionIndex}.${set}`)}>
                           {set}
                         </EditDbButton>
                       )}
@@ -163,10 +147,18 @@ const EditExerciseModal: FC<EditExerciseModalProps> = ({ exerciseID, subPageID }
           nameDataForChange={nameDataForChange}
         />
       )}
-
-      <EditDbButton className="removeExercise" onClick={handeRemoveExercise}>
-        Remove exercise
-      </EditDbButton>
+      {confirmItems.includes(`removeExercise`) ? (
+        <EditDbButton className="removeExercise" onClick={() => handeRemoveExercise()}>
+          ARE YOU SURE ?
+        </EditDbButton>
+      ) : (
+        <EditDbButton
+          className="removeExercise"
+          onClick={() => handleConfirmations('removeExercise')}
+        >
+          Remove exercise
+        </EditDbButton>
+      )}
     </Wrapper>
   );
 };
