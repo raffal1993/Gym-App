@@ -98,7 +98,7 @@ const WelcomeLogoStyledReduced = (theme: Theme, is_email_long: string) => ({
   justifyContent: 'center',
   textAlign: 'center',
 
-  h4: {
+  h1: {
     fontSize: is_email_long === 'true' ? '1.1rem' : '1.4rem',
     padding: '0px 0px 0px 42px',
   },
@@ -121,7 +121,7 @@ export const WelcomeLogoStyled = styled(`div`)<{ is_sidebar_hide: string; is_ema
       cursor: 'default',
     },
 
-    h4: {
+    h1: {
       fontFamily: theme.fonts.montserrat,
       fontWeight: '600',
       fontSize: is_email_long === 'true' ? '1.5rem' : '1.9rem',

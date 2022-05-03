@@ -7,7 +7,7 @@ export const TabsStyled = styled(Tabs)<TabsProps>(({ theme }) => ({
   height: '50px',
   backgroundColor: theme.colors.primary,
   padding: '0px 20px',
-  marginTop: '5px',
+  marginTop: '15px',
   borderBottom: `4px solid ${theme.colors.darkGrey}`,
   borderTop: `4px solid ${theme.colors.darkGrey}`,
 

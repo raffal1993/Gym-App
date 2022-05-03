@@ -12,7 +12,7 @@ export const Wrapper = styled('div')(({ theme }) => ({
   fontFamily: theme.fonts.sarpanch,
 
   '.title': {
-    fontSize: '1.8rem',
+    fontSize: '1.6rem',
     color: theme.colors.white,
     textAlign: 'center',
   },
@@ -21,7 +21,7 @@ export const Wrapper = styled('div')(({ theme }) => ({
     height: '40px',
     width: '80%',
     borderRadius: '10px',
-    fontSize: '1.5rem',
+    fontSize: '1.4rem',
     fontFamily: 'inherit',
     textAlign: 'center',
   },
@@ -33,7 +33,7 @@ export const Wrapper = styled('div')(({ theme }) => ({
 
   button: {
     padding: '5px 20px',
-    fontSize: '1.4rem',
+    fontSize: '1.2rem',
     fontFamily: 'inherit',
   },
 }));

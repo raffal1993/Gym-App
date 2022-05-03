@@ -39,7 +39,7 @@ export const ConfirmationButtonStyled = styled(RemoveButtonStyled)(({ theme }) =
 
 export const NameStyled = styled('span')(({ theme }) => ({
   color: theme.colors.white,
-  fontSize: '1.6rem',
+  fontSize: '1.2rem',
   padding: '5px 0px',
   margin: '0px 5px',
   paddingLeft: '5px',
