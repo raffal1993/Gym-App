@@ -23,20 +23,20 @@ export const interfaceSlice = createSlice({
   initialState,
 
   reducers: {
-    setMainPage: (state, action: PayloadAction<PagesState>) => {
-      state.mainPage = action.payload.mainPage;
+    setMainPage: (state, action: PayloadAction<typeof initialState.mainPage>) => {
+      state.mainPage = action.payload;
 
-      updateLocalStorage('pages', { mainPage: action.payload.mainPage });
+      updateLocalStorage('pages', { mainPage: action.payload });
     },
 
-    setSubPageID: (state, action: PayloadAction<PagesState>) => {
-      state.subPageID = action.payload.subPageID;
+    setSubPageID: (state, action: PayloadAction<typeof initialState.subPageID>) => {
+      state.subPageID = action.payload;
 
-      updateLocalStorage('pages', { subPageID: action.payload.subPageID });
+      updateLocalStorage('pages', { subPageID: action.payload });
     },
 
-    setSidebarList: (state, action: PayloadAction<PagesState>) => {
-      state.sidebarList = action.payload.sidebarList;
+    setSidebarList: (state, action: PayloadAction<typeof initialState.sidebarList>) => {
+      state.sidebarList = action.payload;
     },
   },
 });

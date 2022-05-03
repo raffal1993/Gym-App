@@ -12,7 +12,7 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<UserState>) => {
+    setUser: (state, action: PayloadAction<Pick<UserState, 'email'>>) => {
       state.email = action.payload.email;
     },
   },

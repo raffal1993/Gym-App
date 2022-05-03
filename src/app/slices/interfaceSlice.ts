@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ReactElement } from 'react';
 
 interface InterfaceState {
@@ -22,14 +22,14 @@ export const interfaceSlice = createSlice({
     setSidebarVisibility: (state) => {
       state.isSidebarHide = !state.isSidebarHide;
     },
-    setEditMode: (state, action) => {
+    setEditMode: (state, action: PayloadAction<typeof initialState.isEditModeOn>) => {
       state.isEditModeOn = action.payload;
     },
     setModalClose: (state) => {
       state.isModalOpen = false;
       state.modalContent === null;
     },
-    setModalOpen: (state, action) => {
+    setModalOpen: (state, action: PayloadAction<typeof initialState.modalContent>) => {
       state.isModalOpen = true;
       state.modalContent = action.payload;
     },
