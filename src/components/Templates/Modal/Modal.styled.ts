@@ -9,7 +9,7 @@ export const ModalContentStyled = styled('div')(({ theme }) => ({
   maxHeight: '100vh',
   overflowY: 'auto',
   overflowX: 'hidden',
-  background: 'radial-gradient(circle, rgba(83,95,111,1) 0%, rgba(42,50,61,1) 100%)',
+  background: theme.colors.bgColorOne,
   border: `2px solid ${theme.colors.whiteLight}`,
   padding: '4px',
 }));

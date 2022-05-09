@@ -13,6 +13,7 @@ const theme = createTheme({
     burlyWood: 'rgb(222, 184, 135)',
     orange: 'rgb(190,77, 16)',
     green: 'rgb(27,106,27)',
+    bgColorOne: 'radial-gradient(circle, rgba(83,95,111,1) 0%, rgba(42,50,61,1) 100%)',
   },
   fonts: {
     montserrat: `'Montserrat', sans-serif`,

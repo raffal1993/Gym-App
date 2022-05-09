@@ -1,7 +1,7 @@
 import { styled } from '@mui/material';
 
 export const Wrapper = styled(`div`)<{ url: string }>(({ theme, url }) => ({
-  background: 'radial-gradient(circle, rgba(83,95,111,1) 0%, rgba(42,50,61,1) 100%)',
+  background: theme.colors.bgColorOne,
   width: '90%',
   minHeight: '300px',
   maxHeight: '400px',

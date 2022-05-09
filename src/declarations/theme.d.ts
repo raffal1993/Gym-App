@@ -10,6 +10,7 @@ interface Colors {
   burlyWood: string;
   orange: string;
   green: string;
+  bgColorOne: string;
 }
 
 interface Fonts {
