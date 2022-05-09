@@ -6,7 +6,7 @@ import Email from 'components/Atoms/Inputs/Email/Email';
 import BackToLogin from 'components/Atoms/BackToLogin/BackToMainLogin';
 import Password from 'components/Atoms/Inputs/Password/Password';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
-import Button from 'components/Atoms/Buttons/FormButton/FormButton';
+import Button from 'components/Atoms/Buttons/CustomButton/CustomButton';
 import LoginPanelTitle from 'components/Atoms/LoginPanelTitle/LoginPanelTitle';
 import { GoogleSignInStyled } from './Register.styled';
 
@@ -81,12 +81,9 @@ const Register = () => {
         label="Confirm Password"
       />
 
-      <Button
-        isError={!!errorMessage}
-        isSucceed={isSucceed}
-        name="Register"
-        handleClick={handleRegister}
-      />
+      <Button isError={!!errorMessage} isSucceed={isSucceed} handleClick={handleRegister}>
+        Register
+      </Button>
       {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
 
       <GoogleSignInStyled>

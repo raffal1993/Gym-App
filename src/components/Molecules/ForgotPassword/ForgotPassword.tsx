@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from 'firebase-cfg/firebase-config';
 import Email from 'components/Atoms/Inputs/Email/Email';
-import Button from 'components/Atoms/Buttons/FormButton/FormButton';
+import Button from 'components/Atoms/Buttons/CustomButton/CustomButton';
 import BackToLogin from 'components/Atoms/BackToLogin/BackToMainLogin';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
 import LoginPanelTitle from 'components/Atoms/LoginPanelTitle/LoginPanelTitle';
@@ -47,12 +47,9 @@ const ForgotPassword = () => {
 
       <Email email={email} handleEmail={handleEmail} isError={!!errorMessage} />
 
-      <Button
-        isError={!!errorMessage}
-        isSucceed={isSucceed}
-        name="Send password"
-        handleClick={handleSubmit}
-      />
+      <Button isError={!!errorMessage} isSucceed={isSucceed} handleClick={handleSubmit}>
+        Send password
+      </Button>
 
       {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
       <BackToLogin />

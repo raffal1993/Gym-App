@@ -1,4 +1,4 @@
-import Button from 'components/Atoms/Buttons/FormButton/FormButton';
+import Button from 'components/Atoms/Buttons/CustomButton/CustomButton';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
 import Email from 'components/Atoms/Inputs/Email/Email';
 import Password from 'components/Atoms/Inputs/Password/Password';
@@ -53,12 +53,9 @@ const Login = () => {
         handlePassword={handlePassword}
       />
 
-      <Button
-        isError={!!errorMessage}
-        handleClick={handleSignIn}
-        name="Login"
-        isSucceed={isSucceed}
-      />
+      <Button isError={!!errorMessage} handleClick={handleSignIn} isSucceed={isSucceed}>
+        Login
+      </Button>
 
       {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
 
