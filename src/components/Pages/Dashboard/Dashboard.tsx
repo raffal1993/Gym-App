@@ -63,8 +63,7 @@ const Dashboard = () => {
   }, [mainPage, dispatch]);
 
   useEffect(() => {
-    if (!sidebarList) return;
-    if (sidebarList.length === 0) return;
+    if (!sidebarList || sidebarList.length === 0) return;
     const timeout = setTimeout(() => {
       if (mainPage && subPageID) navigate(`/dashboard/${mainPage}/${subPageID}`);
     }, 100);
