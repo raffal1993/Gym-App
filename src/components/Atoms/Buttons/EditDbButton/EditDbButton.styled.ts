@@ -11,6 +11,6 @@ export const EditDbButtonStyled = styled('button')(({ theme }) => ({
   color: theme.colors.white,
 
   '&:hover': {
-    backgroundColor: theme.colors.purple,
+    filter: 'brightness(140%)',
   },
 }));
