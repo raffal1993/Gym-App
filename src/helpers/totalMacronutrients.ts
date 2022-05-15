@@ -1,15 +1,17 @@
-import { Data } from 'components/Molecules/FoodTable/FoodTableProps';
+import { NutrientsDB } from 'components/Organisms/Food/FoodProps';
 
-export const totalMacronutrients = (rows: readonly Data[]) => {
+type Nutrients = Omit<NutrientsDB, 'id' | 'timestamp' | 'name'> & { name?: string };
+
+export const totalMacronutrients = (rows: Nutrients[]) => {
   const total = rows.reduce(
-    (previousValue: Omit<Data, 'name'>, currentValue: Omit<Data, 'name'>) => {
+    (previousValue: Nutrients, currentValue: Nutrients) => {
       return {
         kcal: `${parseInt(previousValue.kcal, 10) + parseInt(currentValue.kcal, 10)}`,
         fat: `${parseInt(previousValue.fat, 10) + parseInt(currentValue.fat, 10)}g`,
         carbs: `${parseInt(previousValue.carbs, 10) + parseInt(currentValue.carbs, 10)}g`,
         protein: `${parseInt(previousValue.protein, 10) + parseInt(currentValue.protein, 10)}g`,
         fiber: `${parseInt(previousValue.fiber, 10) + parseInt(currentValue.fiber, 10)}g`,
-      } as Omit<Data, 'name'>;
+      } as Nutrients;
     },
     {
       kcal: '0',
@@ -17,13 +19,13 @@ export const totalMacronutrients = (rows: readonly Data[]) => {
       carbs: '0g',
       protein: '0g',
       fiber: '0g',
-    } as Omit<Data, 'name'>,
+    } as Nutrients,
   );
 
   const totalCell = {
     name: 'TOTAL',
     ...total,
-  } as Data;
+  } as Nutrients;
 
   return totalCell;
 };
