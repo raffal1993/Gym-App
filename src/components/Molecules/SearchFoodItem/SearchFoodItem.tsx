@@ -30,16 +30,16 @@ const SearchFoodItem: FC<SearchResultProps> = ({
           KCAL : <span>{ENERC_KCAL === 0 ? 0 : ENERC_KCAL.toFixed(1)}</span>
         </p>
         <p>
-          FAT : <span>{FAT === 0 ? 0 : FAT.toFixed(1)}</span>
+          FAT : <span>{FAT === 0 ? 0 : FAT.toFixed(1)}g</span>
         </p>
         <p>
-          CARBS : <span>{CHOCDF === 0 ? 0 : CHOCDF.toFixed(1)}</span>
+          CARBS : <span>{CHOCDF === 0 ? 0 : CHOCDF.toFixed(1)}g</span>
         </p>
         <p>
-          PROTEIN : <span>{PROCNT === 0 ? 0 : PROCNT.toFixed(1)}</span>
+          PROTEIN : <span>{PROCNT === 0 ? 0 : PROCNT.toFixed(1)}g</span>
         </p>
         <p>
-          FIBER : <span>{FIBTG === 0 ? 0 : FIBTG.toFixed(1)}</span>
+          FIBER : <span>{FIBTG === 0 ? 0 : FIBTG.toFixed(1)}g</span>
         </p>
       </NutrientsStyled>
     </Wrapper>
