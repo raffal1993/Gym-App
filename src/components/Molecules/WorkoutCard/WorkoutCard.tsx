@@ -10,9 +10,10 @@ import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
 import { RootState } from 'app/store';
 import { setModalOpen } from 'app/slices/interfaceSlice';
 import WorkoutStats from '../WorkoutStats/WorkoutStats';
-import { TitleStyled, VersionsStyled, Wrapper } from './WorkoutCard.styled';
+import { VersionsStyled, Wrapper } from './WorkoutCard.styled';
 import { WorkoutCardProps } from '../../Organisms/Workout/WorkoutProps';
 import EditExerciseModal from '../Modals/EditExerciseModal/EditExerciseModal';
+import { TitleStyled } from '../CardStyled/CardStyled.styled';
 
 const { images } = importImages();
 
