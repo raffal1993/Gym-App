@@ -6,21 +6,35 @@ interface ButtonProps {
   isSucceed?: boolean;
   isError?: boolean;
   children?: ReactNode;
+  className?: string;
 }
 
-const FormButton: FC<ButtonProps> = ({ handleClick, isSucceed, isError, children }) => {
+const CustomButton: FC<ButtonProps> = ({
+  handleClick,
+  isSucceed,
+  isError,
+  children,
+  className,
+}) => {
   const color = isSucceed ? 'success' : isError ? 'error' : 'primary';
   return (
-    <CustomButtonStyled color={color} variant="contained" type="submit" onClick={handleClick}>
+    <CustomButtonStyled
+      className={className}
+      color={color}
+      variant="contained"
+      type="submit"
+      onClick={handleClick}
+    >
       {isSucceed ? 'Success' : children}
     </CustomButtonStyled>
   );
 };
 
-export default FormButton;
+export default CustomButton;
 
-FormButton.defaultProps = {
+CustomButton.defaultProps = {
   isError: false,
   isSucceed: false,
   children: null,
+  className: '',
 };
