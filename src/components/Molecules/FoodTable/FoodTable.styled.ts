@@ -91,6 +91,7 @@ export const SmallTable = styled('div')(({ theme }) => ({
 
     '& .value': {
       fontWeight: 'bold',
+      textShadow: '2px 2px black',
       color: theme.colors.burlyWood,
     },
   },

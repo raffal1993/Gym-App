@@ -4,7 +4,6 @@ export const Wrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  //   position: 'relative',
 
   '& .searchFoodButton': {
     background: theme.colors.bgColorOne,
@@ -14,6 +13,11 @@ export const Wrapper = styled('div')(({ theme }) => ({
     width: '10%',
     maxWidth: '70px',
     margin: '10px 10px 0px 0px',
+    transition: 'all 0.3s ease-in-out',
+
+    '&:hover': {
+      transform: 'scale(1.1)',
+    },
   },
 }));
 
@@ -45,4 +49,32 @@ export const ScrollTopStyled = styled('div')<{ is_visible: string }>(({ theme, i
     height: '40px',
     width: '40px',
   },
+}));
+
+export const AddButtonsStyled = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: '40px',
+  width: '95%',
+  maxWidth: '400px',
+  margin: '20px 5px 0px 0px',
+  gap: '20px',
+
+  '& .addButton': {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    height: '100%',
+    background: theme.colors.bgColorOne,
+
+    svg: {
+      fontSize: '2em',
+      color: theme.colors.burlyWood,
+    },
+  },
+
+  '& .addFoodSetButton': {},
+
+  '& .addCustomFoodButton': {},
 }));
