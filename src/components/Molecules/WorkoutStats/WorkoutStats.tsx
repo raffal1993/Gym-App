@@ -85,19 +85,23 @@ const WorkoutStats: FC<{ stats: Set[] } & AdditionalProps> = ({
 
   useLayoutEffect(() => {
     const refItem = ref.current;
+    let timeout: NodeJS.Timeout;
 
     if (refItem) refItem.scrollTop = getScrollPosition(exerciseID);
 
-    function timeout() {
-      setTimeout(() => {
+    function listener() {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
         if (refItem) {
           updateScrollPosition({ [exerciseID]: refItem.scrollTop });
         }
       }, 300);
     }
 
-    if (refItem) refItem.addEventListener('scroll', timeout);
-    return () => refItem?.removeEventListener('scroll', timeout);
+    if (refItem) refItem.addEventListener('scroll', listener);
+    return () => {
+      if (refItem) refItem.removeEventListener('scroll', listener);
+    };
   }, [exerciseID]);
 
   return (
