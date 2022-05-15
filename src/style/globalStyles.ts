@@ -23,6 +23,9 @@ const globalStyle = {
   '::-webkit-scrollbar': {
     width: '6px',
   },
+  '::-webkit-scrollbar:horizontal': {
+    height: '6px',
+  },
   '::-webkit-scrollbar-track': {
     backgroundColor: 'grey',
   },

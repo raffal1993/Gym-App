@@ -11,6 +11,7 @@ export const Wrapper = styled('div')<{ is_sidebar_hide: string }>(({ theme, is_s
   height: '100%',
   overflow: 'hidden',
   overflowY: 'auto',
+  position: 'relative',
 
   ...(is_sidebar_hide === 'true' && {
     '&': {

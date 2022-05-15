@@ -6,6 +6,7 @@ export const Wrapper = styled('div')(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   marginTop: '15px',
+  width: '100%',
 
   [theme.breakpoints.down('sm')]: {
     marginTop: '10px',
