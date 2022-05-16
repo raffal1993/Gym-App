@@ -5,6 +5,7 @@ import React, { cloneElement, FC, ReactElement, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { SidebarListProps } from '../Sidebar/SidebarProps';
 import { TabsStyled } from './CustomTabs.styled';
+import { MAX_SETS } from '../WorkoutStats/WorkoutStats';
 
 interface CustomTabsProps {
   elements?: string[] | SidebarListProps[];
@@ -34,7 +35,7 @@ const CustomTabs: FC<CustomTabsProps> = ({
     else setDefaultValue(index);
   };
 
-  const renderEditButton = isSidebarItem && handleOpenModal && isEditModeOn && elements.length < 10;
+  const showEditButton = isSidebarItem && isEditModeOn && elements.length < MAX_SETS;
 
   return (
     <>
@@ -54,8 +55,11 @@ const CustomTabs: FC<CustomTabsProps> = ({
                 label={component && cloneElement(component, { name: el as string })}
               ></Tab>
             ))}
-        {renderEditButton && (
-          <EditDbButton className="buttonAddSubPage" onClick={handleOpenModal}>
+        {showEditButton && (
+          <EditDbButton
+            className="buttonAddSubPage"
+            onClick={handleOpenModal === undefined ? () => {} : handleOpenModal}
+          >
             <ConstructionIcon />
           </EditDbButton>
         )}
@@ -73,6 +77,6 @@ CustomTabs.defaultProps = {
   className: '',
   setValue: () => {},
   isSidebarItem: false,
-  handleOpenModal: () => {},
+  handleOpenModal: undefined,
   isEditModeOn: false,
 };
