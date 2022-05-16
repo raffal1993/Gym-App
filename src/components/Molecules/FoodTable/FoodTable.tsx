@@ -3,74 +3,57 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { Column, NutrientsDB } from 'components/Organisms/Food/FoodProps';
 import { totalMacronutrients } from 'helpers/totalMacronutrients';
 import useResize from 'hooks/useResize';
+import { FC } from 'react';
 import { v4 as uuid4 } from 'uuid';
 import { SmallTable, Wrapper } from './FoodTable.styled';
-import { Column, Data } from './FoodTableProps';
 
 const columns: readonly Column[] = [
-  { id: 'name', label: 'NAME', minWidth: 80 },
-  { id: 'kcal', label: 'KCAL', minWidth: 35 },
+  { id: 'name', label: 'NAME', minWidth: 70 },
+  { id: 'kcal', label: 'KCAL', minWidth: 50 },
   {
     id: 'fat',
     label: 'FAT',
-    minWidth: 30,
+    minWidth: 50,
     align: 'center',
   },
   {
     id: 'carbs',
     label: 'CARBS',
-    minWidth: 30,
+    minWidth: 50,
     align: 'center',
   },
   {
     id: 'protein',
     label: 'PROTEIN',
-    minWidth: 30,
+    minWidth: 50,
     align: 'center',
   },
   {
     id: 'fiber',
     label: 'FIBER',
-    minWidth: 30,
+    minWidth: 50,
     align: 'center',
   },
 ];
 
-const rows: readonly Data[] = [
-  { name: 'Water', kcal: '2200', fat: '70g', carbs: '220g', protein: '20g', fiber: '10g' },
-  { name: 'Milk', kcal: '155', fat: '15g', carbs: '20g', protein: '0', fiber: '0' },
-  {
-    name: 'Ocean Spray Whole Berry Mixed Berry',
-    kcal: '200',
-    fat: '15g',
-    carbs: '20g',
-    protein: '0',
-    fiber: '0',
-  },
-  { name: 'Cheese', kcal: '200', fat: '15g', carbs: '20g', protein: '0', fiber: '0' },
-  { name: 'Bread', kcal: '200', fat: '15g', carbs: '20g', protein: '0', fiber: '0' },
-  { name: 'Butter', kcal: '200', fat: '15g', carbs: '20g', protein: '0', fiber: '0' },
-  { name: 'Cream', kcal: '200', fat: '15g', carbs: '20g', protein: '0', fiber: '0' },
-];
-
-const FoodTable = () => {
+const FoodTable: FC<{ foodSet: NutrientsDB[] }> = ({ foodSet }) => {
   const { isWidthSmaller } = useResize('xs');
-
   return (
     <Wrapper>
       {isWidthSmaller ? (
         <SmallTable>
-          {rows.map((row) => (
+          {foodSet.map((foodRow) => (
             <div className="mealContainer" key={uuid4()}>
-              <p className="title">{row.name}</p>
+              <p className="title">{foodRow.name}</p>
               <div className="nutrients">
                 {columns.map((column) => {
                   if (column.id === 'name') return;
                   return (
                     <span className="macronutrient" key={uuid4()}>
-                      {column.id}: <span className="value">{row[column.id]}</span>
+                      {column.id}: <span className="value">{foodRow[column.id]}</span>
                     </span>
                   );
                 })}
@@ -85,7 +68,9 @@ const FoodTable = () => {
                 return (
                   <span className="macronutrient macronutrientTotal" key={uuid4()}>
                     {column.id}:{' '}
-                    <span className="value valueTotal">{totalMacronutrients(rows)[column.id]}</span>
+                    <span className="value valueTotal">
+                      {totalMacronutrients(foodSet)[column.id]}
+                    </span>
                   </span>
                 );
               })}
@@ -109,7 +94,7 @@ const FoodTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {foodSet.map((row) => (
               <TableRow key={uuid4()}>
                 {columns.map((column) => (
                   <TableCell className="tableCell" key={uuid4()} align={column.align}>
@@ -121,7 +106,7 @@ const FoodTable = () => {
             <TableRow className="tableRowTotal">
               {columns.map((column) => (
                 <TableCell key={uuid4()} align={column.align} className="tableCellTotal">
-                  {totalMacronutrients(rows)[column.id]}
+                  {totalMacronutrients(foodSet)[column.id]}
                 </TableCell>
               ))}
             </TableRow>
