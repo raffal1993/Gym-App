@@ -3,11 +3,12 @@ import { RootState } from 'app/store';
 import CustomTextarea from 'components/Atoms/CustomTextarea/CustomTextarea';
 import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
 import { Set, CellToChange } from 'components/Organisms/Workout/WorkoutProps';
-import { addSetToDB, updateSetToDB } from 'firebase-cfg/database';
 import useResize from 'hooks/useResize';
 import { FC, useLayoutEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { getScrollPosition, updateScrollPosition } from 'helpers/scrollPosition';
+import { updateSetToDB } from 'firebase-cfg/database/workout/update';
+import { addSetToDB } from 'firebase-cfg/database/workout/add';
 import {
   HeaderStyled,
   StatsNormalStyled,
@@ -16,7 +17,7 @@ import {
   StatsSmallerStyled,
 } from './WorkoutStats.styled';
 
-const MAX_SETS = 10;
+export const MAX_SETS = 10;
 
 interface Column {
   id: 'set' | 'weight' | 'reps' | 'info';
