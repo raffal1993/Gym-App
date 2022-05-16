@@ -2,9 +2,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarProps';
 import { useEffect, useState } from 'react';
 import { v4 as uuid4 } from 'uuid';
-import { removeSubPage } from 'firebase-cfg/database';
 import { useAppSelector } from 'app/hooks';
 import { RootState } from 'app/store';
+import { removeSubPage } from 'firebase-cfg/database/workout/remove';
+import { updateSubPageName } from 'firebase-cfg/database/workout/update';
+import { addSubPageToDB } from 'firebase-cfg/database/workout/add';
 import AddEditNameModal from '../AddEditNameModal/AddEditNameModal';
 import { Wrapper } from './EditSidebarModal.styled';
 import { ConfirmationButtonStyled, NameStyled, RemoveButtonStyled } from '../Modals.styled';
@@ -23,6 +25,14 @@ const EditSidebarModal = () => {
     if (mainPage && subPageID) {
       removeSubPage(mainPage, subPageID);
     }
+  };
+
+  const addSubPage = (newName: string) => {
+    if (mainPage) addSubPageToDB(mainPage, newName);
+  };
+
+  const updateSubPage = (newName: string) => {
+    if (mainPage && nameForChange) updateSubPageName(mainPage, nameForChange, newName);
   };
 
   useEffect(() => {
@@ -72,12 +82,15 @@ const EditSidebarModal = () => {
       {nameForChange && (
         <AddEditNameModal
           title="Enter new name: "
-          typeOfAddition="changeSubPage"
+          updateDbCallback={updateSubPage}
           buttonText="Change name"
-          subPageDataForChange={nameForChange}
         />
       )}
-      <AddEditNameModal title="Add new page: " typeOfAddition="addSubPage" buttonText="Add page" />
+      <AddEditNameModal
+        title="Add new page: "
+        updateDbCallback={addSubPage}
+        buttonText="Add page"
+      />
     </Wrapper>
   );
 };

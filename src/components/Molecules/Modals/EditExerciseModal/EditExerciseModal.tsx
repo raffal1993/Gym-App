@@ -2,13 +2,14 @@ import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
 import CloseIcon from '@mui/icons-material/Close';
 import React, { FC, useEffect, useState } from 'react';
 import { v4 as uuid4 } from 'uuid';
-import { removeExercise, removeVersion, removeSet } from 'firebase-cfg/database';
+import { removeExercise, removeVersion, removeSet } from 'firebase-cfg/database/workout/remove';
 import { ref, onValue } from 'firebase/database';
 import { auth, db } from 'firebase-cfg/firebase-config';
 import { Version, WorkoutCardProps } from 'components/Organisms/Workout/WorkoutProps';
 import { clearLocalStorage } from 'helpers/localStorage';
 import { useDispatch } from 'react-redux';
 import { setModalClose } from 'app/slices/interfaceSlice';
+import { updateExerciseName } from 'firebase-cfg/database/workout/update';
 import AddEditNameModal from '../AddEditNameModal/AddEditNameModal';
 import { Wrapper } from './EditExerciseModal.styled';
 import { ConfirmationButtonStyled, NameStyled, RemoveButtonStyled } from '../Modals.styled';
@@ -55,6 +56,16 @@ const EditExerciseModal: FC<EditExerciseModalProps> = ({ exerciseID, subPageID }
 
     if (selectedVersionIndex === index) return setSelectedVersionIndex(undefined);
     setSelectedVersionIndex(index);
+  };
+
+  const updateExercise = (newName: string) => {
+    if (subPageID && nameDataForChange)
+      updateExerciseName(
+        subPageID,
+        nameDataForChange.exerciseID,
+        nameDataForChange.versionIndex,
+        newName,
+      );
   };
 
   const handleConfirmations = (index: number | string) => {
@@ -141,10 +152,9 @@ const EditExerciseModal: FC<EditExerciseModalProps> = ({ exerciseID, subPageID }
       {selectedVersionIndex !== undefined && (
         <AddEditNameModal
           title="Enter new name: "
-          typeOfAddition="changeExercise"
+          updateDbCallback={updateExercise}
           buttonText="Change name"
           className="changeVersionName"
-          nameDataForChange={nameDataForChange}
         />
       )}
       {confirmItems.includes(`removeExercise`) ? (
