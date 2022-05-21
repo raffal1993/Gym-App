@@ -4,6 +4,7 @@ import { importImages } from 'helpers/importImages';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import { v4 as uuid4 } from 'uuid';
 import { getLocalStorage, updateLocalStorage } from 'helpers/localStorage';
+import { MAX_VERSIONS } from 'helpers/staticVariables';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
 import { RootState } from 'app/store';
@@ -16,8 +17,6 @@ import EditExerciseModal from '../Modals/EditExerciseModal/EditExerciseModal';
 import { TitleStyled } from '../CardStyled/CardStyled.styled';
 
 const { images } = importImages();
-
-const MAX_VERSIONS = 5;
 
 const WorkoutCard: FC<WorkoutCardProps> = ({ exerciseID, name, type, versions }) => {
   const [selectedVersion, setSelectedVersion] = useState<number>(

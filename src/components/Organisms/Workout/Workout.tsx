@@ -11,6 +11,7 @@ import { auth, db } from 'firebase-cfg/firebase-config';
 import { onValue, ref } from 'firebase/database';
 import { clearLocalStorage } from 'helpers/localStorage';
 import { importImages } from 'helpers/importImages';
+import { MAX_CARDS } from 'helpers/staticVariables';
 import { sortedArrayByTimestamp } from 'helpers/sortArrayByTimestamp';
 import { useEffect, useState } from 'react';
 import { Route } from 'react-router-dom';
@@ -60,7 +61,7 @@ const Workout = () => {
   return (
     <Wrapper>
       <StoperWidget></StoperWidget>
-      {isEditModeOn && workoutList.length < 10 && (
+      {isEditModeOn && workoutList.length < MAX_CARDS && (
         <AddExerciseTabs
           className="addExerciseTabs"
           elements={exercises}

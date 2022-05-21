@@ -7,6 +7,7 @@ import useResize from 'hooks/useResize';
 import { FC, useLayoutEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { getScrollPosition, updateScrollPosition } from 'helpers/scrollPosition';
+import { MAX_SETS } from 'helpers/staticVariables';
 import { updateSetToDB } from 'firebase-cfg/database/workout/update';
 import { addSetToDB } from 'firebase-cfg/database/workout/add';
 import {
@@ -16,8 +17,6 @@ import {
   Wrapper,
   StatsSmallerStyled,
 } from './WorkoutStats.styled';
-
-export const MAX_SETS = 10;
 
 interface Column {
   id: 'set' | 'weight' | 'reps' | 'info';
