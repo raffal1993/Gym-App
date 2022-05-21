@@ -54,6 +54,10 @@ export const NameStyled = styled('span')(({ theme }) => ({
 
   '&.active': {
     boxShadow: 'inset 0px 0px 10px 0px rgba(0,0,0,0.9)',
+
+    '&:hover': {
+      boxShadow: 'inset 0px 0px 10px 0px rgba(0,0,0,0.9)',
+    },
   },
 
   '&:hover': {

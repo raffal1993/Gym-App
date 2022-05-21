@@ -1,7 +1,7 @@
 import { styled } from '@mui/material';
 
 export const Wrapper = styled('div')(({ theme }) => ({
-  height: '200px',
+  minHeight: '200px',
   width: '250px',
 
   display: 'flex',

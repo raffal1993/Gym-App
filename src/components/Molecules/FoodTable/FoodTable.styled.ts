@@ -4,7 +4,7 @@ export const Wrapper = styled(TableContainer)(({ theme }) => ({
   width: '90%',
   alignSelf: 'center',
   borderRadius: '5px',
-  marginBottom: '10px',
+  marginBottom: '15px',
 
   '& .headerCell': {
     backgroundColor: theme.colors.burlyWood,
@@ -25,6 +25,11 @@ export const Wrapper = styled(TableContainer)(({ theme }) => ({
     borderBottom: '1px solid black',
     color: 'white',
     padding: '16px 10px',
+    wordWrap: 'break-word',
+
+    '&:not(:first-of-type)': {
+      textAlign: 'center',
+    },
   },
 
   '& .tableCellTotal': {
@@ -34,12 +39,15 @@ export const Wrapper = styled(TableContainer)(({ theme }) => ({
     fontWeight: 'bold',
     color: theme.colors.primaryLight,
     textShadow: '3px 3px  black',
-    padding: '16px 10px',
+
+    '&:not(:first-of-type)': {
+      textAlign: 'center',
+    },
   },
 
   '& .tableRowTotal': {
     position: 'sticky',
-    bottom: '0',
+    bottom: '-1px',
   },
 
   '::-webkit-scrollbar': {
@@ -102,8 +110,6 @@ export const SmallTable = styled('div')(({ theme }) => ({
     color: theme.colors.bgDark,
     textShadow: 'none',
   },
-
-  '& .nutrientsTotal': {},
 
   '& .macronutrientTotal': {
     textAlign: 'center',

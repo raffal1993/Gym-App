@@ -35,6 +35,10 @@ const globalStyle = {
   '::-webkit-scrollbar-thumb:hover': {
     backgroundColor: 'rgb(255, 255, 255)',
   },
+
+  'input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button': {
+    display: 'none',
+  },
 };
 
 export default globalStyle;
