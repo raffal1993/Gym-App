@@ -10,6 +10,7 @@ export interface Column {
   id: 'name' | 'kcal' | 'fat' | 'carbs' | 'protein' | 'fiber';
   label: string;
   minWidth?: number;
+  maxWidth?: number;
   align?: 'right' | 'left' | 'center';
 }
 
@@ -36,3 +37,9 @@ export interface FoodCardDB {
   name: string;
   foodSet: NutrientsDB[];
 }
+
+export interface AddFoodProps extends Pick<FoodCardDB, 'foodCardID' | 'name'> {}
+
+export type NutrientsTypes = Omit<NutrientsDB, 'id' | 'timestamp' | 'name'>;
+
+export type ConvertTimestampDB<T> = Omit<T, 'timestamp'> & { timestamp: object };

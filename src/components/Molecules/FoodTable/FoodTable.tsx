@@ -11,30 +11,30 @@ import { v4 as uuid4 } from 'uuid';
 import { SmallTable, Wrapper } from './FoodTable.styled';
 
 const columns: readonly Column[] = [
-  { id: 'name', label: 'NAME', minWidth: 70 },
-  { id: 'kcal', label: 'KCAL', minWidth: 50 },
+  { id: 'name', label: 'NAME', maxWidth: 110, minWidth: 90 },
+  { id: 'kcal', label: 'KCAL', maxWidth: 50 },
   {
     id: 'fat',
     label: 'FAT',
-    minWidth: 50,
+    maxWidth: 50,
     align: 'center',
   },
   {
     id: 'carbs',
     label: 'CARBS',
-    minWidth: 50,
+    maxWidth: 50,
     align: 'center',
   },
   {
     id: 'protein',
     label: 'PROTEIN',
-    minWidth: 50,
+    maxWidth: 60,
     align: 'center',
   },
   {
     id: 'fiber',
     label: 'FIBER',
-    minWidth: 50,
+    maxWidth: 50,
     align: 'center',
   },
 ];
@@ -86,7 +86,7 @@ const FoodTable: FC<{ foodSet: NutrientsDB[] }> = ({ foodSet }) => {
                   className="headerCell"
                   key={uuid4()}
                   align={column.align}
-                  style={{ minWidth: column.minWidth }}
+                  style={{ minWidth: column.minWidth, maxWidth: column.maxWidth }}
                 >
                   {column.label}
                 </TableCell>
@@ -97,7 +97,12 @@ const FoodTable: FC<{ foodSet: NutrientsDB[] }> = ({ foodSet }) => {
             {foodSet.map((row) => (
               <TableRow key={uuid4()}>
                 {columns.map((column) => (
-                  <TableCell className="tableCell" key={uuid4()} align={column.align}>
+                  <TableCell
+                    className="tableCell"
+                    key={uuid4()}
+                    align={column.align}
+                    style={{ minWidth: column.minWidth, maxWidth: column.maxWidth }}
+                  >
                     {row[column.id]}
                   </TableCell>
                 ))}
@@ -105,7 +110,12 @@ const FoodTable: FC<{ foodSet: NutrientsDB[] }> = ({ foodSet }) => {
             ))}
             <TableRow className="tableRowTotal">
               {columns.map((column) => (
-                <TableCell key={uuid4()} align={column.align} className="tableCellTotal">
+                <TableCell
+                  key={uuid4()}
+                  align={column.align}
+                  style={{ minWidth: column.minWidth, maxWidth: column.maxWidth }}
+                  className="tableCellTotal"
+                >
                   {totalMacronutrients(foodSet)[column.id]}
                 </TableCell>
               ))}
