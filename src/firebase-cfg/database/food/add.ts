@@ -32,7 +32,7 @@ const addFoodSetToDB = (subPageID: string, name: string) => {
   }
 };
 
-const addCustomFoodToDB = async (
+const addFoodToDB = async (
   subPageID: string,
   name: string,
   foodCardID: string,
@@ -59,11 +59,19 @@ const addCustomFoodToDB = async (
       const newCustomFoodKey = push(child(ref(db), pathToNewFood)).key;
       if (!newCustomFoodKey) return console.error('newCustomFoodKey is null');
 
+      const finalNutrients = {} as NutrientsTypes;
+
+      for (const key in nutrients) {
+        Object.assign(finalNutrients, {
+          [key]: nutrients[key as keyof NutrientsTypes] + `${key !== 'kcal' ? 'g' : ''}`,
+        });
+      }
+
       const newCustomFood: ConvertTimestampDB<NutrientsDB> = {
         name,
         timestamp: serverTimestamp(),
         id: newCustomFoodKey,
-        ...nutrients,
+        ...finalNutrients,
       };
 
       const updates = {} as {
@@ -77,4 +85,4 @@ const addCustomFoodToDB = async (
   }
 };
 
-export { addFoodSetToDB, addCustomFoodToDB };
+export { addFoodSetToDB, addFoodToDB };

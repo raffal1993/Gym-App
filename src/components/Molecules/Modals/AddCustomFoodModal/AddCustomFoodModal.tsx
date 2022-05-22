@@ -1,7 +1,9 @@
+import { useAppDispatch } from 'app/hooks';
+import { setModalClose } from 'app/slices/interfaceSlice';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
 import { TitleStyled } from 'components/Molecules/CardStyled/CardStyled.styled';
 import { AddFoodProps, NutrientsTypes } from 'components/Organisms/Food/FoodProps';
-import { addCustomFoodToDB } from 'firebase-cfg/database/food/add';
+import { addFoodToDB } from 'firebase-cfg/database/food/add';
 import { ChangeEvent, FC, MouseEvent, useEffect, useState } from 'react';
 import { v4 as uuid4 } from 'uuid';
 import AddEditNameModal from '../AddEditNameModal/AddEditNameModal';
@@ -42,6 +44,8 @@ const AddCustomFoodModal: FC<AddCustomFoodModalProps> = ({ cards, subPageID }) =
   const [nutrientsError, setNutrientsError] = useState<boolean>(false);
   const [pickFoodSetError, setPickFoodSetError] = useState<boolean>(false);
 
+  const dispatch = useAppDispatch();
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputType = e.currentTarget.id as keyof NutrientsTypes;
     if (e.currentTarget.value.length > 4) return;
@@ -69,15 +73,10 @@ const AddCustomFoodModal: FC<AddCustomFoodModalProps> = ({ cards, subPageID }) =
       isValidate = false;
     }
 
-    const nutrients = {} as NutrientsTypes;
-
-    for (const key in nutrientsValue) {
-      Object.assign(nutrients, {
-        [key]: nutrientsValue[key as keyof NutrientsTypes] + `${key !== 'kcal' ? 'g' : ''}`,
-      });
+    if (isValidate && subPageID) {
+      addFoodToDB(subPageID, newName, pickedFoodSetID, nutrientsValue);
+      dispatch(setModalClose());
     }
-
-    if (isValidate && subPageID) addCustomFoodToDB(subPageID, newName, pickedFoodSetID, nutrients);
   };
 
   useEffect(() => {
