@@ -88,6 +88,10 @@ export const SearchBarStyled = styled('div')(({ theme }) => ({
     label: {
       width: '95%',
 
+      input: {
+        fontSize: '1.3rem',
+      },
+
       svg: {
         fontSize: '1.4rem',
       },

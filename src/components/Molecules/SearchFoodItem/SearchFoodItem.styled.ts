@@ -30,18 +30,18 @@ export const Wrapper = styled('div')(({ theme }) => ({
   },
 
   'svg,img': {
-    height: '150px',
+    height: '100%',
     width: '100%',
     marginBottom: '10px',
   },
 
   [theme.breakpoints.down('xs')]: {
-    width: '130px',
+    width: '150px',
     fontSize: '1rem',
 
     'svg,img': {
-      height: '75px',
-      width: '100%',
+      height: '80%',
+      width: '80%',
     },
   },
 }));
@@ -53,6 +53,7 @@ export const NutrientsStyled = styled('div')(({ theme }) => ({
   flexWrap: 'wrap',
   fontSize: '1.2rem',
   alignItems: 'center',
+  minWidth: '80%',
 
   p: {
     width: '100%',
@@ -63,11 +64,6 @@ export const NutrientsStyled = styled('div')(({ theme }) => ({
       fontWeight: 'bold',
       color: theme.colors.burlyWood,
     },
-  },
-
-  [theme.breakpoints.down('xs')]: {
-    margin: '0px',
-    maxHeight: 'initial',
   },
 }));
 
@@ -101,6 +97,10 @@ export const AddToFoodSetStyled = styled('div')(({ theme }) => ({
     fontSize: '1.3rem',
     fontWeight: 'bold',
     paddingBottom: '0px',
+  },
+
+  '& .titleNoSets': {
+    margin: 'auto',
   },
 
   '& .foodSetButton': {

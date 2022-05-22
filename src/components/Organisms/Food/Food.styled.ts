@@ -27,13 +27,13 @@ export const ScrollTopStyled = styled('div')<{ is_visible: string }>(({ theme, i
   position: 'fixed',
   bottom: '30px',
   right: '15px',
-  transform: `${is_visible === 'true' ? 'translateY(0px)' : 'translateY(100px)'}`,
   cursor: 'pointer',
   opacity: '0.3',
   transition: 'all .3s',
   border: '4px solid black',
   borderRadius: '50%',
   zIndex: '100',
+  transform: `${is_visible === 'true' ? 'scale(1)' : 'scale(0)'}`,
 
   '&:hover': {
     opacity: '1',
