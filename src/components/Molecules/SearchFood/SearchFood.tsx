@@ -1,8 +1,8 @@
 import { FoodApiInstance } from 'api/FoodAPI/instance';
 import Button from 'components/Atoms/Buttons/CustomButton/CustomButton';
 import { setURL } from 'helpers/setURL';
-import { useEffect, useState } from 'react';
-import { SearchResultProps } from 'components/Organisms/Food/FoodProps';
+import { FC, useEffect, useState } from 'react';
+import { FoodCardDB, SearchResultProps } from 'components/Organisms/Food/FoodProps';
 import { v4 as uuid4 } from 'uuid';
 import SearchIcon from '@mui/icons-material/Search';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
@@ -15,9 +15,8 @@ const INPUTS = {
   page: 'page',
 };
 
-const SearchFood = () => {
+const SearchFood: FC<{ foodCards: FoodCardDB[] }> = ({ foodCards }) => {
   const [inputValue, setInputValue] = useState<string>('');
-  const [searchingName, setSearchingName] = useState<string>('');
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [searchResults, setSearchResults] = useState<SearchResultProps[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -52,7 +51,6 @@ const SearchFood = () => {
         })
         .catch(() => setErrorMessage('An error has occurred'))
         .finally(() => setIsLoading(false));
-      setSearchingName(inputValue);
     }
   };
   useEffect(() => {
@@ -62,13 +60,6 @@ const SearchFood = () => {
 
     return () => clearTimeout(timeout);
   }, [errorMessage]);
-
-  const handlePageChange = () => {
-    if (searchingName)
-      FoodApiInstance.get(`${setURL(searchingName, pageNumber)}`)
-        .then((res) => console.log(res.data.hints))
-        .catch((err) => console.log(err));
-  };
 
   return (
     <Wrapper>
@@ -91,7 +82,13 @@ const SearchFood = () => {
       {!!searchResults.length && (
         <SearchingResultsStyled>
           {searchResults.map(({ label, nutrients, image }) => (
-            <SearchFoodItem key={uuid4()} label={label} nutrients={nutrients} image={image || ''} />
+            <SearchFoodItem
+              foodCards={foodCards}
+              key={uuid4()}
+              label={label}
+              nutrients={nutrients}
+              image={image || ''}
+            />
           ))}
         </SearchingResultsStyled>
       )}
