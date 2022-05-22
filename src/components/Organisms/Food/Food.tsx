@@ -76,7 +76,7 @@ const Food = () => {
       timeout = setTimeout(() => {
         if (isRefExisting) {
           setIsScrollTopIconVisible(
-            currentRef.parentElement.scrollTop > currentRef.parentElement.clientHeight,
+            currentRef.parentElement.scrollTop > currentRef.parentElement.clientHeight || false,
           );
         }
       }, 100);
@@ -85,6 +85,7 @@ const Food = () => {
     if (isRefExisting) currentRef.parentElement.addEventListener('scroll', listener);
 
     return () => {
+      clearTimeout(timeout);
       if (isRefExisting) {
         currentRef.parentElement.removeEventListener('scroll', listener);
       }

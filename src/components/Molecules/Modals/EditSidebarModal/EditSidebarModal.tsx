@@ -37,8 +37,8 @@ const EditSidebarModal = () => {
 
   useEffect(() => {
     setNameForChange(undefined);
-    clearTimeout(timeout);
     setConfirmIndexes([]);
+    return () => clearTimeout(timeout);
   }, [sidebarList]);
 
   const handleSetNameForChange = (nameData: SidebarListProps) => {

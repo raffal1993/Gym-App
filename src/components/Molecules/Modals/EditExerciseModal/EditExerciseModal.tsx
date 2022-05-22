@@ -98,9 +98,9 @@ const EditExerciseModal: FC<EditExerciseModalProps> = ({ exerciseID, subPageID }
   }, [subPageID, exerciseID]);
 
   useEffect(() => {
-    clearTimeout(timeout);
     setConfirmItems([]);
     setSelectedVersionIndex(undefined);
+    return () => clearTimeout(timeout);
   }, [versions]);
 
   return (
