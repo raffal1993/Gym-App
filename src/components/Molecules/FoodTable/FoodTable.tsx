@@ -12,7 +12,7 @@ import { SmallTable, Wrapper } from './FoodTable.styled';
 
 const columns: readonly Column[] = [
   { id: 'name', label: 'NAME', maxWidth: 110, minWidth: 90 },
-  { id: 'kcal', label: 'KCAL', maxWidth: 50 },
+  { id: 'kcal', label: 'KCAL', align: 'center', maxWidth: 50 },
   {
     id: 'fat',
     label: 'FAT',
