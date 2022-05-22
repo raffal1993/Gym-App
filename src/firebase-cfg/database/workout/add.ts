@@ -1,4 +1,6 @@
 import { child, ref, update, push, serverTimestamp } from 'firebase/database';
+import { ConvertTimestampDB } from 'components/Organisms/Food/FoodProps';
+import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarProps';
 import { Set, Version, WorkoutCardProps } from 'components/Organisms/Workout/WorkoutProps';
 import { auth, db } from '../../firebase-config';
 
@@ -67,12 +69,12 @@ const addExerciseToDB = (subPageID: string, name: string, type: string) => {
     const newExerciseKey = push(child(ref(db), targetPath)).key;
     if (!newExerciseKey) return console.error('newExerciseKey is null');
 
-    const newExercise = {
+    const newExercise: Omit<ConvertTimestampDB<WorkoutCardProps>, 'exerciseID'> = {
       name,
       type,
       timestamp: serverTimestamp(),
       versions: [{ alternativeName: '', sets: [{ set: '1', reps: '', weight: '', info: '' }] }],
-    } as unknown as Omit<WorkoutCardProps, 'exerciseID'>;
+    };
 
     const updates = {} as {
       [key: string]: typeof newExercise;
@@ -91,9 +93,9 @@ const addSubPageToDB = (mainPage: string, subPageName: string) => {
     const targetPath = `users/${uid}/${mainPage}`;
 
     const newSubPageKey = push(child(ref(db), targetPath)).key;
-    if (!newSubPageKey) return console.error('newExerciseKey is null');
+    if (!newSubPageKey) return console.error('newSubPageKey is null');
 
-    const newSubPage = {
+    const newSubPage: Omit<ConvertTimestampDB<SidebarListProps>, 'id'> = {
       name: subPageName,
       timestamp: serverTimestamp(),
     };
