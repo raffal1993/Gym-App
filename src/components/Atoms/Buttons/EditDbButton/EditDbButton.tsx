@@ -9,7 +9,7 @@ interface EditDbButtonProps {
 
 const EditDbButton: FC<EditDbButtonProps> = ({ onClick, className, children }) => {
   return (
-    <EditDbButtonStyled className={className && className} onClick={onClick}>
+    <EditDbButtonStyled className={className} onClick={onClick}>
       {children || '+'}
     </EditDbButtonStyled>
   );
