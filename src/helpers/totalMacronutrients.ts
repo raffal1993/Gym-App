@@ -2,15 +2,18 @@ import { NutrientsDB } from 'components/Organisms/Food/FoodProps';
 
 type Nutrients = Omit<NutrientsDB, 'id' | 'timestamp' | 'name'> & { name?: string };
 
+const nutritionValue = (prev: string, current: string, isKcal = false): string =>
+  `${(parseFloat(prev) + (parseFloat(current) || 0)).toFixed(1)}${isKcal ? '' : 'g'}`;
+
 export const totalMacronutrients = (rows: Nutrients[]) => {
   const total = rows.reduce(
     (previousValue: Nutrients, currentValue: Nutrients) => {
       return {
-        kcal: `${parseInt(previousValue.kcal, 10) + parseInt(currentValue.kcal, 10)}`,
-        fat: `${parseInt(previousValue.fat, 10) + parseInt(currentValue.fat, 10)}g`,
-        carbs: `${parseInt(previousValue.carbs, 10) + parseInt(currentValue.carbs, 10)}g`,
-        protein: `${parseInt(previousValue.protein, 10) + parseInt(currentValue.protein, 10)}g`,
-        fiber: `${parseInt(previousValue.fiber, 10) + parseInt(currentValue.fiber, 10)}g`,
+        kcal: nutritionValue(previousValue.kcal, currentValue.kcal, true),
+        fat: nutritionValue(previousValue.fat, currentValue.fat),
+        carbs: nutritionValue(previousValue.carbs, currentValue.carbs),
+        protein: nutritionValue(previousValue.protein, currentValue.protein),
+        fiber: nutritionValue(previousValue.fiber, currentValue.fiber),
       } as Nutrients;
     },
     {
