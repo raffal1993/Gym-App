@@ -22,7 +22,7 @@ const AddEditNameModal: FC<AddEditNameModalProps> = ({
   const ref = useRef<HTMLInputElement>(null);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value.toUpperCase());
+    setName(e.target.value);
   };
 
   const updateToDB = () => {
