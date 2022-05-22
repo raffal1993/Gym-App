@@ -1,24 +1,31 @@
-import { FC, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { ReactComponent as MyIcon } from 'assets/images/404food.svg';
-import { FoodCardDB, SearchResultProps } from 'components/Organisms/Food/FoodProps';
+import { SearchFoodItemTypes } from 'components/Organisms/Food/FoodProps';
+import { addFoodToDB } from 'firebase-cfg/database/food/add';
 import { addFoodAnimation } from 'helpers/showAddFoodAnimation.ts';
 import CustomButton from 'components/Atoms/Buttons/CustomButton/CustomButton';
+import { useAppSelector } from 'app/hooks';
+import { RootState } from 'app/store';
 import { v4 as uuid4 } from 'uuid';
 import { TitleStyled } from '../CardStyled/CardStyled.styled';
 import { AddToFoodSetStyled, NutrientsStyled, Wrapper } from './SearchFoodItem.styled';
 
-let timeout: NodeJS.Timeout;
-
 const brokenSrcs: string[] = [];
 
-const SearchFoodItem: FC<SearchResultProps & { foodCards: FoodCardDB[] }> = ({
+let timeout: NodeJS.Timeout;
+
+const SearchFoodItem: FC<SearchFoodItemTypes> = ({
   label,
-  nutrients: { ENERC_KCAL = 0, FAT = 0, CHOCDF = 0, PROCNT = 0, FIBTG = 0 },
+  nutrients: { kcal, fat, carbs, protein, fiber },
   image,
   foodCards,
 }) => {
   const [src, setSrc] = useState<string | undefined>(image);
   const [showAddToFoodSet, setShowAddToFoodSet] = useState<boolean>(false);
+
+  const {
+    pages: { subPageID },
+  } = useAppSelector((state: RootState) => state);
 
   const ref = useRef<HTMLDivElement>(null);
   const handleImgError = () => {
@@ -26,21 +33,29 @@ const SearchFoodItem: FC<SearchResultProps & { foodCards: FoodCardDB[] }> = ({
     if (image && !brokenSrcs.includes(image)) brokenSrcs.push(image);
   };
 
-  const handleAddToFoodSet = () => {
+  const handleShowAddFoodPanel = () => {
     setShowAddToFoodSet(true);
   };
 
   const handleOnMouseLeave = () => {
     const duration = 300;
     addFoodAnimation(ref, 'hide', duration);
-    clearTimeout(timeout);
     timeout = setTimeout(() => {
       setShowAddToFoodSet(false);
     }, duration + 100);
   };
 
+  const addFoodToFoodSet = (foodCardID: string) => {
+    const nutrients = { kcal, fat, carbs, protein, fiber };
+    if (subPageID) addFoodToDB(subPageID, label, foodCardID, nutrients);
+  };
+
+  useEffect(() => {
+    return () => clearTimeout(timeout);
+  }, []);
+
   return (
-    <Wrapper onMouseLeave={handleOnMouseLeave} onClick={handleAddToFoodSet}>
+    <Wrapper onMouseLeave={handleOnMouseLeave} onClick={handleShowAddFoodPanel}>
       <h2 className="foodName">{label}</h2>
       {src && !brokenSrcs.includes(src) ? (
         <img onError={() => handleImgError()} src={src} alt="food" />
@@ -49,29 +64,39 @@ const SearchFoodItem: FC<SearchResultProps & { foodCards: FoodCardDB[] }> = ({
       )}
       <NutrientsStyled>
         <p>
-          KCAL : <span>{ENERC_KCAL === 0 ? 0 : ENERC_KCAL.toFixed(1)}</span>
+          KCAL : <span>{kcal}</span>
         </p>
         <p>
-          FAT : <span>{FAT === 0 ? 0 : FAT.toFixed(1)}g</span>
+          FAT : <span>{fat}g</span>
         </p>
         <p>
-          CARBS : <span>{CHOCDF === 0 ? 0 : CHOCDF.toFixed(1)}g</span>
+          CARBS : <span>{carbs}g</span>
         </p>
         <p>
-          PROTEIN : <span>{PROCNT === 0 ? 0 : PROCNT.toFixed(1)}g</span>
+          PROTEIN : <span>{protein}g</span>
         </p>
         <p>
-          FIBER : <span>{FIBTG === 0 ? 0 : FIBTG.toFixed(1)}g</span>
+          FIBER : <span>{fiber}g</span>
         </p>
       </NutrientsStyled>
       {showAddToFoodSet && (
         <AddToFoodSetStyled ref={ref}>
-          <TitleStyled className="title">Add Food to Food Set: </TitleStyled>
-          {foodCards.map(({ name, foodCardID }) => (
-            <CustomButton handleClick={() => {}} className="foodSetButton" key={uuid4()}>
-              {name}
-            </CustomButton>
-          ))}
+          {foodCards === undefined || foodCards.length === 0 ? (
+            <TitleStyled className="title titleNoSets">No Food Sets available :/</TitleStyled>
+          ) : (
+            <>
+              <TitleStyled className="title">Add Food to Food Set: </TitleStyled>
+              {foodCards.map(({ name, foodCardID }) => (
+                <CustomButton
+                  handleClick={() => addFoodToFoodSet(foodCardID)}
+                  className="foodSetButton"
+                  key={uuid4()}
+                >
+                  {name}
+                </CustomButton>
+              ))}
+            </>
+          )}
         </AddToFoodSetStyled>
       )}
     </Wrapper>

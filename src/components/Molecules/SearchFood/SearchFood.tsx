@@ -2,7 +2,12 @@ import { FoodApiInstance } from 'api/FoodAPI/instance';
 import Button from 'components/Atoms/Buttons/CustomButton/CustomButton';
 import { setURL } from 'helpers/setURL';
 import { FC, useEffect, useState } from 'react';
-import { FoodCardDB, SearchResultProps } from 'components/Organisms/Food/FoodProps';
+import {
+  FoodCardDB,
+  NutrientsTypes,
+  FoodDB,
+  SearchFoodItemTypes,
+} from 'components/Organisms/Food/FoodProps';
 import { v4 as uuid4 } from 'uuid';
 import SearchIcon from '@mui/icons-material/Search';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
@@ -18,7 +23,7 @@ const INPUTS = {
 const SearchFood: FC<{ foodCards: FoodCardDB[] }> = ({ foodCards }) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [pageNumber, setPageNumber] = useState<number>(1);
-  const [searchResults, setSearchResults] = useState<SearchResultProps[]>([]);
+  const [searchResults, setSearchResults] = useState<SearchFoodItemTypes[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
@@ -34,19 +39,20 @@ const SearchFood: FC<{ foodCards: FoodCardDB[] }> = ({ foodCards }) => {
       await FoodApiInstance.get(`${setURL(inputValue, pageNumber)}`)
         .then((res) => {
           const foods = res.data.hints.map(
-            ({ food: { image, label, nutrients } }: { food: SearchResultProps }) => ({
+            ({ food: { image, label, nutrients } }: { food: FoodDB }) => ({
               label: label || '???',
               image: image || '',
               nutrients: {
-                ENERC_KCAL: nutrients.ENERC_KCAL || 0,
-                FAT: nutrients.FAT || 0,
-                CHOCDF: nutrients.CHOCDF || 0,
-                PROCNT: nutrients.PROCNT || 0,
-                FIBTG: nutrients.FIBTG || 0,
-              },
+                kcal: nutrients.ENERC_KCAL?.toFixed(1).toString() || '(?)',
+                fat: nutrients.FAT?.toFixed(1).toString() || '(?)',
+                carbs: nutrients.CHOCDF?.toFixed(1).toString() || '(?)',
+                protein: nutrients.PROCNT?.toFixed(1).toString() || '(?)',
+                fiber: nutrients.FIBTG?.toFixed(1).toString() || '(?)',
+              } as NutrientsTypes,
             }),
           );
           if (!foods.length) setErrorMessage('No results found');
+
           setSearchResults(foods);
         })
         .catch(() => setErrorMessage('An error has occurred'))
@@ -68,6 +74,8 @@ const SearchFood: FC<{ foodCards: FoodCardDB[] }> = ({ foodCards }) => {
         <label htmlFor="searchFood">
           <SearchIcon />
           <input
+            onKeyPress={(e) => e.key === 'Enter' && handleSearchFood()}
+            placeholder="(english only)"
             type="text"
             data-type={INPUTS.search}
             onChange={(e) => onInputChange(e)}

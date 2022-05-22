@@ -14,12 +14,6 @@ export interface Column {
   align?: 'right' | 'left' | 'center';
 }
 
-export interface SearchResultProps {
-  label: string;
-  image?: string;
-  nutrients: NutrientsAPI;
-}
-
 export interface NutrientsDB {
   id: string;
   timestamp: number;
@@ -31,6 +25,19 @@ export interface NutrientsDB {
   fiber: string;
 }
 
+export type NutrientsTypes = Omit<NutrientsDB, 'id' | 'timestamp' | 'name'>;
+
+export interface FoodDB {
+  label: string;
+  image?: string;
+  nutrients: NutrientsAPI;
+}
+
+export interface SearchFoodItemTypes extends Omit<FoodDB, 'nutrients'> {
+  nutrients: NutrientsTypes;
+  foodCards?: FoodCardDB[];
+}
+
 export interface FoodCardDB {
   foodCardID: string;
   timestamp: number;
@@ -39,7 +46,5 @@ export interface FoodCardDB {
 }
 
 export interface AddFoodProps extends Pick<FoodCardDB, 'foodCardID' | 'name'> {}
-
-export type NutrientsTypes = Omit<NutrientsDB, 'id' | 'timestamp' | 'name'>;
 
 export type ConvertTimestampDB<T> = Omit<T, 'timestamp'> & { timestamp: object };
