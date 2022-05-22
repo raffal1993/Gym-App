@@ -50,31 +50,3 @@ export const ScrollTopStyled = styled('div')<{ is_visible: string }>(({ theme, i
     width: '40px',
   },
 }));
-
-export const AddButtonsStyled = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  height: '40px',
-  width: '95%',
-  maxWidth: '400px',
-  margin: '20px 5px 0px 0px',
-  gap: '20px',
-
-  '& .addButton': {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    height: '100%',
-    background: theme.colors.bgColorOne,
-
-    svg: {
-      fontSize: '2em',
-      color: theme.colors.burlyWood,
-    },
-  },
-
-  '& .addFoodSetButton': {},
-
-  '& .addCustomFoodButton': {},
-}));
