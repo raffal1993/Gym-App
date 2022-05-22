@@ -1,13 +1,13 @@
 import { FC, SyntheticEvent, useState } from 'react';
 import VersionButton from 'components/Atoms/Buttons/VersionButton/VersionButton';
 import { importImages } from 'helpers/importImages';
-import ConstructionIcon from '@mui/icons-material/Construction';
 import { v4 as uuid4 } from 'uuid';
 import { getLocalStorage, updateLocalStorage } from 'helpers/localStorage';
 import { MAX_VERSIONS } from 'helpers/staticVariables';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
 import { RootState } from 'app/store';
+import EditCardButton from 'components/Atoms/Buttons/EditCardButton/EditCardButton';
 import { setModalOpen } from 'app/slices/interfaceSlice';
 import { addVersionToDB } from 'firebase-cfg/database/workout/add';
 import WorkoutStats from '../WorkoutStats/WorkoutStats';
@@ -48,11 +48,7 @@ const WorkoutCard: FC<WorkoutCardProps> = ({ exerciseID, name, type, versions })
 
   return (
     <Wrapper key={uuid4()} url={images[type]}>
-      {isEditModeOn && (
-        <EditDbButton className="buttonEditExercise" onClick={handleOpenModal}>
-          <ConstructionIcon />
-        </EditDbButton>
-      )}
+      {isEditModeOn && <EditCardButton onClick={handleOpenModal}></EditCardButton>}
       <TitleStyled>
         {versions[selectedVersion - 1].alternativeName?.toUpperCase() || name.toUpperCase()}
       </TitleStyled>
