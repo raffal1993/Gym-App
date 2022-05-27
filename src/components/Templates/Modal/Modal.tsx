@@ -14,17 +14,15 @@ const Modal = () => {
   };
 
   return (
-    <div>
-      <BasicModal
-        sx={{ minHeight: '650px' }}
-        open={isModalOpen}
-        onClose={handleCloseModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <ModalContentStyled>{modalContent && cloneElement(modalContent)}</ModalContentStyled>
-      </BasicModal>
-    </div>
+    <BasicModal
+      sx={{ minHeight: '650px', minWidth: '300px' }}
+      open={isModalOpen}
+      onClose={handleCloseModal}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <ModalContentStyled>{modalContent && cloneElement(modalContent)}</ModalContentStyled>
+    </BasicModal>
   );
 };
 
