@@ -49,18 +49,4 @@ export const Wrapper = styled(CustomModalWrapper)(({ theme }) => ({
       },
     },
   },
-
-  '& .removeExercise': {
-    color: theme.colors.error,
-    backgroundColor: theme.colors.bgDark,
-    fontFamily: theme.fonts.roboto,
-    fontWeight: 'bold',
-    fontSize: '1.2rem',
-    width: '130px',
-    height: `35px`,
-
-    '&:hover': {
-      transform: 'scale(1.1)',
-    },
-  },
 }));

@@ -8,6 +8,7 @@ export const Wrapper = styled(CustomModalWrapper)(({ theme }) => ({
     color: theme.colors.burlyWood,
     marginBottom: '0px',
     fontSize: '1.8rem',
+    overflow: 'initial',
   },
 
   '& .enterFoodName': {

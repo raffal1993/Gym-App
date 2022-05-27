@@ -78,6 +78,7 @@ export const SmallTable = styled('div')(({ theme }) => ({
     fontWeight: 'bold',
     marginBottom: '15px',
     textShadow: '2px 2px black',
+    wordBreak: 'break-word',
   },
 
   '& .nutrients': {

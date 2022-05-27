@@ -42,12 +42,11 @@ export const NameStyled = styled('span')(({ theme }) => ({
   fontSize: '1.2rem',
   padding: '5px 0px',
   margin: '0px 5px',
-  paddingLeft: '5px',
   borderRadius: '5px',
   alignSelf: 'center',
   flexGrow: '1',
   display: 'flex',
-  justifyContent: 'flex-start',
+  justifyContent: 'center',
   border: '1px solid rgba(0, 0, 0, 0.5)',
   whiteSpace: 'nowrap',
   overflow: 'hidden',
@@ -63,5 +62,19 @@ export const NameStyled = styled('span')(({ theme }) => ({
   '&:hover': {
     boxShadow: 'inset 0px 0px 10px 0px rgba(0,0,0,0.3)',
     cursor: 'pointer',
+  },
+}));
+
+export const RemoveCardButtonStyled = styled(EditDbButton)(({ theme }) => ({
+  color: theme.colors.error,
+  backgroundColor: theme.colors.bgDark,
+  fontFamily: theme.fonts.roboto,
+  fontWeight: 'bold',
+  fontSize: '1.2rem',
+  minWidth: '130px',
+  minHeight: `35px`,
+
+  '&:hover': {
+    transform: 'scale(1.1)',
   },
 }));

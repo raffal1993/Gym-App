@@ -12,9 +12,7 @@ export const Wrapper = styled(CardWrapper)(({ theme }) => ({
   },
 
   [theme.breakpoints.down('sm')]: {
-    minHeight: '100px',
     '& .mainTitle': {
-      fontSize: '1.6rem',
       padding: '10px 0px',
       minHeight: '40px',
     },

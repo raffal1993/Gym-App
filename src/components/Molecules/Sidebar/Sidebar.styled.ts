@@ -51,7 +51,6 @@ export const SidebarListStyled = styled(List)<ListProps & { is_sidebar_hide: str
       fontSize: '1.3rem',
       textAlign: 'center',
       paddingLeft: '10px',
-      letterSpacing: '.1rem',
     },
 
     '& .Mui-selected, & .Mui-selected:hover': {
