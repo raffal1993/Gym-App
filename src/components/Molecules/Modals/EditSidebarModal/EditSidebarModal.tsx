@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import { v4 as uuid4 } from 'uuid';
 import { useAppSelector } from 'app/hooks';
 import { RootState } from 'app/store';
-import { removeSubPage } from 'firebase-cfg/database/workout/remove';
-import { updateSubPageName } from 'firebase-cfg/database/workout/update';
-import { addSubPageToDB } from 'firebase-cfg/database/workout/add';
+import { removeSubPage } from 'firebase-cfg/database/dashboard/remove';
+import { addSubPageToDB } from 'firebase-cfg/database/dashboard/add';
+import { updateSubPageName } from 'firebase-cfg/database/dashboard/update';
 import AddEditNameModal from '../AddEditNameModal/AddEditNameModal';
 import { Wrapper } from './EditSidebarModal.styled';
 import { ConfirmationButtonStyled, NameStyled, RemoveButtonStyled } from '../Modals.styled';
@@ -21,10 +21,8 @@ const EditSidebarModal = () => {
     pages: { mainPage, sidebarList },
   } = useAppSelector((state): RootState => state);
 
-  const removePage = (subPageID: string) => {
-    if (mainPage && subPageID) {
-      removeSubPage(mainPage, subPageID);
-    }
+  const removePage = (pageID: string) => {
+    if (mainPage && pageID) removeSubPage(mainPage, pageID);
   };
 
   const addSubPage = (newName: string) => {
