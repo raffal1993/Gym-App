@@ -6,13 +6,11 @@ import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import CustomButton from 'components/Atoms/Buttons/CustomButton/CustomButton';
 import { v4 as uuid4 } from 'uuid';
 import FoodCard from 'components/Molecules/FoodCard/FoodCard';
+import { foodCardsDBListener } from 'firebase-cfg/database/food/listeners';
 import SearchFood from 'components/Molecules/SearchFood/SearchFood';
-import { auth, db } from 'firebase-cfg/firebase-config';
 import AddFood from 'components/Molecules/AddFood/AddFood';
-import { sortedArrayByTimestamp } from 'helpers/sortArrayByTimestamp';
-import { onValue, ref } from 'firebase/database';
 import { ScrollTopStyled, Wrapper } from './Food.styled';
-import { FoodCardDB, NutrientsDB } from './FoodProps';
+import { FoodCardDB } from './FoodProps';
 
 const Food = () => {
   const [isScrollTopIconVisible, setIsScrollTopIconVisible] = useState(false);
@@ -36,34 +34,11 @@ const Food = () => {
   };
 
   useEffect(() => {
-    const uid = auth.currentUser?.uid;
-    const dbRef = ref(db, `users/${uid}/food/${subPageID}`);
+    return foodCardsDBListener(subPageID, setFoodCards);
+  }, [subPageID]);
 
-    return onValue(dbRef, (snapshot) => {
-      if (uid && subPageID) {
-        const data = snapshot.val();
-
-        if (data) {
-          const newArr = [] as FoodCardDB[];
-          for (const key in data) {
-            if (typeof data[key] === 'object') {
-              const { foodSet }: { foodSet: NutrientsDB[] } = data[key];
-              const sortedFoodSet = foodSet === undefined ? [] : sortedArrayByTimestamp(foodSet);
-
-              newArr.push({
-                foodCardID: key,
-                timestamp: data[key].timestamp,
-                name: data[key].name,
-                foodSet: sortedFoodSet,
-              });
-            }
-          }
-
-          const sortedFoodCards = sortedArrayByTimestamp(newArr);
-          setFoodCards(sortedFoodCards);
-        }
-      }
-    });
+  useEffect(() => {
+    setIsSearchModeOn(false);
   }, [subPageID]);
 
   useLayoutEffect(() => {

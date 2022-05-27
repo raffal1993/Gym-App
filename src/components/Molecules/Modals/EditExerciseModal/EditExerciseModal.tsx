@@ -3,16 +3,20 @@ import CloseIcon from '@mui/icons-material/Close';
 import React, { FC, useEffect, useState } from 'react';
 import { v4 as uuid4 } from 'uuid';
 import { removeExercise, removeVersion, removeSet } from 'firebase-cfg/database/workout/remove';
-import { ref, onValue } from 'firebase/database';
-import { auth, db } from 'firebase-cfg/firebase-config';
-import { Version, WorkoutCardProps } from 'components/Organisms/Workout/WorkoutProps';
+import { Version } from 'components/Organisms/Workout/WorkoutProps';
 import { clearLocalStorage } from 'helpers/localStorage';
 import { useDispatch } from 'react-redux';
 import { setModalClose } from 'app/slices/interfaceSlice';
 import { updateExerciseName } from 'firebase-cfg/database/workout/update';
+import { exerciseDBListener } from 'firebase-cfg/database/workout/listeners';
 import AddEditNameModal from '../AddEditNameModal/AddEditNameModal';
 import { Wrapper } from './EditExerciseModal.styled';
-import { ConfirmationButtonStyled, NameStyled, RemoveButtonStyled } from '../Modals.styled';
+import {
+  ConfirmationButtonStyled,
+  NameStyled,
+  RemoveButtonStyled,
+  RemoveCardButtonStyled,
+} from '../Modals.styled';
 import { EditExerciseModalProps, EditNameExercise } from '../ModalsProps';
 
 let timeout: NodeJS.Timer;
@@ -78,23 +82,7 @@ const EditExerciseModal: FC<EditExerciseModalProps> = ({ exerciseID, subPageID }
   };
 
   useEffect(() => {
-    const uid = auth.currentUser?.uid;
-
-    if (uid) {
-      const dbRef = ref(db, `users/${uid}/workout/${subPageID}/${exerciseID}`);
-
-      return onValue(dbRef, (snapshot) => {
-        const data = snapshot.val() as WorkoutCardProps;
-
-        if (data) {
-          setMainExerciseName(data.name);
-          setVersions(data.versions);
-        } else {
-          setMainExerciseName(undefined);
-          setVersions([]);
-        }
-      });
-    }
+    return exerciseDBListener(subPageID, exerciseID, setMainExerciseName, setVersions);
   }, [subPageID, exerciseID]);
 
   useEffect(() => {
@@ -158,16 +146,13 @@ const EditExerciseModal: FC<EditExerciseModalProps> = ({ exerciseID, subPageID }
         />
       )}
       {confirmItems.includes(`removeExercise`) ? (
-        <EditDbButton className="removeExercise" onClick={() => handeRemoveExercise()}>
+        <RemoveCardButtonStyled onClick={() => handeRemoveExercise()}>
           ARE YOU SURE ?
-        </EditDbButton>
+        </RemoveCardButtonStyled>
       ) : (
-        <EditDbButton
-          className="removeExercise"
-          onClick={() => handleConfirmations('removeExercise')}
-        >
-          Remove exercise
-        </EditDbButton>
+        <RemoveCardButtonStyled onClick={() => handleConfirmations('removeExercise')}>
+          Remove exercise ?
+        </RemoveCardButtonStyled>
       )}
     </Wrapper>
   );

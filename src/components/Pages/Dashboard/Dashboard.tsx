@@ -11,9 +11,7 @@ import Weather from 'components/Organisms/Weather/Weather';
 import Workout from 'components/Organisms/Workout/Workout';
 import CustomizedRoutes from 'components/Templates/CustomizedRoutes/CustomizedRoutes';
 import DashboardContent from 'components/Templates/DashboardContent/DashboardContent';
-import { auth, db } from 'firebase-cfg/firebase-config';
-import { onValue, ref } from 'firebase/database';
-import { sortedArrayByTimestamp } from 'helpers/sortArrayByTimestamp';
+import { sidebarListDBListener } from 'firebase-cfg/database/dashboard/listener';
 import { useEffect } from 'react';
 import { Route, useNavigate } from 'react-router-dom';
 import { Wrapper } from './Dashboard.styled';
@@ -28,38 +26,8 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const uid = auth.currentUser?.uid;
-
-    if (mainPage && uid) {
-      const dbRef = ref(db, `users/${uid}/${mainPage}`);
-
-      return onValue(dbRef, (snapshot) => {
-        const data = snapshot.val();
-
-        if (data && mainPage) {
-          const newArray = [] as SidebarListProps[];
-
-          for (const key in data) {
-            if (data[key].timestamp) {
-              newArray.push({
-                id: key,
-                name: data[key].name,
-                timestamp: data[key].timestamp,
-              });
-            }
-          }
-
-          const sortedArray = sortedArrayByTimestamp(newArray as Required<SidebarListProps>[]);
-
-          const sidebarListItems: SidebarListProps[] = sortedArray.map((value) => ({
-            id: value.id,
-            name: value.name,
-          }));
-
-          dispatch(setSidebarList(sidebarListItems));
-        } else dispatch(setSidebarList([]));
-      });
-    }
+    const dispatcher = (list: SidebarListProps[]) => dispatch(setSidebarList(list));
+    return sidebarListDBListener(mainPage, dispatcher);
   }, [mainPage, dispatch]);
 
   useEffect(() => {
