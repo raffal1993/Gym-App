@@ -36,6 +36,7 @@ export interface FoodDB {
 export interface SearchFoodItemTypes extends Omit<FoodDB, 'nutrients'> {
   nutrients: NutrientsTypes;
   foodCards?: FoodCardDB[];
+  setOpenSnackbar: (arg: boolean) => void;
 }
 
 export interface FoodCardDB {
@@ -45,6 +46,6 @@ export interface FoodCardDB {
   foodSet: NutrientsDB[];
 }
 
-export interface AddFoodProps extends Pick<FoodCardDB, 'foodCardID' | 'name'> {}
+export interface FoodIdName extends Pick<FoodCardDB, 'foodCardID' | 'name'> {}
 
 export type ConvertTimestampDB<T> = Omit<T, 'timestamp'> & { timestamp: object };
