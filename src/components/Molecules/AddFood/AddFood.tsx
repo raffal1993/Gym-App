@@ -5,12 +5,12 @@ import { setModalClose, setModalOpen } from 'app/slices/interfaceSlice';
 import { addFoodSetToDB } from 'firebase-cfg/database/food/add';
 import { RootState } from 'app/store';
 import AddIcon from '@mui/icons-material/Add';
-import { AddFoodProps } from 'components/Organisms/Food/FoodProps';
+import { FoodIdName } from 'components/Organisms/Food/FoodProps';
 import { AddButtonsStyled } from './AddFood.styled';
 import AddEditNameModal from '../Modals/AddEditNameModal/AddEditNameModal';
 import AddCustomFoodModal from '../Modals/AddCustomFoodModal/AddCustomFoodModal';
 
-const AddFood: FC<{ cards: AddFoodProps[] }> = ({ cards }) => {
+const AddFood: FC<{ cards: FoodIdName[] }> = ({ cards }) => {
   const dispatch = useAppDispatch();
 
   const {
@@ -44,13 +44,15 @@ const AddFood: FC<{ cards: AddFoodProps[] }> = ({ cards }) => {
         <AddIcon />
         Add Food Set
       </CustomButton>
-      <CustomButton
-        className="addCustomFoodButton addButton"
-        handleClick={handleAddCustomFoodtModal}
-      >
-        <AddIcon />
-        Add Custom Food
-      </CustomButton>
+      {!(cards.length === 0 || cards === undefined) && (
+        <CustomButton
+          className="addCustomFoodButton addButton"
+          handleClick={handleAddCustomFoodtModal}
+        >
+          <AddIcon />
+          Add Custom Food
+        </CustomButton>
+      )}
     </AddButtonsStyled>
   );
 };
