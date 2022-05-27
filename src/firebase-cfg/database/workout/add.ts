@@ -86,28 +86,4 @@ const addExerciseToDB = (subPageID: string, name: string, type: string) => {
   }
 };
 
-const addSubPageToDB = (mainPage: string, subPageName: string) => {
-  const uid = auth.currentUser?.uid;
-
-  if (uid) {
-    const targetPath = `users/${uid}/${mainPage}`;
-
-    const newSubPageKey = push(child(ref(db), targetPath)).key;
-    if (!newSubPageKey) return console.error('newSubPageKey is null');
-
-    const newSubPage: Omit<ConvertTimestampDB<SidebarListProps>, 'id'> = {
-      name: subPageName,
-      timestamp: serverTimestamp(),
-    };
-
-    const updates = {} as {
-      [key: string]: typeof newSubPage;
-    };
-
-    updates[targetPath + `/${newSubPageKey}`] = newSubPage;
-
-    return update(ref(db), updates);
-  }
-};
-
-export { addVersionToDB, addSetToDB, addExerciseToDB, addSubPageToDB };
+export { addVersionToDB, addSetToDB, addExerciseToDB };
