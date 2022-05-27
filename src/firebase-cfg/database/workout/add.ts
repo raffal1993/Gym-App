@@ -1,7 +1,6 @@
 import { child, ref, update, push, serverTimestamp } from 'firebase/database';
-import { ConvertTimestampDB } from 'components/Organisms/Food/FoodProps';
-import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarProps';
-import { Set, Version, WorkoutCardProps } from 'components/Organisms/Workout/WorkoutProps';
+import { ConvertTimestampDB } from 'components/Organisms/Food/FoodTypes';
+import { Set, Version, WorkoutCardProps } from 'components/Organisms/Workout/WorkoutTypes';
 import { auth, db } from '../../firebase-config';
 
 const addVersionToDB = (exerciseID: string, subPageID: string, indexOfNextVersion: number) => {

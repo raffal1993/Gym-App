@@ -3,7 +3,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { RootState } from 'app/store';
 import { v4 as uuid4 } from 'uuid';
-import { FoodIdName, FoodCardDB } from 'components/Organisms/Food/FoodProps';
+import { FoodIdName, FoodCardDB } from 'components/Organisms/Food/FoodTypes';
 import { foodCardsDBListener } from 'firebase-cfg/database/food/listeners';
 import { updateFoodSetName } from 'firebase-cfg/database/food/update';
 import { setModalClose } from 'app/slices/interfaceSlice';

@@ -1,4 +1,4 @@
-import { NutrientsDB } from 'components/Organisms/Food/FoodProps';
+import { NutrientsDB } from 'components/Organisms/Food/FoodTypes';
 
 type Nutrients = Omit<NutrientsDB, 'id' | 'timestamp' | 'name'> & { name?: string };
 

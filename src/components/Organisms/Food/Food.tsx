@@ -10,7 +10,7 @@ import { foodCardsDBListener } from 'firebase-cfg/database/food/listeners';
 import SearchFood from 'components/Molecules/SearchFood/SearchFood';
 import AddFood from 'components/Molecules/AddFood/AddFood';
 import { ScrollTopStyled, Wrapper } from './Food.styled';
-import { FoodCardDB } from './FoodProps';
+import { FoodCardDB } from './FoodTypes';
 
 const Food = () => {
   const [isScrollTopIconVisible, setIsScrollTopIconVisible] = useState(false);

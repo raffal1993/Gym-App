@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { FoodCardDB } from 'components/Organisms/Food/FoodProps';
+import { FoodCardDB } from 'components/Organisms/Food/FoodTypes';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { RootState } from 'app/store';
 import { setModalOpen } from 'app/slices/interfaceSlice';

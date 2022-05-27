@@ -1,5 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close';
-import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarProps';
+import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarTypes';
 import { useEffect, useState } from 'react';
 import { v4 as uuid4 } from 'uuid';
 import { useAppSelector } from 'app/hooks';

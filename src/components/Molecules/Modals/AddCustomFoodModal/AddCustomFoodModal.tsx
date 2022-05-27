@@ -2,7 +2,7 @@ import { useAppDispatch } from 'app/hooks';
 import { setModalClose } from 'app/slices/interfaceSlice';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
 import { TitleStyled } from 'components/Molecules/CardStyled/CardStyled.styled';
-import { FoodIdName, NutrientsTypes } from 'components/Organisms/Food/FoodProps';
+import { FoodIdName, NutrientsTypes } from 'components/Organisms/Food/FoodTypes';
 import { addFoodToDB } from 'firebase-cfg/database/food/add';
 import { ChangeEvent, FC, MouseEvent, useEffect, useState } from 'react';
 import { v4 as uuid4 } from 'uuid';

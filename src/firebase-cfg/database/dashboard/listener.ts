@@ -1,4 +1,4 @@
-import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarProps';
+import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarTypes';
 import { auth, db } from 'firebase-cfg/firebase-config';
 import { ref, onValue } from 'firebase/database';
 import { sortedArrayByTimestamp } from 'helpers/sortArrayByTimestamp';

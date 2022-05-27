@@ -2,7 +2,7 @@ import { useAppSelector } from 'app/hooks';
 import { RootState } from 'app/store';
 import CustomTextarea from 'components/Atoms/CustomTextarea/CustomTextarea';
 import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
-import { Set, CellToChange } from 'components/Organisms/Workout/WorkoutProps';
+import { Set, CellToChange } from 'components/Organisms/Workout/WorkoutTypes';
 import useResize from 'hooks/useResize';
 import { FC, useLayoutEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';

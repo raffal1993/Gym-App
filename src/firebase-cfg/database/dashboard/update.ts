@@ -1,5 +1,5 @@
 import { ref, set } from 'firebase/database';
-import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarProps';
+import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarTypes';
 import { auth, db } from '../../firebase-config';
 import { getDataFromDB } from '../../dbHelpers';
 

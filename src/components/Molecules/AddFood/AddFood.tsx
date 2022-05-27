@@ -5,7 +5,7 @@ import { setModalClose, setModalOpen } from 'app/slices/interfaceSlice';
 import { addFoodSetToDB } from 'firebase-cfg/database/food/add';
 import { RootState } from 'app/store';
 import AddIcon from '@mui/icons-material/Add';
-import { FoodIdName } from 'components/Organisms/Food/FoodProps';
+import { FoodIdName } from 'components/Organisms/Food/FoodTypes';
 import { AddButtonsStyled } from './AddFood.styled';
 import AddEditNameModal from '../Modals/AddEditNameModal/AddEditNameModal';
 import AddCustomFoodModal from '../Modals/AddCustomFoodModal/AddCustomFoodModal';

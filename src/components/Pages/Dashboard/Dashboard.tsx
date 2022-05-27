@@ -4,7 +4,7 @@ import { RootState } from 'app/store';
 import EditModeButton from 'components/Atoms/Buttons/EditModeButton/EditModeButton';
 import Navbar from 'components/Molecules/Navbar/Navbar';
 import Sidebar from 'components/Molecules/Sidebar/Sidebar';
-import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarProps';
+import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarTypes';
 import Food from 'components/Organisms/Food/Food';
 import Profile from 'components/Organisms/Profile/Profile';
 import Weather from 'components/Organisms/Weather/Weather';

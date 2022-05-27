@@ -3,7 +3,7 @@ import {
   FoodCardDB,
   NutrientsDB,
   NutrientsTypes,
-} from 'components/Organisms/Food/FoodProps';
+} from 'components/Organisms/Food/FoodTypes';
 import { getDataFromDB } from 'firebase-cfg/dbHelpers';
 import { child, ref, push, serverTimestamp, update } from 'firebase/database';
 import { auth, db } from '../../firebase-config';

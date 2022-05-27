@@ -1,4 +1,4 @@
-import { Version, WorkoutCardProps } from 'components/Organisms/Workout/WorkoutProps';
+import { Version, WorkoutCardProps } from 'components/Organisms/Workout/WorkoutTypes';
 import { auth, db } from 'firebase-cfg/firebase-config';
 import { ref, onValue } from 'firebase/database';
 import { sortedArrayByTimestamp } from 'helpers/sortArrayByTimestamp';

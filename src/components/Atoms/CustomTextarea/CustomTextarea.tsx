@@ -1,4 +1,4 @@
-import { CellToChange } from 'components/Organisms/Workout/WorkoutProps';
+import { CellToChange } from 'components/Organisms/Workout/WorkoutTypes';
 import { ChangeEvent, FC, KeyboardEvent, useState } from 'react';
 import { TextAreaStyled } from './CustomTextarea.styled';
 

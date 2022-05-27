@@ -1,5 +1,5 @@
 import { ref, set } from 'firebase/database';
-import { Set, Version } from 'components/Organisms/Workout/WorkoutProps';
+import { Set, Version } from 'components/Organisms/Workout/WorkoutTypes';
 import { auth, db } from '../../firebase-config';
 import { getDataFromDB } from '../../dbHelpers';
 

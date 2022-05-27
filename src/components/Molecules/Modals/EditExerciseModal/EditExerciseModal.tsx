@@ -3,7 +3,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import React, { FC, useEffect, useState } from 'react';
 import { v4 as uuid4 } from 'uuid';
 import { removeExercise, removeVersion, removeSet } from 'firebase-cfg/database/workout/remove';
-import { Version } from 'components/Organisms/Workout/WorkoutProps';
+import { Version } from 'components/Organisms/Workout/WorkoutTypes';
 import { clearLocalStorage } from 'helpers/localStorage';
 import { useDispatch } from 'react-redux';
 import { setModalClose } from 'app/slices/interfaceSlice';
@@ -17,7 +17,7 @@ import {
   RemoveButtonStyled,
   RemoveCardButtonStyled,
 } from '../Modals.styled';
-import { EditExerciseModalProps, EditNameExercise } from '../ModalsProps';
+import { EditExerciseModalProps, EditNameExercise } from '../ModalsTypes';
 
 let timeout: NodeJS.Timer;
 

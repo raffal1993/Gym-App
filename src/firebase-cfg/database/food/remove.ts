@@ -1,4 +1,4 @@
-import { NutrientsDB } from 'components/Organisms/Food/FoodProps';
+import { NutrientsDB } from 'components/Organisms/Food/FoodTypes';
 import { ref, remove, set } from 'firebase/database';
 import { auth, db } from '../../firebase-config';
 import { getDataFromDB } from '../../dbHelpers';

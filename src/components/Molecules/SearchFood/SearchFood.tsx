@@ -7,7 +7,7 @@ import {
   NutrientsTypes,
   FoodDB,
   SearchFoodItemTypes,
-} from 'components/Organisms/Food/FoodProps';
+} from 'components/Organisms/Food/FoodTypes';
 import { v4 as uuid4 } from 'uuid';
 import SearchIcon from '@mui/icons-material/Search';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';

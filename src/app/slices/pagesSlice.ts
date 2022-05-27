@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarProps';
+import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarTypes';
 import { getLocalStorage, updateLocalStorage } from 'helpers/localStorage';
 
 const getInitialPage = (page: string) => {

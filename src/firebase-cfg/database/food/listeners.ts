@@ -1,4 +1,4 @@
-import { FoodCardDB, NutrientsDB } from 'components/Organisms/Food/FoodProps';
+import { FoodCardDB, NutrientsDB } from 'components/Organisms/Food/FoodTypes';
 import { auth, db } from 'firebase-cfg/firebase-config';
 import { ref, onValue } from 'firebase/database';
 import { sortedArrayByTimestamp } from 'helpers/sortArrayByTimestamp';

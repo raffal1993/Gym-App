@@ -12,7 +12,7 @@ import { setModalOpen } from 'app/slices/interfaceSlice';
 import { addVersionToDB } from 'firebase-cfg/database/workout/add';
 import WorkoutStats from '../WorkoutStats/WorkoutStats';
 import { VersionsStyled, Wrapper } from './WorkoutCard.styled';
-import { WorkoutCardProps } from '../../Organisms/Workout/WorkoutProps';
+import { WorkoutCardProps } from '../../Organisms/Workout/WorkoutTypes';
 import EditExerciseModal from '../Modals/EditExerciseModal/EditExerciseModal';
 import { TitleStyled } from '../CardStyled/CardStyled.styled';
 

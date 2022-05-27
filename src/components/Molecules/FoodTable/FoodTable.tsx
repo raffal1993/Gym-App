@@ -3,7 +3,7 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Column, NutrientsDB } from 'components/Organisms/Food/FoodProps';
+import { Column, NutrientsDB } from 'components/Organisms/Food/FoodTypes';
 import { totalMacronutrients } from 'helpers/totalMacronutrients';
 import useResize from 'hooks/useResize';
 import { FC } from 'react';
@@ -47,7 +47,8 @@ const FoodTable: FC<{ foodSet: NutrientsDB[] }> = ({ foodSet }) => {
         <SmallTable>
           {foodSet.map((foodRow) => (
             <div className="mealContainer" key={uuid4()}>
-              <p className="title">{foodRow.name}</p>
+              <p className="title">{foodRow.name} (323g)</p>
+
               <div className="nutrients">
                 {columns.map((column) => {
                   if (column.id === 'name') return;
@@ -104,6 +105,7 @@ const FoodTable: FC<{ foodSet: NutrientsDB[] }> = ({ foodSet }) => {
                     style={{ minWidth: column.minWidth, maxWidth: column.maxWidth }}
                   >
                     {row[column.id]}
+                    {column.id === 'name' && <p style={{ marginTop: '5px' }}>(323g)</p>}
                   </TableCell>
                 ))}
               </TableRow>

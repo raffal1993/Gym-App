@@ -4,7 +4,7 @@ import AddExercise from 'components/Atoms/AddExercise/AddExercise';
 import AddExerciseTabs from 'components/Molecules/CustomTabs/CustomTabs';
 import StoperWidget from 'components/Molecules/StoperWidget/StoperWidget';
 import WorkoutCard from 'components/Molecules/WorkoutCard/WorkoutCard';
-import { WorkoutCardProps } from 'components/Organisms/Workout/WorkoutProps';
+import { WorkoutCardProps } from 'components/Organisms/Workout/WorkoutTypes';
 import CustomizedRoutes from 'components/Templates/CustomizedRoutes/CustomizedRoutes';
 import { v4 as uuid4 } from 'uuid';
 import { clearLocalStorage } from 'helpers/localStorage';

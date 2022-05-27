@@ -4,7 +4,7 @@ import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import { MAX_SETS } from 'helpers/staticVariables';
 import { v4 as uuidv4 } from 'uuid';
-import { SidebarListProps } from '../Sidebar/SidebarProps';
+import { SidebarListProps } from '../Sidebar/SidebarTypes';
 import { TabsStyled } from './CustomTabs.styled';
 
 interface CustomTabsProps {

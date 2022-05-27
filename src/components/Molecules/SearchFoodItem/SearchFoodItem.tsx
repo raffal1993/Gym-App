@@ -1,6 +1,6 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import { ReactComponent as MyIcon } from 'assets/images/404food.svg';
-import { SearchFoodItemTypes } from 'components/Organisms/Food/FoodProps';
+import { SearchFoodItemTypes } from 'components/Organisms/Food/FoodTypes';
 import { addFoodToDB } from 'firebase-cfg/database/food/add';
 import { addFoodAnimation } from 'helpers/showAddFoodAnimation.ts';
 import CustomButton from 'components/Atoms/Buttons/CustomButton/CustomButton';
