@@ -11,6 +11,7 @@ import {
 import { v4 as uuid4 } from 'uuid';
 import SearchIcon from '@mui/icons-material/Search';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
+import CustomizedSnackbars from 'components/Atoms/Snackbar/CustomizedSnackbars';
 import Spinner from 'components/Atoms/Spinner/Spinner';
 import SearchFoodItem from '../SearchFoodItem/SearchFoodItem';
 import { Wrapper, SearchBarStyled, SearchingResultsStyled } from './SearchFood.styled';
@@ -26,6 +27,7 @@ const SearchFood: FC<{ foodCards: FoodCardDB[] }> = ({ foodCards }) => {
   const [searchResults, setSearchResults] = useState<SearchFoodItemTypes[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.getAttribute('data-type') === INPUTS.search) setInputValue(e.target.value);
@@ -91,6 +93,7 @@ const SearchFood: FC<{ foodCards: FoodCardDB[] }> = ({ foodCards }) => {
         <SearchingResultsStyled>
           {searchResults.map(({ label, nutrients, image }) => (
             <SearchFoodItem
+              setOpenSnackbar={setOpenSnackbar}
               foodCards={foodCards}
               key={uuid4()}
               label={label}
@@ -98,6 +101,9 @@ const SearchFood: FC<{ foodCards: FoodCardDB[] }> = ({ foodCards }) => {
               image={image || ''}
             />
           ))}
+          <CustomizedSnackbars open={openSnackbar} setOpen={setOpenSnackbar}>
+            Added to Food Set!
+          </CustomizedSnackbars>
         </SearchingResultsStyled>
       )}
     </Wrapper>

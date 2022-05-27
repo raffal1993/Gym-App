@@ -19,6 +19,7 @@ const SearchFoodItem: FC<SearchFoodItemTypes> = ({
   nutrients: { kcal, fat, carbs, protein, fiber },
   image,
   foodCards,
+  setOpenSnackbar,
 }) => {
   const [src, setSrc] = useState<string | undefined>(image);
   const [showAddToFoodSet, setShowAddToFoodSet] = useState<boolean>(false);
@@ -47,7 +48,10 @@ const SearchFoodItem: FC<SearchFoodItemTypes> = ({
 
   const addFoodToFoodSet = (foodCardID: string) => {
     const nutrients = { kcal, fat, carbs, protein, fiber };
-    if (subPageID) addFoodToDB(subPageID, label, foodCardID, nutrients);
+    if (subPageID) {
+      addFoodToDB(subPageID, label, foodCardID, nutrients);
+      setOpenSnackbar(true);
+    }
   };
 
   useEffect(() => {
