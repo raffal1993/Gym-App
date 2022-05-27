@@ -76,7 +76,9 @@ const StoperWidget = () => {
       </IconStyled>
       <IconStyled onClick={handleCopyTimerToClipboard}>
         <ContentCopyIcon />
-        <CustomizedSnackbars open={openSnackbar} setOpen={setOpenSnackbar} />
+        <CustomizedSnackbars open={openSnackbar} setOpen={setOpenSnackbar}>
+          Copied to clipboard
+        </CustomizedSnackbars>
       </IconStyled>
     </Wrapper>
   );
