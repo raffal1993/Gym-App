@@ -2,7 +2,7 @@ import { useAppDispatch } from 'app/hooks';
 import { setModalClose } from 'app/slices/interfaceSlice';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
 import { TitleStyled } from 'components/Molecules/CardStyled/CardStyled.styled';
-import { AddFoodProps, NutrientsTypes } from 'components/Organisms/Food/FoodProps';
+import { FoodIdName, NutrientsTypes } from 'components/Organisms/Food/FoodProps';
 import { addFoodToDB } from 'firebase-cfg/database/food/add';
 import { ChangeEvent, FC, MouseEvent, useEffect, useState } from 'react';
 import { v4 as uuid4 } from 'uuid';
@@ -33,7 +33,7 @@ const initialInputValues: NutrientsTypes = {
 };
 
 interface AddCustomFoodModalProps {
-  cards: AddFoodProps[];
+  cards: FoodIdName[];
   subPageID: string;
 }
 
@@ -62,7 +62,7 @@ const AddCustomFoodModal: FC<AddCustomFoodModalProps> = ({ cards, subPageID }) =
     setPickedFoodSetID(id);
   };
 
-  const addCustomFood = (newName: string) => {
+  const checkIfAllIsValid = () => {
     let isValidate = true;
     if (Object.values(nutrientsValue).includes('')) {
       setNutrientsError(true);
@@ -72,8 +72,11 @@ const AddCustomFoodModal: FC<AddCustomFoodModalProps> = ({ cards, subPageID }) =
       setPickFoodSetError(true);
       isValidate = false;
     }
+    return isValidate;
+  };
 
-    if (isValidate && subPageID) {
+  const addCustomFood = (newName: string) => {
+    if (subPageID) {
       addFoodToDB(subPageID, newName, pickedFoodSetID, nutrientsValue);
       dispatch(setModalClose());
     }
@@ -130,6 +133,7 @@ const AddCustomFoodModal: FC<AddCustomFoodModalProps> = ({ cards, subPageID }) =
         )}
       </PickFoodSetStyled>
       <AddEditNameModal
+        checkIfAllIsValid={checkIfAllIsValid}
         className="enterFoodName"
         updateDbCallback={addCustomFood}
         title="Enter Food name: "

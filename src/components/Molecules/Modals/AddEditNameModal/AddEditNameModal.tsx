@@ -8,6 +8,7 @@ interface AddEditNameModalProps {
   title: string;
   buttonText: string;
   updateDbCallback: (newName: string) => void;
+  checkIfAllIsValid?: () => boolean;
 }
 
 const AddEditNameModal: FC<AddEditNameModalProps> = ({
@@ -15,6 +16,7 @@ const AddEditNameModal: FC<AddEditNameModalProps> = ({
   buttonText,
   className,
   updateDbCallback,
+  checkIfAllIsValid,
 }) => {
   const [name, setName] = useState<string>('');
   const [isErrorMessage, setIsErrorMessage] = useState<boolean>(false);
@@ -30,8 +32,11 @@ const AddEditNameModal: FC<AddEditNameModalProps> = ({
       setIsErrorMessage(true);
       return;
     }
-    if (updateDbCallback) updateDbCallback(name);
-    setName('');
+    const isValid = checkIfAllIsValid ? checkIfAllIsValid() : true;
+    if (updateDbCallback && isValid) {
+      updateDbCallback(name);
+      setName('');
+    }
   };
 
   const handleEnterKey = (e: KeyboardEvent) => {
@@ -74,4 +79,5 @@ export default AddEditNameModal;
 
 AddEditNameModal.defaultProps = {
   className: '',
+  checkIfAllIsValid: () => true,
 };
