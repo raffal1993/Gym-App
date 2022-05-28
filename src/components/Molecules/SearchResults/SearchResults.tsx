@@ -1,11 +1,11 @@
-import { FC, useState } from 'react';
+import { memo, useState } from 'react';
 import CustomizedSnackbars from 'components/Atoms/Snackbar/CustomizedSnackbars';
 import { SearchResultsProps } from 'components/Organisms/Food/FoodTypes';
 import { v4 as uuid4 } from 'uuid';
 import SearchFoodItem from '../SearchFoodItem/SearchFoodItem';
 import { SearchingResultsStyled } from './SearchResults.styled';
 
-const SearchResults: FC<SearchResultsProps> = ({ searchResults, foodCards }) => {
+const SearchResults = memo(({ searchResults, foodCards }: SearchResultsProps) => {
   const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
 
   return (
@@ -25,6 +25,6 @@ const SearchResults: FC<SearchResultsProps> = ({ searchResults, foodCards }) => 
       </CustomizedSnackbars>
     </SearchingResultsStyled>
   );
-};
+});
 
 export default SearchResults;
