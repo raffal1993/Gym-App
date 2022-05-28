@@ -13,7 +13,6 @@ import { ScrollTopStyled, Wrapper } from './Food.styled';
 import { FoodCardDB } from './FoodTypes';
 
 const Food = () => {
-  const [isScrollTopIconVisible, setIsScrollTopIconVisible] = useState(false);
   const [isSearchModeOn, setIsSearchModeOn] = useState(false);
   const [foodCards, setFoodCards] = useState<FoodCardDB[]>([]);
 
@@ -23,6 +22,8 @@ const Food = () => {
   } = useAppSelector((state: RootState) => state);
 
   const divRef = useRef<HTMLDivElement>(null);
+
+  const scrollTopRef = useRef<HTMLDivElement>(null);
 
   const handleScrollTop = () => {
     if (divRef.current && divRef.current.parentElement)
@@ -42,27 +43,30 @@ const Food = () => {
   }, [subPageID]);
 
   useLayoutEffect(() => {
-    const currentRef = divRef.current;
-    const isRefExisting = currentRef && currentRef.parentElement;
+    const currentDivRef = divRef.current;
+    const currentScrollTopRef = scrollTopRef.current;
+
+    const isRefExisting = currentDivRef && currentDivRef.parentElement && currentScrollTopRef;
     let timeout: NodeJS.Timeout;
 
     function listener() {
       clearTimeout(timeout);
       timeout = setTimeout(() => {
         if (isRefExisting) {
-          setIsScrollTopIconVisible(
-            currentRef.parentElement.scrollTop > currentRef.parentElement.clientHeight || false,
-          );
+          currentScrollTopRef.style.transform =
+            currentDivRef.parentElement.scrollTop > currentDivRef.parentElement.clientHeight
+              ? 'scale(1)'
+              : 'scale(0)';
         }
       }, 100);
     }
 
-    if (isRefExisting) currentRef.parentElement.addEventListener('scroll', listener);
+    if (isRefExisting) currentDivRef.parentElement.addEventListener('scroll', listener);
 
     return () => {
       clearTimeout(timeout);
       if (isRefExisting) {
-        currentRef.parentElement.removeEventListener('scroll', listener);
+        currentDivRef.parentElement.removeEventListener('scroll', listener);
       }
     };
   }, []);
@@ -85,7 +89,7 @@ const Food = () => {
         <FoodCard key={uuid4()} foodCard={foodCard} />
       ))}
 
-      <ScrollTopStyled is_visible={isScrollTopIconVisible.toString()} onClick={handleScrollTop}>
+      <ScrollTopStyled ref={scrollTopRef} onClick={handleScrollTop}>
         <ArrowCircleUpIcon />
       </ScrollTopStyled>
     </Wrapper>
