@@ -9,12 +9,14 @@ interface AddEditNameModalProps {
   buttonText: string;
   updateDbCallback: (newName: string) => void;
   checkIfAllIsValid?: () => boolean;
+  inputType?: 'text' | 'number';
 }
 
 const AddEditNameModal: FC<AddEditNameModalProps> = ({
   title,
   buttonText,
   className,
+  inputType,
   updateDbCallback,
   checkIfAllIsValid,
 }) => {
@@ -63,7 +65,7 @@ const AddEditNameModal: FC<AddEditNameModalProps> = ({
         ref={ref}
         maxLength={30}
         autoComplete="off"
-        type="text"
+        type={inputType}
         value={name}
         onChange={handleInputChange}
       />
@@ -80,4 +82,5 @@ export default AddEditNameModal;
 AddEditNameModal.defaultProps = {
   className: '',
   checkIfAllIsValid: () => true,
+  inputType: 'text',
 };
