@@ -4,19 +4,22 @@ import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
 import { TitleStyled } from 'components/Molecules/CardStyled/CardStyled.styled';
 import { FoodIdName, NutrientsTypes } from 'components/Organisms/Food/FoodTypes';
 import { addFoodToDB } from 'firebase-cfg/database/food/add';
-import { ChangeEvent, FC, MouseEvent, useEffect, useState } from 'react';
+import { countNutrientsByWeight } from 'helpers/countNutrientsByWeight';
+import { filterNumberInputValue } from 'helpers/filterNumberInputValue';
+import React, { ChangeEvent, FC, MouseEvent, useEffect, useState } from 'react';
 import { v4 as uuid4 } from 'uuid';
 import AddEditNameModal from '../AddEditNameModal/AddEditNameModal';
 import { NameStyled } from '../Modals.styled';
 import { EnterNutrientsStyled, PickFoodSetStyled, Wrapper } from './AddCustomFoodModal.styled';
 
-const nutrients: (keyof NutrientsTypes)[] = ['kcal', 'fat', 'carbs', 'protein', 'fiber'];
+const nutrients: (keyof NutrientsTypes)[] = ['weight', 'kcal', 'fat', 'carbs', 'protein', 'fiber'];
 
 type NutrientsFocus = {
   [key in keyof NutrientsTypes]: boolean;
 };
 
 const initialFocuses: NutrientsFocus = {
+  weight: false,
   kcal: false,
   fat: false,
   carbs: false,
@@ -25,6 +28,7 @@ const initialFocuses: NutrientsFocus = {
 };
 
 const initialInputValues: NutrientsTypes = {
+  weight: '',
   kcal: '',
   fat: '',
   carbs: '',
@@ -48,11 +52,17 @@ const AddCustomFoodModal: FC<AddCustomFoodModalProps> = ({ cards, subPageID }) =
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputType = e.currentTarget.id as keyof NutrientsTypes;
-    if (e.currentTarget.value.length > 4) return;
+    const { value } = e.currentTarget;
+
+    if (Number(value) > 9999) return;
+
+    const isTwoDigitsAfterDot = value.split('.').length === 2 && value.split('.')[1].length === 2;
+
+    if (isTwoDigitsAfterDot) return;
 
     setNutrientsValue({
       ...nutrientsValue,
-      [inputType]: e.currentTarget.value,
+      [inputType]: filterNumberInputValue(value),
     });
     setFocusOnInput({ ...initialFocuses, [inputType]: true });
   };
@@ -77,7 +87,7 @@ const AddCustomFoodModal: FC<AddCustomFoodModalProps> = ({ cards, subPageID }) =
 
   const addCustomFood = (newName: string) => {
     if (subPageID) {
-      addFoodToDB(subPageID, newName, pickedFoodSetID, nutrientsValue);
+      addFoodToDB(subPageID, newName, pickedFoodSetID, countNutrientsByWeight(nutrientsValue));
       dispatch(setModalClose());
     }
   };
@@ -95,19 +105,24 @@ const AddCustomFoodModal: FC<AddCustomFoodModalProps> = ({ cards, subPageID }) =
     <Wrapper>
       <TitleStyled className="newFoodTitle">New Food</TitleStyled>
       <EnterNutrientsStyled>
-        <p className="info">(in 100g)</p>
-        {nutrients.map((nutrient) => {
+        {nutrients.map((nutrient, index) => {
           return (
-            <div className="insertNutrient" key={uuid4()}>
-              <p>{nutrient}</p>
-              <input
-                autoFocus={focusOnInput[nutrient] === true}
-                value={nutrientsValue[nutrient]}
-                onChange={(e) => handleInputChange(e)}
-                id={nutrient}
-                type="number"
-              />
-            </div>
+            <React.Fragment key={uuid4()}>
+              {index === 1 && <p className="info">Nutrients in 100g: </p>}
+              <div className="insertNutrient">
+                <p>{nutrient}</p>
+                <input
+                  min={0}
+                  max={9999}
+                  autoFocus={focusOnInput[nutrient] === true}
+                  value={nutrientsValue[nutrient]}
+                  onChange={(e) => handleInputChange(e)}
+                  id={nutrient}
+                  type="number"
+                  placeholder={nutrient !== 'kcal' ? 'g' : ''}
+                />
+              </div>
+            </React.Fragment>
           );
         })}
         {nutrientsError && (

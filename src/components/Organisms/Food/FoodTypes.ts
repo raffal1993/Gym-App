@@ -7,7 +7,7 @@ export interface NutrientsAPI {
 }
 
 export interface Column {
-  id: 'name' | 'kcal' | 'fat' | 'carbs' | 'protein' | 'fiber';
+  id: 'weight' | 'name' | 'kcal' | 'fat' | 'carbs' | 'protein' | 'fiber';
   label: string;
   minWidth?: number;
   maxWidth?: number;
@@ -18,6 +18,7 @@ export interface NutrientsDB {
   id: string;
   timestamp: number;
   name: string;
+  weight: string;
   kcal: string;
   fat: string;
   carbs: string;
@@ -44,6 +45,11 @@ export interface FoodCardDB {
   timestamp: number;
   name: string;
   foodSet: NutrientsDB[];
+}
+
+export interface SearchResultsProps {
+  searchResults: SearchFoodItemTypes[];
+  foodCards: FoodCardDB[];
 }
 
 export interface FoodIdName extends Pick<FoodCardDB, 'foodCardID' | 'name'> {}

@@ -9,6 +9,7 @@ export const totalMacronutrients = (rows: Nutrients[]) => {
   const total = rows.reduce(
     (previousValue: Nutrients, currentValue: Nutrients) => {
       return {
+        weight: nutritionValue(previousValue.weight, currentValue.weight),
         kcal: nutritionValue(previousValue.kcal, currentValue.kcal, true),
         fat: nutritionValue(previousValue.fat, currentValue.fat),
         carbs: nutritionValue(previousValue.carbs, currentValue.carbs),
@@ -17,6 +18,7 @@ export const totalMacronutrients = (rows: Nutrients[]) => {
       } as Nutrients;
     },
     {
+      weight: '0g',
       kcal: '0',
       fat: '0g',
       carbs: '0g',

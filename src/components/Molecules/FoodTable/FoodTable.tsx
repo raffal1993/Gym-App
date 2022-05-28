@@ -11,51 +11,57 @@ import { v4 as uuid4 } from 'uuid';
 import { SmallTable, Wrapper } from './FoodTable.styled';
 
 const columns: readonly Column[] = [
+  { id: 'weight', label: 'WEIGHT' },
   { id: 'name', label: 'NAME', maxWidth: 110, minWidth: 90 },
-  { id: 'kcal', label: 'KCAL', align: 'center', maxWidth: 50 },
+  { id: 'kcal', label: 'KCAL', align: 'center', maxWidth: 80 },
   {
     id: 'fat',
     label: 'FAT',
-    maxWidth: 50,
+    maxWidth: 80,
     align: 'center',
   },
   {
     id: 'carbs',
     label: 'CARBS',
-    maxWidth: 50,
+    maxWidth: 80,
     align: 'center',
   },
   {
     id: 'protein',
     label: 'PROTEIN',
-    maxWidth: 60,
+    maxWidth: 80,
     align: 'center',
   },
   {
     id: 'fiber',
     label: 'FIBER',
-    maxWidth: 50,
+    maxWidth: 80,
     align: 'center',
   },
 ];
 
 const FoodTable: FC<{ foodSet: NutrientsDB[] }> = ({ foodSet }) => {
   const { isWidthSmaller } = useResize('xs');
+
   return (
     <Wrapper>
       {isWidthSmaller ? (
         <SmallTable>
           {foodSet.map((foodRow) => (
             <div className="mealContainer" key={uuid4()}>
-              <p className="title">{foodRow.name} (323g)</p>
+              <p className="title">
+                {foodRow.name}
+                <span className="weight">{foodRow.weight ? `(${foodRow.weight})` : '(?)'}</span>
+              </p>
 
               <div className="nutrients">
                 {columns.map((column) => {
-                  if (column.id === 'name') return;
+                  if (column.id === 'name' || column.id === 'weight') return;
                   return (
-                    <span className="macronutrient" key={uuid4()}>
-                      {column.id}: <span className="value">{foodRow[column.id]}</span>
-                    </span>
+                    <p className="macronutrient" key={uuid4()}>
+                      <span className="key">:{column.id}</span>
+                      <span className="value">{foodRow[column.id]}</span>
+                    </p>
                   );
                 })}
               </div>
@@ -63,16 +69,16 @@ const FoodTable: FC<{ foodSet: NutrientsDB[] }> = ({ foodSet }) => {
           ))}
           <div className="mealContainer mealContainerTotal">
             <p className="title titleTotal">TOTAL</p>
-            <div className="nutrients nutrientsTotal">
+            <div className="nutrients">
               {columns.map((column) => {
                 if (column.id === 'name') return;
                 return (
-                  <span className="macronutrient macronutrientTotal" key={uuid4()}>
-                    {column.id}:{' '}
+                  <p className="macronutrient macronutrientTotal" key={uuid4()}>
+                    <span className="key keyTotal">:{column.id} </span>
                     <span className="value valueTotal">
                       {totalMacronutrients(foodSet)[column.id]}
                     </span>
-                  </span>
+                  </p>
                 );
               })}
             </div>
@@ -82,45 +88,59 @@ const FoodTable: FC<{ foodSet: NutrientsDB[] }> = ({ foodSet }) => {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  className="headerCell"
-                  key={uuid4()}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth, maxWidth: column.maxWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {foodSet.map((row) => (
-              <TableRow key={uuid4()}>
-                {columns.map((column) => (
+              {columns.map((column) => {
+                if (column.id === 'weight') return;
+                return (
                   <TableCell
-                    className="tableCell"
+                    className="headerCell"
                     key={uuid4()}
                     align={column.align}
                     style={{ minWidth: column.minWidth, maxWidth: column.maxWidth }}
                   >
-                    {row[column.id]}
-                    {column.id === 'name' && <p style={{ marginTop: '5px' }}>(323g)</p>}
+                    {column.label}
                   </TableCell>
-                ))}
+                );
+              })}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {foodSet.map((row, index) => (
+              <TableRow key={uuid4()}>
+                {columns.map((column) => {
+                  if (column.id === 'weight') return;
+                  return (
+                    <TableCell
+                      className="tableCell"
+                      key={uuid4()}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth, maxWidth: column.maxWidth }}
+                    >
+                      {row[column.id]}
+                      {column.id === 'name' && (
+                        <p>{foodSet[index].weight ? `(${foodSet[index].weight})` : '(?)'}</p>
+                      )}
+                    </TableCell>
+                  );
+                })}
               </TableRow>
             ))}
             <TableRow className="tableRowTotal">
-              {columns.map((column) => (
-                <TableCell
-                  key={uuid4()}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth, maxWidth: column.maxWidth }}
-                  className="tableCellTotal"
-                >
-                  {totalMacronutrients(foodSet)[column.id]}
-                </TableCell>
-              ))}
+              {columns.map((column) => {
+                if (column.id === 'weight') return;
+                const cellValue = totalMacronutrients(foodSet)[column.id];
+
+                return (
+                  <TableCell
+                    key={uuid4()}
+                    align={column.align}
+                    style={{ minWidth: column.minWidth, maxWidth: column.maxWidth }}
+                    className="tableCellTotal"
+                  >
+                    {cellValue}
+                    {cellValue === 'TOTAL' && <p>[ {totalMacronutrients(foodSet).weight} ]</p>}
+                  </TableCell>
+                );
+              })}
             </TableRow>
           </TableBody>
         </Table>
