@@ -1,20 +1,18 @@
 import { FoodApiInstance } from 'api/FoodAPI/instance';
 import Button from 'components/Atoms/Buttons/CustomButton/CustomButton';
 import { setURL } from 'helpers/setURL';
-import { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import {
   FoodCardDB,
   NutrientsTypes,
   FoodDB,
   SearchFoodItemTypes,
 } from 'components/Organisms/Food/FoodTypes';
-import { v4 as uuid4 } from 'uuid';
 import SearchIcon from '@mui/icons-material/Search';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
-import CustomizedSnackbars from 'components/Atoms/Snackbar/CustomizedSnackbars';
 import Spinner from 'components/Atoms/Spinner/Spinner';
-import SearchFoodItem from '../SearchFoodItem/SearchFoodItem';
-import { Wrapper, SearchBarStyled, SearchingResultsStyled } from './SearchFood.styled';
+import { Wrapper, SearchBarStyled } from './SearchFood.styled';
+import SearchResult from '../SearchResults/SearchResults';
 
 const INPUTS = {
   search: 'search',
@@ -27,11 +25,17 @@ const SearchFood: FC<{ foodCards: FoodCardDB[] }> = ({ foodCards }) => {
   const [searchResults, setSearchResults] = useState<SearchFoodItemTypes[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.getAttribute('data-type') === INPUTS.search) setInputValue(e.target.value);
-    if (e.target.getAttribute('data-type') === INPUTS.page) setPageNumber(Number(e.target.value));
+    //     if (e.target.getAttribute('data-type') === INPUTS.search) setInputValue(e.target.value);
+    //     if (e.target.getAttribute('data-type')
+    // === INPUTS.page) setPageNumber(Number(e.target.value));
+
+    //     if (inputRef.current) inputRef.current.value = e.target.value;
+
+    setInputValue(e.target.value);
   };
 
   const handleSearchFood = async () => {
@@ -76,6 +80,7 @@ const SearchFood: FC<{ foodCards: FoodCardDB[] }> = ({ foodCards }) => {
         <label htmlFor="searchFood">
           <SearchIcon />
           <input
+            ref={inputRef}
             onKeyPress={(e) => e.key === 'Enter' && handleSearchFood()}
             placeholder="(english only)"
             type="text"
@@ -90,21 +95,7 @@ const SearchFood: FC<{ foodCards: FoodCardDB[] }> = ({ foodCards }) => {
         <p className="info">All nutrition information is provided per 100 grams of product</p>
       </SearchBarStyled>
       {!!searchResults.length && (
-        <SearchingResultsStyled>
-          {searchResults.map(({ label, nutrients, image }) => (
-            <SearchFoodItem
-              setOpenSnackbar={setOpenSnackbar}
-              foodCards={foodCards}
-              key={uuid4()}
-              label={label}
-              nutrients={nutrients}
-              image={image || ''}
-            />
-          ))}
-          <CustomizedSnackbars open={openSnackbar} setOpen={setOpenSnackbar}>
-            Added to Food Set!
-          </CustomizedSnackbars>
-        </SearchingResultsStyled>
+        <SearchResult foodCards={foodCards} searchResults={searchResults} />
       )}
     </Wrapper>
   );
