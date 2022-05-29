@@ -52,6 +52,6 @@ export interface SearchResultsProps {
   foodCards: FoodCardDB[];
 }
 
-export interface FoodIdName extends Pick<FoodCardDB, 'foodCardID' | 'name'> {}
+export interface FoodCardInfo extends Omit<FoodCardDB, 'timestamp'> {}
 
 export type ConvertTimestampDB<T> = Omit<T, 'timestamp'> & { timestamp: object };

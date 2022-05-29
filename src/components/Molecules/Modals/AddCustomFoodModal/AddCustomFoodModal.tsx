@@ -2,10 +2,11 @@ import { useAppDispatch } from 'app/hooks';
 import { setModalClose } from 'app/slices/interfaceSlice';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
 import { TitleStyled } from 'components/Molecules/CardStyled/CardStyled.styled';
-import { FoodIdName, NutrientsTypes } from 'components/Organisms/Food/FoodTypes';
+import { FoodCardInfo, NutrientsTypes } from 'components/Organisms/Food/FoodTypes';
 import { addFoodToDB } from 'firebase-cfg/database/food/add';
 import { countNutrientsByWeight } from 'helpers/countNutrientsByWeight';
 import { filterNumberInputValue } from 'helpers/filterNumberInputValue';
+import { MAX_FOODS_IN_CARD } from 'helpers/staticVariables';
 import React, { ChangeEvent, FC, MouseEvent, useEffect, useState } from 'react';
 import { v4 as uuid4 } from 'uuid';
 import AddEditNameModal from '../AddEditNameModal/AddEditNameModal';
@@ -37,7 +38,7 @@ const initialInputValues: NutrientsTypes = {
 };
 
 interface AddCustomFoodModalProps {
-  cards: FoodIdName[];
+  cards: FoodCardInfo[];
   subPageID: string;
 }
 
@@ -112,8 +113,6 @@ const AddCustomFoodModal: FC<AddCustomFoodModalProps> = ({ cards, subPageID }) =
               <div className="insertNutrient">
                 <p>{nutrient}</p>
                 <input
-                  min={0}
-                  max={9999}
                   autoFocus={focusOnInput[nutrient] === true}
                   value={nutrientsValue[nutrient]}
                   onChange={(e) => handleInputChange(e)}
@@ -134,15 +133,19 @@ const AddCustomFoodModal: FC<AddCustomFoodModalProps> = ({ cards, subPageID }) =
       </EnterNutrientsStyled>
       <PickFoodSetStyled>
         <TitleStyled className="chooseFoodTitle">Choose Food Set to put custom food: </TitleStyled>
-        {cards.map((card) => (
-          <NameStyled
-            onClick={(e) => handlePickFoodSet(e, card.foodCardID)}
-            className={`foodSet ${card.foodCardID === pickedFoodSetID && 'active'}`}
-            key={uuid4()}
-          >
-            {card.name}
-          </NameStyled>
-        ))}
+        {cards.map((card) => {
+          const isActive = card.foodCardID === pickedFoodSetID ? 'active' : '';
+          const isDisabled = card.foodSet.length >= MAX_FOODS_IN_CARD ? 'disabled' : '';
+          return (
+            <NameStyled
+              onClick={(e) => handlePickFoodSet(e, card.foodCardID)}
+              className={`foodSet ${isActive} ${isDisabled}`}
+              key={uuid4()}
+            >
+              {card.name}
+            </NameStyled>
+          );
+        })}
         {pickFoodSetError && (
           <ErrorMessage className="errorMessage" errorMessage="Pick a Food Set !"></ErrorMessage>
         )}

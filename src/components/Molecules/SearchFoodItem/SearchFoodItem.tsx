@@ -4,6 +4,7 @@ import { SearchFoodItemTypes } from 'components/Organisms/Food/FoodTypes';
 import { addFoodToDB } from 'firebase-cfg/database/food/add';
 import { addFoodAnimation } from 'helpers/showAddFoodAnimation.ts';
 import { filterNumberInputValue } from 'helpers/filterNumberInputValue';
+import { MAX_FOODS_IN_CARD } from 'helpers/staticVariables';
 import { countNutrientsByWeight } from 'helpers/countNutrientsByWeight';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
 import CustomButton from 'components/Atoms/Buttons/CustomButton/CustomButton';
@@ -150,8 +151,9 @@ const SearchFoodItem = memo(
                 ) : (
                   <>
                     <TitleStyled className="title">Add Food to Food Set: </TitleStyled>
-                    {foodCards.map(({ name, foodCardID }) => (
+                    {foodCards.map(({ name, foodCardID, foodSet }) => (
                       <CustomButton
+                        disabled={foodSet.length >= MAX_FOODS_IN_CARD}
                         handleClick={() => handleSelectFoodCard(foodCardID)}
                         className="foodSetButton"
                         key={uuid4()}

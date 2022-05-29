@@ -81,6 +81,7 @@ const Food = () => {
           cards={foodCards.map((card) => ({
             foodCardID: card.foodCardID,
             name: card.name,
+            foodSet: card.foodSet,
           }))}
         />
       )}

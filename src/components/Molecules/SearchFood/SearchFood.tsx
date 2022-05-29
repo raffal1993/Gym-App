@@ -66,8 +66,6 @@ const SearchFood: FC<SearchFoodProps> = ({ foodCards, handleScrollTop }) => {
       setSearchResults([]);
     }
 
-    //     validation = false;
-
     if (validation) {
       setIsLoading(true);
       await FoodApiInstance.get(`${setURL(searchingValue, page)}`)
@@ -124,41 +122,41 @@ const SearchFood: FC<SearchFoodProps> = ({ foodCards, handleScrollTop }) => {
         {errorMessage && <ErrorMessage className="errorMessage" errorMessage={errorMessage} />}
         <p className="info">All nutrition information is provided per 100 grams of product</p>
       </SearchBarStyled>
-      {!!searchResults.length && (
-        <SearchResult foodCards={foodCards} searchResults={searchResults} />
-      )}
       {searchResults.length !== 0 && (
-        <PaginationStyled>
-          <Button
-            disabled={pageNumber <= 1}
-            className="button prevButton"
-            handleClick={() => handleSearchFood('searchByPageNumber', Number(pageNumber) - 1)}
-          >
-            <ArrowBackIosNewIcon />
-            prev page
-          </Button>
-
-          <div className="goToPage">
-            <input
-              type="number"
-              value={pageNumber.toString()}
-              onChange={(e) => handleInputPageChange(e)}
-            />
+        <>
+          <SearchResult foodCards={foodCards} searchResults={searchResults} />
+          <PaginationStyled>
             <Button
-              className="button pageButton"
-              handleClick={() => handleSearchFood('searchByPageNumber', Number(pageNumber))}
+              disabled={pageNumber <= 1}
+              className="button prevButton"
+              handleClick={() => handleSearchFood('searchByPageNumber', Number(pageNumber) - 1)}
             >
+              <ArrowBackIosNewIcon />
+              prev page
+            </Button>
+
+            <div className="goToPage">
+              <input
+                type="number"
+                value={pageNumber.toString()}
+                onChange={(e) => handleInputPageChange(e)}
+              />
+              <Button
+                className="button pageButton"
+                handleClick={() => handleSearchFood('searchByPageNumber', Number(pageNumber))}
+              >
+                <ArrowForwardIosIcon />
+              </Button>
+            </div>
+            <Button
+              className="button nextButton"
+              handleClick={() => handleSearchFood('searchByPageNumber', Number(pageNumber) + 1)}
+            >
+              next page
               <ArrowForwardIosIcon />
             </Button>
-          </div>
-          <Button
-            className="button nextButton"
-            handleClick={() => handleSearchFood('searchByPageNumber', Number(pageNumber) + 1)}
-          >
-            next page
-            <ArrowForwardIosIcon />
-          </Button>
-        </PaginationStyled>
+          </PaginationStyled>
+        </>
       )}
     </Wrapper>
   );
