@@ -7,6 +7,7 @@ interface ButtonProps {
   isError?: boolean;
   children?: ReactNode;
   className?: string;
+  disabled?: boolean;
 }
 
 const CustomButton: FC<ButtonProps> = ({
@@ -15,12 +16,14 @@ const CustomButton: FC<ButtonProps> = ({
   isError,
   children,
   className,
+  disabled,
 }) => {
   const color = isSucceed ? 'success' : isError ? 'error' : 'primary';
   return (
     <CustomButtonStyled
       className={className}
       color={color}
+      disabled={disabled}
       variant="contained"
       type="submit"
       onClick={handleClick}
@@ -37,4 +40,5 @@ CustomButton.defaultProps = {
   isSucceed: false,
   children: null,
   className: '',
+  disabled: false,
 };
