@@ -1,8 +1,4 @@
 export const modifyTimerValue = (value: number) => {
-  // 00.00
-  // 00.0
-  // 00
-
   const timerValues = value.toString().split('.');
 
   let firstValue = timerValues[0];
