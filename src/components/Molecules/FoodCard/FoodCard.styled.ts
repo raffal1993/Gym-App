@@ -2,7 +2,7 @@ import { styled } from '@mui/material';
 import { CardWrapper } from '../CardStyled/CardStyled.styled';
 
 export const Wrapper = styled(CardWrapper)(({ theme }) => ({
-  maxHeight: '400px',
+  maxHeight: '550px',
   minHeight: '200px',
 
   '& .noFood': {
@@ -13,8 +13,8 @@ export const Wrapper = styled(CardWrapper)(({ theme }) => ({
 
   [theme.breakpoints.down('sm')]: {
     '& .mainTitle': {
-      padding: '10px 0px',
-      minHeight: '40px',
+      padding: '5px 0px',
+      minHeight: '50px',
     },
   },
 }));

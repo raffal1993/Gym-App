@@ -56,6 +56,10 @@ export const SearchBarStyled = styled('div')(({ theme }) => ({
       fontWeight: '500',
       fontFamily: theme.fonts.roboto,
       boxShadow: '0px 0px 10px 2px rgba(0,0,0,.6)',
+
+      '::placeholder': {
+        fontSize: '1.2rem',
+      },
     },
   },
 
@@ -99,13 +103,54 @@ export const SearchBarStyled = styled('div')(({ theme }) => ({
   },
 }));
 
-export const SearchingResultsStyled = styled('div')(({ theme }) => ({
-  width: '100%',
+export const PaginationStyled = styled('div')(({ theme }) => ({
   display: 'flex',
-  justifyContent: 'center',
-  flexWrap: 'wrap',
-  margin: '25px 0px',
-  padding: '25px 0px',
-  borderRadius: '5px',
-  background: theme.colors.bgColorOne,
+  justifyContent: 'space-between',
+  backgroundColor: `rgba(45, 53, 65, 0.8)`,
+  width: '100%',
+  margin: '0px',
+  padding: '15px 0px',
+
+  '& .goToPage': {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '33%',
+    gap: '10px',
+
+    input: {
+      borderRadius: '5px',
+      width: '50px',
+      height: '30px',
+      border: 'none',
+      textAlign: 'center',
+    },
+
+    '& .pageButton': {
+      margin: '0',
+      padding: '5px',
+      minWidth: '40px',
+      width: '40px',
+    },
+  },
+
+  '& .button': {
+    display: 'flex',
+    width: '150px',
+    justifyContent: 'space-evenly',
+    margin: '0 20px',
+    padding: '5px',
+
+    ':disabled': {
+      backgroundColor: `${theme.colors.primary}`,
+      color: theme.colors.white,
+      opacity: '0.3',
+    },
+  },
+
+  [theme.breakpoints.down('xs')]: {
+    '& .button': {
+      width: '100px',
+    },
+  },
 }));

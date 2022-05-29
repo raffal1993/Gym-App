@@ -123,3 +123,46 @@ export const AddToFoodSetStyled = styled('div')(({ theme }) => ({
     },
   },
 }));
+
+export const InsertWeightStyled = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '15px',
+  height: '100%',
+
+  input: {
+    minHeight: '35px',
+    width: '40%',
+    textAlign: 'center',
+    borderRadius: '5px',
+    border: 'none',
+    fontFamily: theme.fonts.sarpanch,
+  },
+
+  '& .weightTitle': {
+    letterSpacing: 'initial',
+  },
+
+  '& .weightButton': {
+    width: '50%',
+    fontSize: '1rem',
+  },
+
+  '& .error': {
+    position: 'absolute',
+    bottom: '20px',
+    fontSize: '1.1rem',
+  },
+
+  [theme.breakpoints.down('xs')]: {
+    '& .weightTitle': {
+      fontSize: '1.2rem',
+    },
+
+    '& .error': {
+      fontSize: '1rem',
+    },
+  },
+}));

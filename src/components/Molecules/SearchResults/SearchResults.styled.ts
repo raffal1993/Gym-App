@@ -5,8 +5,9 @@ export const SearchingResultsStyled = styled('div')(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
   flexWrap: 'wrap',
-  margin: '25px 0px',
+  margin: '25px 0px 0px 0px',
   padding: '25px 0px',
-  borderRadius: '5px',
+  borderTopLeftRadius: '5px',
+  borderTopRightRadius: '5px',
   background: theme.colors.bgColorOne,
 }));

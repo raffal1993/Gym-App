@@ -31,6 +31,8 @@ export const EnterNutrientsStyled = styled('div')(({ theme }) => ({
   '& .info': {
     fontSize: '1.2rem',
     color: theme.colors.white,
+    marginTop: '15px',
+    marginBottom: '5px',
   },
 
   '& .insertNutrient': {
@@ -55,6 +57,10 @@ export const EnterNutrientsStyled = styled('div')(({ theme }) => ({
       fontSize: '1.2rem',
       fontFamily: theme.fonts.sarpanch,
       border: 'none',
+    },
+
+    'input:focus::-webkit-input-placeholder': {
+      opacity: '0',
     },
   },
 }));

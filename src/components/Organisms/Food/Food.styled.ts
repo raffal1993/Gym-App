@@ -21,7 +21,7 @@ export const Wrapper = styled('div')(({ theme }) => ({
   },
 }));
 
-export const ScrollTopStyled = styled('div')<{ is_visible: string }>(({ theme, is_visible }) => ({
+export const ScrollTopStyled = styled('div')(({ theme }) => ({
   height: '50px',
   width: '50px',
   position: 'fixed',
@@ -33,7 +33,7 @@ export const ScrollTopStyled = styled('div')<{ is_visible: string }>(({ theme, i
   border: '4px solid black',
   borderRadius: '50%',
   zIndex: '100',
-  transform: `${is_visible === 'true' ? 'scale(1)' : 'scale(0)'}`,
+  transform: 'scale(0)',
 
   '&:hover': {
     opacity: '1',

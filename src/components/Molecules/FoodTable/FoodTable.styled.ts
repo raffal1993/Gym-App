@@ -73,12 +73,20 @@ export const SmallTable = styled('div')(({ theme }) => ({
   },
 
   '& .title': {
-    fontSize: '1.8rem',
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    alignSelf: 'center',
+    fontSize: '1.5rem',
     color: theme.colors.primaryLight,
     fontWeight: 'bold',
     marginBottom: '15px',
     textShadow: '2px 2px black',
     wordBreak: 'break-word',
+
+    '& .weight': {
+      fontSize: '1.2rem',
+    },
   },
 
   '& .nutrients': {
@@ -93,10 +101,17 @@ export const SmallTable = styled('div')(({ theme }) => ({
 
   '& .macronutrient': {
     width: '100%',
+    display: 'flex',
     textAlign: 'start',
     color: theme.colors.primaryLight,
     textShadow: 'none',
     marginBottom: '5px',
+
+    '& .key': {
+      width: '50%',
+      direction: 'rtl',
+      marginRight: '10px',
+    },
 
     '& .value': {
       fontWeight: 'bold',
@@ -106,20 +121,25 @@ export const SmallTable = styled('div')(({ theme }) => ({
   },
 
   '& .titleTotal': {
-    borderRadius: '5px',
+    borderRadius: '3px',
+    height: '30px',
+    textAlign: 'center',
+    lineHeight: '30px',
     backgroundColor: theme.colors.burlyWood,
     color: theme.colors.bgDark,
     textShadow: 'none',
   },
 
   '& .macronutrientTotal': {
-    textAlign: 'center',
-    fontWeight: 'bold',
     width: '100%',
     borderBottom: '1px solid black',
     padding: '5px 0px',
     color: theme.colors.burlyWood,
+    border: '1px solid black',
 
+    '& .keyTotal': {
+      textShadow: '2px 2px black',
+    },
     '& .valueTotal': {
       color: theme.colors.white,
     },
