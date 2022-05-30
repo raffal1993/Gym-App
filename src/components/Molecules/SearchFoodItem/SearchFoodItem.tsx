@@ -6,6 +6,7 @@ import { addFoodAnimation } from 'helpers/showAddFoodAnimation.ts';
 import { filterNumberInputValue } from 'helpers/filterNumberInputValue';
 import { MAX_FOODS_IN_CARD } from 'helpers/staticVariables';
 import { countNutrientsByWeight } from 'helpers/countNutrientsByWeight';
+import Spinner from 'components/Atoms/Spinner/Spinner';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
 import CustomButton from 'components/Atoms/Buttons/CustomButton/CustomButton';
 import { useAppSelector } from 'app/hooks';
@@ -28,6 +29,7 @@ const SearchFoodItem = memo(
     image,
     foodCards,
     setOpenSnackbar,
+    isLoading,
   }: SearchFoodItemTypes) => {
     const [src, setSrc] = useState<string | undefined>(image);
     const [showAddToFoodSet, setShowAddToFoodSet] = useState<boolean>(false);
@@ -103,7 +105,11 @@ const SearchFoodItem = memo(
       return () => clearTimeout(errorMessageTimeout);
     });
 
-    return (
+    return isLoading ? (
+      <Wrapper>
+        <Spinner className="spinner" />
+      </Wrapper>
+    ) : (
       <Wrapper onMouseLeave={handleOnMouseLeave} onClick={handleShowAddFoodPanel}>
         <h2 className="foodName">{label}</h2>
         {src ? <img onError={() => handleImgError()} src={src} alt="food" /> : <MyIcon />}

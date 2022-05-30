@@ -38,6 +38,7 @@ export interface SearchFoodItemTypes extends Omit<FoodDB, 'nutrients'> {
   nutrients: NutrientsTypes;
   foodCards?: FoodCardDB[];
   setOpenSnackbar: (arg: boolean) => void;
+  isLoading: boolean;
 }
 
 export interface FoodCardDB {
@@ -50,6 +51,7 @@ export interface FoodCardDB {
 export interface SearchResultsProps {
   searchResults: SearchFoodItemTypes[];
   foodCards: FoodCardDB[];
+  isLoading: boolean;
 }
 
 export interface FoodCardInfo extends Omit<FoodCardDB, 'timestamp'> {}

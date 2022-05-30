@@ -63,7 +63,6 @@ const SearchFood: FC<SearchFoodProps> = ({ foodCards, handleScrollTop }) => {
       validation = true;
       searchingValue = searchingPhrase;
       handleScrollTop();
-      setSearchResults([]);
     }
 
     if (validation) {
@@ -124,7 +123,7 @@ const SearchFood: FC<SearchFoodProps> = ({ foodCards, handleScrollTop }) => {
       </SearchBarStyled>
       {searchResults.length !== 0 && (
         <>
-          <SearchResult foodCards={foodCards} searchResults={searchResults} />
+          <SearchResult isLoading={isLoading} foodCards={foodCards} searchResults={searchResults} />
           <PaginationStyled>
             <Button
               disabled={pageNumber <= 1}

@@ -5,13 +5,14 @@ import { v4 as uuid4 } from 'uuid';
 import SearchFoodItem from '../SearchFoodItem/SearchFoodItem';
 import { SearchingResultsStyled } from './SearchResults.styled';
 
-const SearchResults = memo(({ searchResults, foodCards }: SearchResultsProps) => {
+const SearchResults = memo(({ searchResults, foodCards, isLoading }: SearchResultsProps) => {
   const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
 
   return (
     <SearchingResultsStyled>
       {searchResults.map(({ label, nutrients, image }) => (
         <SearchFoodItem
+          isLoading={isLoading}
           setOpenSnackbar={setOpenSnackbar}
           foodCards={foodCards}
           key={uuid4()}
