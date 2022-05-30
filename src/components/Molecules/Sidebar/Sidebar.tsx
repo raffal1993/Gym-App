@@ -15,7 +15,7 @@ import { SidebarListStyled, SliderStyled, Wrapper } from './Sidebar.styled';
 import EditSidebarModal from '../Modals/EditSidebarModal/EditSidebarModal';
 
 const Sidebar = () => {
-  const [value, setValue] = useState(0);
+  const [indexSidebarPage, setIndexSidebarPage] = useState(0);
   const { isWidthSmaller } = useResize('sm');
   const dispatch = useAppDispatch();
   const {
@@ -27,11 +27,11 @@ const Sidebar = () => {
     _event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     index: number,
   ) => {
-    setValue(index);
+    setIndexSidebarPage(index);
   };
 
   useEffect(() => {
-    setValue(0);
+    setIndexSidebarPage(0);
   }, [mainPage]);
 
   useEffect(() => {
@@ -41,17 +41,18 @@ const Sidebar = () => {
       return;
     }
 
-    if (value >= sidebarList.length || subPageID === sidebarList[value].id) return;
+    if (indexSidebarPage >= sidebarList.length || subPageID === sidebarList[indexSidebarPage].id)
+      return;
 
-    dispatch(setSubPageID(sidebarList[value].id));
-  }, [subPageID, sidebarList, value, dispatch]);
+    dispatch(setSubPageID(sidebarList[indexSidebarPage].id));
+  }, [subPageID, sidebarList, indexSidebarPage, dispatch]);
 
   const handleSidebarVisibility = () => {
     dispatch(setSidebarVisibility());
   };
 
   const handleOpenModal = () => {
-    dispatch(setModalOpen(<EditSidebarModal />));
+    dispatch(setModalOpen(<EditSidebarModal setIndexSidebarPage={setIndexSidebarPage} />));
   };
 
   return (
@@ -62,8 +63,8 @@ const Sidebar = () => {
           isEditModeOn={isEditModeOn}
           isSidebarItem
           elements={sidebarList}
-          setValue={setValue}
-          value={value}
+          setValue={setIndexSidebarPage}
+          value={indexSidebarPage}
         />
       ) : (
         <SidebarListStyled is_sidebar_hide={isSidebarHide!.toString()}>
@@ -71,18 +72,17 @@ const Sidebar = () => {
             sidebarList.map((el, index) => (
               <ListItemButton
                 key={uuidv4()}
-                selected={value === index}
+                selected={indexSidebarPage === index}
                 onClick={(event) => handleListItemClick(event, index)}
               >
                 <div className="listNumber">{index + 1}</div>
                 <ListItemText primary={el.name} />
               </ListItemButton>
             ))}
-          {isEditModeOn && sidebarList && sidebarList.length < 10 && (
-            <EditDbButton className="buttonAddSubPage" onClick={handleOpenModal}>
-              <ConstructionIcon />
-            </EditDbButton>
-          )}
+
+          <EditDbButton className="buttonAddSubPage" onClick={handleOpenModal}>
+            <ConstructionIcon />
+          </EditDbButton>
         </SidebarListStyled>
       )}
 
