@@ -1,9 +1,10 @@
 import CloseIcon from '@mui/icons-material/Close';
 import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarTypes';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { v4 as uuid4 } from 'uuid';
 import { useAppSelector } from 'app/hooks';
 import { RootState } from 'app/store';
+import { MAX_SIDEBAR_ELEMENTS } from 'helpers/staticVariables';
 import { removeSubPage } from 'firebase-cfg/database/dashboard/remove';
 import { addSubPageToDB } from 'firebase-cfg/database/dashboard/add';
 import { updateSubPageName } from 'firebase-cfg/database/dashboard/update';
@@ -13,16 +14,34 @@ import { ConfirmationButtonStyled, NameStyled, RemoveButtonStyled } from '../Mod
 
 let timeout: NodeJS.Timer;
 
-const EditSidebarModal = () => {
+interface EditSidebarModalProps {
+  setIndexSidebarPage: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const EditSidebarModal: FC<EditSidebarModalProps> = ({ setIndexSidebarPage }) => {
   const [nameForChange, setNameForChange] = useState<SidebarListProps>();
   const [confirmIndexes, setConfirmIndexes] = useState<number[]>([]);
 
   const {
-    pages: { mainPage, sidebarList },
+    pages: { subPageID, mainPage, sidebarList },
   } = useAppSelector((state): RootState => state);
 
   const removePage = (pageID: string) => {
-    if (mainPage && pageID) removeSubPage(mainPage, pageID);
+    if (mainPage && pageID) {
+      removeSubPage(mainPage, pageID);
+
+      const isSidebarListExist = sidebarList !== undefined && sidebarList.length > 1;
+
+      if (isSidebarListExist) {
+        const sidebarListAfterRemove = sidebarList.filter((page) => page.id !== pageID);
+
+        let activeSubPageIndex = sidebarListAfterRemove.findIndex(({ id }) => id === subPageID);
+
+        activeSubPageIndex = activeSubPageIndex === -1 ? 0 : activeSubPageIndex;
+
+        setIndexSidebarPage(activeSubPageIndex);
+      }
+    }
   };
 
   const addSubPage = (newName: string) => {
@@ -52,6 +71,8 @@ const EditSidebarModal = () => {
       setConfirmIndexes([]);
     }, 2500);
   };
+
+  const allowToAddSidebarPage = sidebarList && sidebarList.length < MAX_SIDEBAR_ELEMENTS;
 
   return (
     <Wrapper>
@@ -84,11 +105,13 @@ const EditSidebarModal = () => {
           buttonText="Change name"
         />
       )}
-      <AddEditNameModal
-        title="Add new page: "
-        updateDbCallback={addSubPage}
-        buttonText="Add page"
-      />
+      {allowToAddSidebarPage && (
+        <AddEditNameModal
+          title="Add new page: "
+          updateDbCallback={addSubPage}
+          buttonText="Add page"
+        />
+      )}
     </Wrapper>
   );
 };
