@@ -2,7 +2,6 @@ import React, { cloneElement, FC, ReactElement, useState } from 'react';
 import { Tab } from '@mui/material';
 import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
 import ConstructionIcon from '@mui/icons-material/Construction';
-import { MAX_SETS } from 'helpers/staticVariables';
 import { v4 as uuidv4 } from 'uuid';
 import { SidebarListProps } from '../Sidebar/SidebarTypes';
 import { TabsStyled } from './CustomTabs.styled';
@@ -25,7 +24,7 @@ const CustomTabs: FC<CustomTabsProps> = ({
   component,
   className,
   isSidebarItem,
-  handleOpenModal,
+  handleOpenModal = () => {},
   isEditModeOn,
 }) => {
   const [defaultValue, setDefaultValue] = useState(0);
@@ -34,8 +33,6 @@ const CustomTabs: FC<CustomTabsProps> = ({
     if (setValue) setValue(index);
     else setDefaultValue(index);
   };
-
-  const showEditButton = isSidebarItem && isEditModeOn && elements.length < MAX_SETS;
 
   return (
     <>
@@ -55,11 +52,8 @@ const CustomTabs: FC<CustomTabsProps> = ({
                 label={component && cloneElement(component, { name: el as string })}
               ></Tab>
             ))}
-        {showEditButton && (
-          <EditDbButton
-            className="buttonAddSubPage"
-            onClick={handleOpenModal === undefined ? () => {} : handleOpenModal}
-          >
+        {isEditModeOn && (
+          <EditDbButton className="buttonAddSubPage" onClick={handleOpenModal}>
             <ConstructionIcon />
           </EditDbButton>
         )}
@@ -77,6 +71,6 @@ CustomTabs.defaultProps = {
   className: '',
   setValue: () => {},
   isSidebarItem: false,
-  handleOpenModal: undefined,
+  handleOpenModal: () => {},
   isEditModeOn: false,
 };
