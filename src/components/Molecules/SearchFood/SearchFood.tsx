@@ -18,11 +18,10 @@ import SearchResult from '../SearchResults/SearchResults';
 
 type SearchFoodMethod = 'searchByPageNumber' | 'searchByPhrase';
 interface SearchFoodProps {
-  handleScrollTop: () => void;
   foodCards: FoodCardDB[];
 }
 
-const SearchFood: FC<SearchFoodProps> = ({ foodCards, handleScrollTop }) => {
+const SearchFood: FC<SearchFoodProps> = ({ foodCards }) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [searchingPhrase, setSearchingPhrase] = useState<string>('');
   const [pageNumber, setPageNumber] = useState<number>(1);
@@ -93,7 +92,6 @@ const SearchFood: FC<SearchFoodProps> = ({ foodCards, handleScrollTop }) => {
         .finally(() => {
           setIsLoading(false);
           if (searchResultsRef.current) {
-            console.log(searchResultsRef.current);
             searchResultsRef.current.scrollIntoView({ behavior: 'smooth' });
           }
         });

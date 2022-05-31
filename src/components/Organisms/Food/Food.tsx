@@ -85,7 +85,7 @@ const Food = () => {
           }))}
         />
       )}
-      {isSearchModeOn && <SearchFood handleScrollTop={handleScrollTop} foodCards={foodCards} />}
+      {isSearchModeOn && <SearchFood foodCards={foodCards} />}
       {foodCards.map((foodCard) => (
         <FoodCard key={uuid4()} foodCard={foodCard} />
       ))}
