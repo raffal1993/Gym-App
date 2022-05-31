@@ -31,6 +31,7 @@ const SearchFood: FC<SearchFoodProps> = ({ foodCards, handleScrollTop }) => {
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const searchResultsRef = useRef<HTMLDivElement>(null);
 
   const handleInputSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -62,7 +63,6 @@ const SearchFood: FC<SearchFoodProps> = ({ foodCards, handleScrollTop }) => {
       page === 0 ? setPageNumber(1) : setPageNumber(page);
       validation = true;
       searchingValue = searchingPhrase;
-      handleScrollTop();
     }
 
     if (validation) {
@@ -90,7 +90,13 @@ const SearchFood: FC<SearchFoodProps> = ({ foodCards, handleScrollTop }) => {
           setErrorMessage('An error has occurred');
           setPageNumber(1);
         })
-        .finally(() => setIsLoading(false));
+        .finally(() => {
+          setIsLoading(false);
+          if (searchResultsRef.current) {
+            console.log(searchResultsRef.current);
+            searchResultsRef.current.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
     }
   };
   useEffect(() => {
@@ -103,7 +109,7 @@ const SearchFood: FC<SearchFoodProps> = ({ foodCards, handleScrollTop }) => {
 
   return (
     <Wrapper>
-      <SearchBarStyled>
+      <SearchBarStyled ref={searchResultsRef}>
         <h1>Search for food: </h1>
         <label htmlFor="searchFood">
           <SearchIcon />
@@ -139,6 +145,9 @@ const SearchFood: FC<SearchFoodProps> = ({ foodCards, handleScrollTop }) => {
                 type="number"
                 value={pageNumber.toString()}
                 onChange={(e) => handleInputPageChange(e)}
+                onKeyPress={(e) =>
+                  e.key === 'Enter' && handleSearchFood('searchByPageNumber', Number(pageNumber))
+                }
               />
               <Button
                 className="button pageButton"
