@@ -79,10 +79,11 @@ const Sidebar = () => {
                 <ListItemText primary={el.name} />
               </ListItemButton>
             ))}
-
-          <EditDbButton className="buttonAddSubPage" onClick={handleOpenModal}>
-            <ConstructionIcon />
-          </EditDbButton>
+          {isEditModeOn && (
+            <EditDbButton className="buttonAddSubPage" onClick={handleOpenModal}>
+              <ConstructionIcon />
+            </EditDbButton>
+          )}
         </SidebarListStyled>
       )}
 
