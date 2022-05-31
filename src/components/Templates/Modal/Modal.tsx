@@ -1,4 +1,5 @@
 import BasicModal from '@mui/material/Modal';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { setModalClose } from 'app/slices/interfaceSlice';
 import { RootState } from 'app/store';
@@ -21,7 +22,12 @@ const Modal = () => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <ModalContentStyled>{modalContent && cloneElement(modalContent)}</ModalContentStyled>
+      <ModalContentStyled>
+        {modalContent && cloneElement(modalContent)}
+        <div onClick={handleCloseModal} className="close">
+          <ArrowBackIosNewIcon />
+        </div>
+      </ModalContentStyled>
     </BasicModal>
   );
 };
