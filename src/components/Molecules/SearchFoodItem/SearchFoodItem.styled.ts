@@ -2,6 +2,7 @@ import { styled } from '@mui/material';
 
 export const Wrapper = styled('div')(({ theme }) => ({
   width: '200px',
+  minHeight: '350px',
   margin: '10px',
   position: 'relative',
   fontSize: '1.1em',
@@ -17,6 +18,14 @@ export const Wrapper = styled('div')(({ theme }) => ({
   boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.8)',
   transition: 'all 0.1s ease-in-out',
   overflow: 'hidden',
+
+  '& .spinner': {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '30%',
+  },
 
   '&:hover': {
     cursor: 'pointer',
@@ -37,6 +46,7 @@ export const Wrapper = styled('div')(({ theme }) => ({
 
   [theme.breakpoints.down('xs')]: {
     width: '150px',
+    minHeight: '250px',
     fontSize: '1rem',
 
     'svg,img': {
@@ -81,6 +91,7 @@ export const AddToFoodSetStyled = styled('div')(({ theme }) => ({
   overflowY: 'auto',
   paddingBottom: '20px',
   animation: 'show 0.3s linear forwards',
+  cursor: 'default',
 
   '@keyframes show': {
     '100%': {
@@ -111,6 +122,10 @@ export const AddToFoodSetStyled = styled('div')(({ theme }) => ({
     padding: '5px 15px',
     margin: '15px',
     color: theme.colors.primaryLight,
+
+    ':disabled': {
+      opacity: '0.4',
+    },
 
     '&:hover': {
       boxShadow: 'inset 0px 0px 10px 0px rgba(0,0,0,0.9)',

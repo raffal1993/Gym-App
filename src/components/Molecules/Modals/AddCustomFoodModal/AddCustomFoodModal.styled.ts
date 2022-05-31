@@ -86,6 +86,11 @@ export const PickFoodSetStyled = styled('div')(({ theme }) => ({
     minWidth: '40%',
   },
 
+  '& .disabled': {
+    pointerEvents: 'none',
+    opacity: '0.4',
+  },
+
   '.errorMessageNutrients': {
     fontSize: '1.1rem',
     color: `rgba(255,136,106,1)`,

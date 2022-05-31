@@ -18,6 +18,11 @@ export const AddButtonsStyled = styled('div')(({ theme }) => ({
     background: theme.colors.bgColorOne,
     transition: 'all 0.1s ease-in-out',
 
+    ':disabled': {
+      color: theme.colors.white,
+      opacity: '0.4',
+    },
+
     svg: {
       fontSize: '2em',
       color: theme.colors.burlyWood,

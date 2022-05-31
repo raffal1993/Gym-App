@@ -9,7 +9,7 @@ interface SpinnerProps {
 const Spinner: FC<SpinnerProps> = ({ className }) => {
   return (
     <Box className={className} sx={{ display: 'flex' }}>
-      <CircularProgress style={{ width: '100%', height: '100%' }} />
+      <CircularProgress />
     </Box>
   );
 };
