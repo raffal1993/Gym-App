@@ -28,6 +28,11 @@ export const Wrapper = styled('div')(({ theme }) => ({
     '& .MuiTabs-indicator': {
       display: 'none',
     },
+
+    [theme.breakpoints.down('sm')]: {
+      minHeight: '50px',
+      borderRadius: '0px',
+    },
   },
 
   [theme.breakpoints.down('sm')]: {

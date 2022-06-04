@@ -28,4 +28,17 @@ export const Wrapper = styled('div')(({ theme }) => ({
     fontSize: '3rem',
     pointerEvents: 'auto',
   },
+
+  [theme.breakpoints.down('sm')]: {
+    h5: {
+      fontSize: '1.1rem',
+    },
+    img: {
+      height: '40px',
+      borderRadius: '5px',
+    },
+    svg: {
+      fontSize: '2.3rem',
+    },
+  },
 }));

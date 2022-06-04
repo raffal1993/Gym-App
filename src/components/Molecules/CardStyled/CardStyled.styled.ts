@@ -30,7 +30,6 @@ export const TitleStyled = styled(`h1`)(({ theme }) => ({
   fontSize: '1.8rem',
   letterSpacing: '1px',
   fontWeight: '400',
-  //   whiteSpace: 'nowrap',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   textAlign: 'center',
@@ -44,6 +43,6 @@ export const TitleStyled = styled(`h1`)(({ theme }) => ({
   },
 
   [theme.breakpoints.down('xs')]: {
-    fontSize: '1.3rem',
+    fontSize: '1.2rem',
   },
 }));
