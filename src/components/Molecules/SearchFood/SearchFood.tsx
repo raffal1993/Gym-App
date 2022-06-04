@@ -1,22 +1,19 @@
 import { FoodApiInstance } from 'api/FoodAPI/instance';
 import Button from 'components/Atoms/Buttons/CustomButton/CustomButton';
-import { setURL } from 'helpers/setURL';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import React, { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, FC, useRef, useState } from 'react';
 import {
   FoodCardDB,
   NutrientsTypes,
   FoodDB,
   SearchFoodItemTypes,
+  SearchFoodMethod,
 } from 'components/Organisms/Food/FoodTypes';
-import SearchIcon from '@mui/icons-material/Search';
-import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
-import Spinner from 'components/Atoms/Spinner/Spinner';
-import { Wrapper, SearchBarStyled, PaginationStyled } from './SearchFood.styled';
+import { Wrapper, PaginationStyled } from './SearchFood.styled';
 import SearchResult from '../SearchResults/SearchResults';
+import SearchPanel from '../SearchPanel/SearchPanel';
 
-type SearchFoodMethod = 'searchByPageNumber' | 'searchByPhrase';
 interface SearchFoodProps {
   foodCards: FoodCardDB[];
 }
@@ -29,12 +26,7 @@ const SearchFood: FC<SearchFoodProps> = ({ foodCards }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
-  const inputRef = useRef<HTMLInputElement>(null);
   const searchResultsRef = useRef<HTMLDivElement>(null);
-
-  const handleInputSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-  };
 
   const handleInputPageChange = (e: ChangeEvent<HTMLInputElement>) => {
     let { value } = e.currentTarget;
@@ -66,7 +58,10 @@ const SearchFood: FC<SearchFoodProps> = ({ foodCards }) => {
 
     if (validation) {
       setIsLoading(true);
-      await FoodApiInstance.get(`${setURL(searchingValue, page)}`)
+      page = page <= 0 ? 1 : page;
+      await FoodApiInstance.get('', {
+        params: { ingr: searchingValue, session: page * 20 - 20 },
+      })
         .then((res) => {
           const foods = res.data.hints.map(
             ({ food: { image, label, nutrients } }: { food: FoodDB }) => ({
@@ -97,34 +92,21 @@ const SearchFood: FC<SearchFoodProps> = ({ foodCards }) => {
         });
     }
   };
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setErrorMessage('');
-    }, 2500);
-
-    return () => clearTimeout(timeout);
-  }, [errorMessage]);
 
   return (
     <Wrapper>
-      <SearchBarStyled ref={searchResultsRef}>
-        <h1>Search for food: </h1>
-        <label htmlFor="searchFood">
-          <SearchIcon />
-          <input
-            ref={inputRef}
-            onKeyPress={(e) => e.key === 'Enter' && handleSearchFood('searchByPhrase')}
-            placeholder="(english only)"
-            type="text"
-            onChange={(e) => handleInputSearchChange(e)}
-            value={inputValue}
-          />
-        </label>
-        <Button handleClick={() => handleSearchFood('searchByPhrase')}>Search Food</Button>
-        {isLoading && <Spinner />}
-        {errorMessage && <ErrorMessage className="errorMessage" errorMessage={errorMessage} />}
-        <p className="info">All nutrition information is provided per 100 grams of product</p>
-      </SearchBarStyled>
+      <SearchPanel
+        title="Search for food: "
+        setInputValue={setInputValue}
+        inputValue={inputValue}
+        errorMessage={errorMessage}
+        setErrorMessage={setErrorMessage}
+        isLoading={isLoading}
+        info="All nutrition information is provided per 100 grams of product"
+        placeholder="(english only)"
+        buttonText="Search Food"
+        searchFoodCb={handleSearchFood}
+      />
       {searchResults.length !== 0 && (
         <>
           <SearchResult isLoading={isLoading} foodCards={foodCards} searchResults={searchResults} />
