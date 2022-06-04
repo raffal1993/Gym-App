@@ -15,6 +15,7 @@ export const countNutrientsByWeight = ({
   const convertedNutrients = Object.entries(nutrients).reduce((prev, cur) => {
     const [key, value] = cur;
     prev[key] = (Number(value) * ratio).toFixed(1).toString();
+    prev[key] = prev[key] === 'NaN' ? '(?)' : prev[key];
     return prev;
   }, {} as Record<string, string>);
 
