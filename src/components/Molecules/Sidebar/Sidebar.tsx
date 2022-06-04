@@ -35,14 +35,11 @@ const Sidebar = () => {
   }, [mainPage]);
 
   useEffect(() => {
-    if (!sidebarList) return;
-    if (sidebarList.length === 0) {
+    if (!sidebarList || sidebarList.length === 0) {
       dispatch(setSubPageID(''));
       return;
     }
-
-    if (indexSidebarPage >= sidebarList.length || subPageID === sidebarList[indexSidebarPage].id)
-      return;
+    if (subPageID === sidebarList[indexSidebarPage].id) return;
 
     dispatch(setSubPageID(sidebarList[indexSidebarPage].id));
   }, [subPageID, sidebarList, indexSidebarPage, dispatch]);

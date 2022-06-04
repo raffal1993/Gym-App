@@ -44,26 +44,15 @@ const Workout = () => {
         ></AddExerciseTabs>
       )}
 
-      <CustomizedRoutes>
-        <Route
-          path={`/${subPageID}`}
-          element={
-            <>
-              {workoutList.map(({ exerciseID, name, type, versions }) => (
-                <WorkoutCard
-                  key={uuid4()}
-                  exerciseID={exerciseID}
-                  name={name}
-                  type={type}
-                  versions={versions}
-                />
-              ))}
-            </>
-          }
+      {workoutList.map(({ exerciseID, name, type, versions }) => (
+        <WorkoutCard
+          key={uuid4()}
+          exerciseID={exerciseID}
+          name={name}
+          type={type}
+          versions={versions}
         />
-
-        <Route path="/*" element={<></>} />
-      </CustomizedRoutes>
+      ))}
     </Wrapper>
   );
 };

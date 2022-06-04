@@ -18,7 +18,7 @@ import { Wrapper } from './Dashboard.styled';
 
 const Dashboard = () => {
   const {
-    pages: { mainPage, subPageID, sidebarList },
+    pages: { mainPage },
   } = useAppSelector((state: RootState) => state);
 
   const dispatch = useAppDispatch();
@@ -31,13 +31,12 @@ const Dashboard = () => {
   }, [mainPage, dispatch]);
 
   useEffect(() => {
-    if (!sidebarList || sidebarList.length === 0) return;
     const timeout = setTimeout(() => {
-      if (mainPage && subPageID) navigate(`/dashboard/${mainPage}/${subPageID}`);
+      if (mainPage) navigate(`/dashboard/${mainPage}`);
     }, 100);
 
     return () => clearTimeout(timeout);
-  }, [navigate, mainPage, subPageID, sidebarList]);
+  }, [navigate, mainPage]);
 
   return (
     <Wrapper>

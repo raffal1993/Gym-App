@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useEffect } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -27,13 +27,14 @@ const basicPages = [
 ];
 
 const Navbar = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const {
     user: { email: userEmail },
     interface: { isSidebarHide },
+    pages: { mainPage },
   } = useAppSelector((state: RootState) => state);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -49,6 +50,13 @@ const Navbar = () => {
     auth.signOut();
     navigate('/');
   };
+
+  useEffect(() => {
+    if (!mainPage) {
+      navigate('/dashboard/profile');
+      dispatch(setMainPage('profile'));
+    }
+  }, [navigate, mainPage, dispatch]);
 
   return (
     <Wrapper>

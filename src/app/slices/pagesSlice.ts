@@ -2,9 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarTypes';
 import { getLocalStorage, updateLocalStorage } from 'helpers/localStorage';
 
-const getInitialPage = (page: string) => {
-  if (window.location.pathname === '/dashboard') return '';
-  return getLocalStorage('pages', page) || '';
+const getInitialPage = () => {
+  const lookingPage = 'mainPage';
+  const page = getLocalStorage('pages');
+  if (!(lookingPage in page)) return '';
+  return page[lookingPage];
 };
 
 interface PagesState {
@@ -13,8 +15,8 @@ interface PagesState {
   sidebarList?: SidebarListProps[] | [];
 }
 const initialState: PagesState = {
-  mainPage: getInitialPage('mainPage'),
-  subPageID: getInitialPage('subPageID'),
+  mainPage: getInitialPage(),
+  subPageID: '',
   sidebarList: [],
 };
 
@@ -31,8 +33,6 @@ export const interfaceSlice = createSlice({
 
     setSubPageID: (state, action: PayloadAction<typeof initialState.subPageID>) => {
       state.subPageID = action.payload;
-
-      updateLocalStorage('pages', { subPageID: action.payload });
     },
 
     setSidebarList: (state, action: PayloadAction<typeof initialState.sidebarList>) => {
