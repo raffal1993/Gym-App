@@ -1,8 +1,8 @@
+import { ChangeEvent, FC, useRef, useState } from 'react';
 import { FoodApiInstance } from 'api/FoodAPI/instance';
 import Button from 'components/Atoms/Buttons/CustomButton/CustomButton';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import React, { ChangeEvent, FC, useRef, useState } from 'react';
 import {
   FoodCardDB,
   NutrientsTypes,
@@ -11,7 +11,7 @@ import {
   SearchFoodMethod,
 } from 'components/Organisms/Food/FoodTypes';
 import { Wrapper, PaginationStyled } from './SearchFood.styled';
-import SearchResult from '../SearchResults/SearchResults';
+import SearchFoodResults from '../SearchFoodResults/SearchFoodResults';
 import SearchPanel from '../SearchPanel/SearchPanel';
 
 interface SearchFoodProps {
@@ -106,10 +106,15 @@ const SearchFood: FC<SearchFoodProps> = ({ foodCards }) => {
         placeholder="(english only)"
         buttonText="Search Food"
         searchFoodCb={handleSearchFood}
+        ref={searchResultsRef}
       />
       {searchResults.length !== 0 && (
         <>
-          <SearchResult isLoading={isLoading} foodCards={foodCards} searchResults={searchResults} />
+          <SearchFoodResults
+            isLoading={isLoading}
+            foodCards={foodCards}
+            searchResults={searchResults}
+          />
           <PaginationStyled>
             <Button
               disabled={pageNumber <= 1}
