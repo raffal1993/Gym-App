@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useAppSelector } from 'app/hooks';
 import { RootState } from 'app/store';
 import SearchIcon from '@mui/icons-material/Search';
@@ -12,7 +12,7 @@ import AddFood from 'components/Molecules/AddFood/AddFood';
 import { ScrollTopStyled, Wrapper } from './Food.styled';
 import { FoodCardDB } from './FoodTypes';
 
-const Food = () => {
+const Food = memo(() => {
   const [isSearchModeOn, setIsSearchModeOn] = useState(false);
   const [foodCards, setFoodCards] = useState<FoodCardDB[]>([]);
 
@@ -95,6 +95,6 @@ const Food = () => {
       </ScrollTopStyled>
     </Wrapper>
   );
-};
+});
 
 export default Food;
