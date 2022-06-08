@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ConstructionIcon from '@mui/icons-material/Construction';
-import { ListItemButton, ListItemText } from '@mui/material';
+import { ListItemButton, ListItemText, Tab } from '@mui/material';
 import { RootState } from 'app/store';
 import { setModalOpen, setSidebarVisibility } from 'app/slices/interfaceSlice';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
@@ -55,14 +55,16 @@ const Sidebar = () => {
   return (
     <Wrapper>
       {isWidthSmaller ? (
-        <SidebarTabs
-          handleOpenModal={handleOpenModal}
-          isEditModeOn={isEditModeOn}
-          isSidebarItem
-          elements={sidebarList}
-          setValue={setIndexSidebarPage}
-          value={indexSidebarPage}
-        />
+        <SidebarTabs setValue={setIndexSidebarPage} value={indexSidebarPage}>
+          {sidebarList !== undefined &&
+            sidebarList.length !== 0 &&
+            sidebarList.map((el) => <Tab key={uuidv4()} label={el.name} />)}
+          {isEditModeOn && (
+            <EditDbButton className="buttonAddSubPage" onClick={handleOpenModal}>
+              <ConstructionIcon />
+            </EditDbButton>
+          )}
+        </SidebarTabs>
       ) : (
         <SidebarListStyled is_sidebar_hide={isSidebarHide!.toString()}>
           {sidebarList &&

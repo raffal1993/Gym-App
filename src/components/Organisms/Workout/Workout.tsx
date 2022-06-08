@@ -5,19 +5,18 @@ import AddExerciseTabs from 'components/Molecules/CustomTabs/CustomTabs';
 import StoperWidget from 'components/Molecules/StoperWidget/StoperWidget';
 import WorkoutCard from 'components/Molecules/WorkoutCard/WorkoutCard';
 import { WorkoutCardProps } from 'components/Organisms/Workout/WorkoutTypes';
-import CustomizedRoutes from 'components/Templates/CustomizedRoutes/CustomizedRoutes';
+import { Tab } from '@mui/material';
 import { v4 as uuid4 } from 'uuid';
 import { clearLocalStorage } from 'helpers/localStorage';
 import { importImages } from 'helpers/importImages';
 import { workoutListDBListener } from 'firebase-cfg/database/workout/listeners';
 import { MAX_CARDS } from 'helpers/staticVariables';
-import { useEffect, useState } from 'react';
-import { Route } from 'react-router-dom';
+import { memo, useEffect, useState } from 'react';
 import { Wrapper } from './Workout.styled';
 
 const { exercises } = importImages();
 
-const Workout = () => {
+const Workout = memo(() => {
   const [workoutList, setWorkoutList] = useState<WorkoutCardProps[]>([]);
 
   const {
@@ -35,15 +34,14 @@ const Workout = () => {
 
   return (
     <Wrapper>
-      <StoperWidget></StoperWidget>
+      <StoperWidget />
       {isEditModeOn && workoutList.length < MAX_CARDS && (
-        <AddExerciseTabs
-          className="addExerciseTabs"
-          elements={exercises}
-          component={<AddExercise />}
-        ></AddExerciseTabs>
+        <AddExerciseTabs className="addExerciseTabs">
+          {exercises.map((el) => (
+            <Tab key={uuid4()} label={<AddExercise name={el} />}></Tab>
+          ))}
+        </AddExerciseTabs>
       )}
-
       {workoutList.map(({ exerciseID, name, type, versions }) => (
         <WorkoutCard
           key={uuid4()}
@@ -55,6 +53,6 @@ const Workout = () => {
       ))}
     </Wrapper>
   );
-};
+});
 
 export default Workout;
