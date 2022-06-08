@@ -2,11 +2,16 @@ import Button from 'components/Atoms/Buttons/CustomButton/CustomButton';
 import React, { forwardRef, Ref, useEffect } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { SearchFoodMethod } from 'components/Organisms/Food/FoodTypes';
+import {
+  WeatherCityNameParams,
+  WeatherCordsParams,
+} from 'components/Organisms/Weather/WeatherTypes';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
-import Spinner from 'components/Atoms/Spinner/Spinner';
+import ProgressBar from 'components/Atoms/ProgressBar/ProgressBar';
 import { SearchPanelStyled } from './SearchPanel.styled';
 
 interface SearchPanelProps {
+  className?: string;
   title: string;
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
   inputValue: string;
@@ -17,12 +22,17 @@ interface SearchPanelProps {
   placeholder?: string;
   buttonText: string;
   searchFoodCb?: (searchType: SearchFoodMethod, page?: number) => Promise<void>;
+  searchWeatherCb?: (
+    params: WeatherCordsParams | WeatherCityNameParams,
+    dataType?: 'getCityName' | 'getWeather',
+  ) => Promise<void>;
 }
 
 const SearchPanel = forwardRef(
   (
     {
       title,
+      className,
       setInputValue,
       inputValue,
       errorMessage,
@@ -32,6 +42,7 @@ const SearchPanel = forwardRef(
       placeholder,
       buttonText,
       searchFoodCb,
+      searchWeatherCb,
     }: SearchPanelProps,
     ref: Ref<HTMLDivElement>,
   ) => {
@@ -41,6 +52,7 @@ const SearchPanel = forwardRef(
 
     const handleSearch = () => {
       searchFoodCb && searchFoodCb('searchByPhrase');
+      searchWeatherCb && searchWeatherCb({ q: inputValue });
     };
 
     useEffect(() => {
@@ -52,7 +64,7 @@ const SearchPanel = forwardRef(
     }, [errorMessage, setErrorMessage]);
 
     return (
-      <SearchPanelStyled ref={ref}>
+      <SearchPanelStyled className={className} ref={ref}>
         <h1>{title}</h1>
         <label htmlFor="searchLabel">
           <SearchIcon />
@@ -65,9 +77,9 @@ const SearchPanel = forwardRef(
           />
         </label>
         <Button handleClick={handleSearch}>{buttonText}</Button>
-        {isLoading && <Spinner />}
         {errorMessage && <ErrorMessage className="errorMessage" errorMessage={errorMessage} />}
         {info && <p className="info">{info}</p>}
+        {isLoading && <ProgressBar />}
       </SearchPanelStyled>
     );
   },
@@ -77,6 +89,8 @@ export default SearchPanel;
 
 SearchPanel.defaultProps = {
   searchFoodCb: undefined,
+  searchWeatherCb: undefined,
   placeholder: undefined,
   info: undefined,
+  className: undefined,
 };
