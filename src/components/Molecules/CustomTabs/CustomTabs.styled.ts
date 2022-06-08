@@ -8,11 +8,15 @@ export const TabsStyled = styled(Tabs)<TabsProps>(({ theme }) => ({
   backgroundColor: theme.colors.primary,
   padding: '0px 20px',
   marginTop: '15px',
+
   borderBottom: `4px solid ${theme.colors.darkGrey}`,
   borderTop: `4px solid ${theme.colors.darkGrey}`,
 
   '& .MuiTabs-flexContainer': {
-    columnGap: '40px',
+    columnGap: '20px',
+    '& .MuiButtonBase-root': {
+      margin: '0 auto',
+    },
   },
 
   '& .MuiButtonBase-root': {
