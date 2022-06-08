@@ -46,10 +46,10 @@ const Dashboard = () => {
         <EditModeButton />
         <CustomizedRoutes>
           <Route path="/" element={<></>} />
-          <Route path="/workout/*" element={<Workout />} />
-          <Route path="/food/*" element={<Food />} />
-          <Route path="/weather/*" element={<Weather />} />
-          <Route path="/profile/*" element={<Profile />} />
+          <Route path="/workout" element={<Workout />} />
+          <Route path="/food" element={<Food />} />
+          <Route path="/weather" element={<Weather />} />
+          <Route path="/profile" element={<Profile />} />
         </CustomizedRoutes>
       </DashboardContent>
     </Wrapper>
