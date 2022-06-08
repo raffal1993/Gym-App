@@ -3,13 +3,13 @@ import CustomizedSnackbars from 'components/Atoms/Snackbar/CustomizedSnackbars';
 import { SearchResultsProps } from 'components/Organisms/Food/FoodTypes';
 import { v4 as uuid4 } from 'uuid';
 import SearchFoodItem from '../SearchFoodItem/SearchFoodItem';
-import { SearchingResultsStyled } from './SearchResults.styled';
+import { SearchFoodResultsStyled } from './SearchFoodResults.styled';
 
-const SearchResults = memo(({ searchResults, foodCards, isLoading }: SearchResultsProps) => {
+const SearchFoodResults = memo(({ searchResults, foodCards, isLoading }: SearchResultsProps) => {
   const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
 
   return (
-    <SearchingResultsStyled>
+    <SearchFoodResultsStyled>
       {searchResults.map(({ label, nutrients, image }) => (
         <SearchFoodItem
           isLoading={isLoading}
@@ -24,8 +24,8 @@ const SearchResults = memo(({ searchResults, foodCards, isLoading }: SearchResul
       <CustomizedSnackbars open={openSnackbar} setOpen={setOpenSnackbar}>
         Added to Food Set!
       </CustomizedSnackbars>
-    </SearchingResultsStyled>
+    </SearchFoodResultsStyled>
   );
 });
 
-export default SearchResults;
+export default SearchFoodResults;

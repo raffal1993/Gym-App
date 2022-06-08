@@ -1,6 +1,6 @@
 import { styled } from '@mui/material';
 
-export const SearchingResultsStyled = styled('div')(({ theme }) => ({
+export const SearchFoodResultsStyled = styled('div')(({ theme }) => ({
   width: '100%',
   display: 'flex',
   justifyContent: 'center',
