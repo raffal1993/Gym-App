@@ -88,7 +88,7 @@ const Register = () => {
 
       <GoogleSignInStyled>
         <p>or... </p>
-        <img onClick={handleRegisterByGoogle} src={googleIconRegister} alt="" />
+        <img onClick={handleRegisterByGoogle} src={googleIconRegister} alt="googleSignIn" />
         <BackToLogin />
       </GoogleSignInStyled>
     </>

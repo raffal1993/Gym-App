@@ -40,7 +40,7 @@ const AddExercise: FC<AddExerciseProps> = ({ name = '' }) => {
   return images ? (
     <Wrapper onClick={handleOpenModal}>
       <h5>{name}</h5>
-      <img src={images[name]} alt="" />
+      <img src={images[name]} alt="imageExercise" />
       <AddIcon />
     </Wrapper>
   ) : null;
