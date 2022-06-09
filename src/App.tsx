@@ -8,7 +8,7 @@ import PageNotFound from 'components/Organisms/PageNotFound/PageNotFound';
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from 'firebase-cfg/firebase-config';
-import { setUser } from 'app/slices/userSlice';
+import { setUserEmail } from 'app/slices/userSlice';
 import { RootState } from 'app/store';
 import Modal from 'components/Templates/Modal/Modal';
 
@@ -26,14 +26,14 @@ function App() {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         const userEmail = user.email || '';
-        dispatch(setUser({ email: userEmail }));
+        dispatch(setUserEmail(userEmail));
         if (!!window.location.pathname.match(/^(\/|\/register)$/))
           if (email === null) return navigate('/dashboard');
           else
             setTimeout(() => {
               navigate('/dashboard');
             }, 1500);
-      } else dispatch(setUser({ email: '' }));
+      } else dispatch(setUserEmail(''));
     });
 
     return () => {

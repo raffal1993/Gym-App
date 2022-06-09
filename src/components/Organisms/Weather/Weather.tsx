@@ -110,7 +110,7 @@ const Weather = memo(() => {
   };
 
   useEffect(() => {
-    if (sidebarList === undefined || sidebarList.length <= 0) return;
+    if (sidebarList.length <= 0) return;
 
     const name = sidebarList.find((item) => item.id === subPageID)?.name;
 

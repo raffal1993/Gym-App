@@ -11,12 +11,9 @@ import { updateSubPageName } from 'firebase-cfg/database/dashboard/update';
 import AddEditNameModal from '../AddEditNameModal/AddEditNameModal';
 import { Wrapper } from './EditSidebarModal.styled';
 import { ConfirmationButtonStyled, NameStyled, RemoveButtonStyled } from '../Modals.styled';
+import { EditSidebarModalProps } from '../ModalsTypes';
 
 let timeout: NodeJS.Timer;
-
-interface EditSidebarModalProps {
-  setIndexSidebarPage: React.Dispatch<React.SetStateAction<number>>;
-}
 
 const EditSidebarModal: FC<EditSidebarModalProps> = ({ setIndexSidebarPage }) => {
   const [nameForChange, setNameForChange] = useState<SidebarListProps>();
@@ -30,9 +27,7 @@ const EditSidebarModal: FC<EditSidebarModalProps> = ({ setIndexSidebarPage }) =>
     if (mainPage && pageID) {
       removeSubPage(mainPage, pageID);
 
-      const isSidebarListExist = sidebarList !== undefined && sidebarList.length > 1;
-
-      if (isSidebarListExist) {
+      if (sidebarList.length > 1) {
         const sidebarListAfterRemove = sidebarList.filter((page) => page.id !== pageID);
 
         let activeSubPageIndex = sidebarListAfterRemove.findIndex(({ id }) => id === subPageID);
@@ -72,31 +67,28 @@ const EditSidebarModal: FC<EditSidebarModalProps> = ({ setIndexSidebarPage }) =>
     }, 2500);
   };
 
-  const allowToAddSidebarPage = sidebarList && sidebarList.length < MAX_SIDEBAR_ELEMENTS;
-
   return (
     <Wrapper>
       <ul>
-        {sidebarList &&
-          sidebarList.map(({ id, name }, index) => (
-            <li key={uuid4()}>
-              <RemoveButtonStyled onClick={() => handleAddConfirmation(index)}>
-                <CloseIcon />
-              </RemoveButtonStyled>
-              {confirmIndexes.includes(index) && (
-                <ConfirmationButtonStyled onClick={() => removePage(id)}>
-                  confirm
-                </ConfirmationButtonStyled>
-              )}
+        {sidebarList.map(({ id, name }, index) => (
+          <li key={uuid4()}>
+            <RemoveButtonStyled onClick={() => handleAddConfirmation(index)}>
+              <CloseIcon />
+            </RemoveButtonStyled>
+            {confirmIndexes.includes(index) && (
+              <ConfirmationButtonStyled onClick={() => removePage(id)}>
+                confirm
+              </ConfirmationButtonStyled>
+            )}
 
-              <NameStyled
-                className={id === nameForChange?.id ? 'active' : ''}
-                onClick={() => handleSetNameForChange({ name, id })}
-              >
-                {name.toUpperCase()}
-              </NameStyled>
-            </li>
-          ))}
+            <NameStyled
+              className={id === nameForChange?.id ? 'active' : ''}
+              onClick={() => handleSetNameForChange({ name, id })}
+            >
+              {name.toUpperCase()}
+            </NameStyled>
+          </li>
+        ))}
       </ul>
       {nameForChange && (
         <AddEditNameModal
@@ -105,7 +97,7 @@ const EditSidebarModal: FC<EditSidebarModalProps> = ({ setIndexSidebarPage }) =>
           buttonText="Change name"
         />
       )}
-      {allowToAddSidebarPage && (
+      {sidebarList.length < MAX_SIDEBAR_ELEMENTS && (
         <AddEditNameModal
           title="Add new page: "
           updateDbCallback={addSubPage}

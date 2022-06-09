@@ -6,7 +6,7 @@ import { sortedArrayByTimestamp } from 'helpers/sortArrayByTimestamp';
 const sidebarListDBListener = (
   mainPage: string | undefined,
   dispatcher: (list: SidebarListProps[]) => {
-    payload: SidebarListProps[] | [] | undefined;
+    payload: SidebarListProps[] | [];
     type: string;
   },
 ) => {

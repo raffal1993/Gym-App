@@ -20,5 +20,5 @@
     "paths": { "@mui/styled-engine": ["./node_modules/@mui/styled-engine-sc"] }
   },
   "include": ["src/**/*", "src/.firebase", "src/.firebase"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "**/.env"]
 }

@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { importImages } from 'helpers/importImages';
 import AddIcon from '@mui/icons-material/Add';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { AddExerciseProps } from 'components/Organisms/Workout/WorkoutTypes';
 import { setModalClose, setModalOpen } from 'app/slices/interfaceSlice';
 import { RootState } from 'app/store';
 import { addExerciseToDB } from 'firebase-cfg/database/workout/add';
@@ -10,10 +11,6 @@ import { Wrapper } from './AddExercise.styled';
 
 const { images } = importImages();
 
-interface AddExerciseProps {
-  name?: string;
-}
-
 const AddExercise: FC<AddExerciseProps> = ({ name = '' }) => {
   const dispatch = useAppDispatch();
   const {
@@ -21,7 +18,7 @@ const AddExercise: FC<AddExerciseProps> = ({ name = '' }) => {
   } = useAppSelector((state: RootState) => state);
 
   const addExercise = (newName: string) => {
-    if (subPageID && name) addExerciseToDB(subPageID, newName, name);
+    if (subPageID) addExerciseToDB(subPageID, newName, name);
     dispatch(setModalClose());
   };
 
@@ -47,7 +44,3 @@ const AddExercise: FC<AddExerciseProps> = ({ name = '' }) => {
 };
 
 export default AddExercise;
-
-AddExercise.defaultProps = {
-  name: '',
-};

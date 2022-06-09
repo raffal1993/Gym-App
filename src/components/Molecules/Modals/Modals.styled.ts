@@ -6,6 +6,7 @@ export const CustomModalWrapper = styled(`div`)({
   flexDirection: 'column',
   alignItems: 'center',
   margin: '5px 5px 20px 5px',
+  maxHeight: '100vh',
 
   li: {
     display: 'flex',

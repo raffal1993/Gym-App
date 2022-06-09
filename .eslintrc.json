@@ -61,7 +61,7 @@
     "jsx-a11y/no-noninteractive-element-interactions": ["off"],
     "jsx-a11y/click-events-have-key-events": ["off"],
     "jsx-quotes": ["off"],
-
+    "jsx-a11y/no-autofocus": ["off"],
     "no-multiple-empty-lines": "off",
     "operator-linebreak": ["off"],
     "eol-last": "off",
@@ -78,6 +78,7 @@
     "object-curly-newline": 0,
     "implicit-arrow-linebreak": ["off"],
     "nonblock-statement-body-position": ["off"],
+    "@typescript-eslint/no-shadow": ["off"],
     "spaced-comment": ["off"],
     "curly": ["off"],
     "consistent-return": ["off"],
@@ -91,6 +92,9 @@
     "prefer-template": "off",
     "no-extra-boolean-cast": "off",
     "no-debugger": "off",
-    "no-restricted-syntax": "off"
+    "no-restricted-syntax": "off",
+    "no-plusplus": "off",
+    "guard-for-in": "off",
+    "no-alert": "off"
   }
 }

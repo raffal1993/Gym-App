@@ -26,7 +26,7 @@ export const CardWrapper = styled(`div`)(({ theme }) => ({
   },
 }));
 
-export const TitleStyled = styled(`h1`)(({ theme }) => ({
+export const TitleStyled = styled(`h3`)(({ theme }) => ({
   minHeight: '25px',
   fontSize: '1.8rem',
   letterSpacing: '1px',

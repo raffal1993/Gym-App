@@ -65,7 +65,7 @@ const SearchPanel = forwardRef(
 
     return (
       <SearchPanelStyled className={className} ref={ref}>
-        <h1>{title}</h1>
+        <h2>{title}</h2>
         <label htmlFor="searchLabel">
           <SearchIcon />
           <input

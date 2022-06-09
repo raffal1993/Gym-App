@@ -14,11 +14,7 @@ import { Wrapper, PaginationStyled } from './SearchFood.styled';
 import SearchFoodResults from '../SearchFoodResults/SearchFoodResults';
 import SearchPanel from '../SearchPanel/SearchPanel';
 
-interface SearchFoodProps {
-  foodCards: FoodCardDB[];
-}
-
-const SearchFood: FC<SearchFoodProps> = ({ foodCards }) => {
+const SearchFood: FC<{ foodCards: FoodCardDB[] }> = ({ foodCards }) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [searchingPhrase, setSearchingPhrase] = useState<string>('');
   const [pageNumber, setPageNumber] = useState<number>(1);

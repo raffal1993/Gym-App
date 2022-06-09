@@ -12,7 +12,7 @@ const getInitialPage = () => {
 interface PagesState {
   mainPage: string;
   subPageID: string;
-  sidebarList?: SidebarListProps[] | [];
+  sidebarList: SidebarListProps[];
 }
 const initialState: PagesState = {
   mainPage: getInitialPage(),

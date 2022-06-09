@@ -1,7 +1,7 @@
 import { CardWrapper } from 'components/Molecules/CardStyled/CardStyled.styled';
 import { styled } from '@mui/material';
 
-export const Wrapper = styled(CardWrapper)(({ theme }) => ({
+export const Wrapper = styled(CardWrapper)({
   '& .sunTime': {
     position: 'absolute',
     top: '15px',
@@ -39,7 +39,5 @@ export const Wrapper = styled(CardWrapper)(({ theme }) => ({
     '& .MuiTabs-scroller': {
       height: '100%',
     },
-
-    //     [theme.breakpoints.down('sm')]: {},
   },
-}));
+});

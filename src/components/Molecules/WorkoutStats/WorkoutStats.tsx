@@ -2,7 +2,12 @@ import { useAppSelector } from 'app/hooks';
 import { RootState } from 'app/store';
 import CustomTextarea from 'components/Atoms/CustomTextarea/CustomTextarea';
 import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
-import { Set, CellToChange } from 'components/Organisms/Workout/WorkoutTypes';
+import {
+  Set,
+  CellToChange,
+  Column,
+  WorkoutStatsProps,
+} from 'components/Organisms/Workout/WorkoutTypes';
 import useResize from 'hooks/useResize';
 import { FC, useLayoutEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -17,11 +22,6 @@ import {
   Wrapper,
   StatsSmallerStyled,
 } from './WorkoutStats.styled';
-
-interface Column {
-  id: 'set' | 'weight' | 'reps' | 'info';
-  label: string;
-}
 
 const headerCells: Column[] = [
   { id: 'set', label: 'Set' },
@@ -49,16 +49,7 @@ const setMaxWidth = (cell: string) => {
   }
 };
 
-interface AdditionalProps {
-  exerciseID: string;
-  selectedVersion: number;
-}
-
-const WorkoutStats: FC<{ stats: Set[] } & AdditionalProps> = ({
-  stats,
-  exerciseID,
-  selectedVersion,
-}) => {
+const WorkoutStats: FC<WorkoutStatsProps> = ({ stats, exerciseID, selectedVersion }) => {
   const { isWidthSmaller } = useResize('xs');
 
   const {

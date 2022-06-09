@@ -30,6 +30,7 @@ const Workout = memo(() => {
 
   useEffect(() => {
     clearLocalStorage('selectedVersions');
+    return () => clearLocalStorage('selectedVersions');
   }, [subPageID]);
 
   return (

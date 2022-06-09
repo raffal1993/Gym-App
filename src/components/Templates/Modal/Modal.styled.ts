@@ -21,6 +21,8 @@ export const ModalContentStyled = styled('div')(({ theme }) => ({
   '& .close': {
     display: 'flex',
     justifyContent: 'center',
+    position: 'sticky',
+    top: '103%',
     alignItems: 'center',
     minHeight: '25px',
     width: '100%',

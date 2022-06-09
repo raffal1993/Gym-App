@@ -2,21 +2,13 @@ import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
 import { ChangeEvent, FC, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
 import { Wrapper } from './AddEditNameModal.styled';
-
-interface AddEditNameModalProps {
-  className?: string;
-  title: string;
-  buttonText: string;
-  updateDbCallback: (newName: string) => void;
-  checkIfAllIsValid?: () => boolean;
-  inputType?: 'text' | 'number';
-}
+import { AddEditNameModalProps } from '../ModalsTypes';
 
 const AddEditNameModal: FC<AddEditNameModalProps> = ({
   title,
   buttonText,
   className,
-  inputType,
+  inputType = 'text',
   updateDbCallback,
   checkIfAllIsValid,
 }) => {
@@ -58,7 +50,7 @@ const AddEditNameModal: FC<AddEditNameModalProps> = ({
   }, []);
 
   return (
-    <Wrapper className={className || undefined}>
+    <Wrapper className={className}>
       <p className="title">{title}</p>
       <input
         onKeyDown={handleEnterKey}
@@ -78,9 +70,3 @@ const AddEditNameModal: FC<AddEditNameModalProps> = ({
 };
 
 export default AddEditNameModal;
-
-AddEditNameModal.defaultProps = {
-  className: '',
-  checkIfAllIsValid: () => true,
-  inputType: 'text',
-};

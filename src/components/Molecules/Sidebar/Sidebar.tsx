@@ -35,7 +35,7 @@ const Sidebar = () => {
   }, [mainPage]);
 
   useEffect(() => {
-    if (!sidebarList || sidebarList.length === 0) {
+    if (sidebarList.length === 0) {
       dispatch(setSubPageID(''));
       return;
     }
@@ -56,8 +56,7 @@ const Sidebar = () => {
     <Wrapper>
       {isWidthSmaller ? (
         <SidebarTabs setValue={setIndexSidebarPage} value={indexSidebarPage}>
-          {sidebarList !== undefined &&
-            sidebarList.length !== 0 &&
+          {sidebarList.length > 0 &&
             sidebarList.map((el) => <Tab key={uuidv4()} label={el.name} />)}
           {isEditModeOn && (
             <EditDbButton className="buttonAddSubPage" onClick={handleOpenModal}>
@@ -67,17 +66,16 @@ const Sidebar = () => {
         </SidebarTabs>
       ) : (
         <SidebarListStyled is_sidebar_hide={isSidebarHide!.toString()}>
-          {sidebarList &&
-            sidebarList.map((el, index) => (
-              <ListItemButton
-                key={uuidv4()}
-                selected={indexSidebarPage === index}
-                onClick={(event) => handleListItemClick(event, index)}
-              >
-                <div className="listNumber">{index + 1}</div>
-                <ListItemText primary={el.name} />
-              </ListItemButton>
-            ))}
+          {sidebarList.map((el, index) => (
+            <ListItemButton
+              key={uuidv4()}
+              selected={indexSidebarPage === index}
+              onClick={(event) => handleListItemClick(event, index)}
+            >
+              <div className="listNumber">{index + 1}</div>
+              <ListItemText primary={el.name} />
+            </ListItemButton>
+          ))}
           {isEditModeOn && (
             <EditDbButton className="buttonAddSubPage" onClick={handleOpenModal}>
               <ConstructionIcon />

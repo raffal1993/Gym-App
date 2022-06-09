@@ -3,7 +3,6 @@ import { styled } from '@mui/material';
 export const SearchPanelStyled = styled('div')(({ theme }) => ({
   width: '95%',
   maxWidth: '700px',
-  //   minHeight: '220px',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -11,7 +10,7 @@ export const SearchPanelStyled = styled('div')(({ theme }) => ({
   borderRadius: '10px',
   paddingTop: '20px',
 
-  h1: {
+  h2: {
     fontSize: '1.6rem',
     fontWeight: '400',
     letterSpacing: '.3rem',
@@ -74,7 +73,7 @@ export const SearchPanelStyled = styled('div')(({ theme }) => ({
     maxWidth: '500px',
     padding: '20px 20px 0px 20px',
 
-    h1: {
+    h2: {
       fontSize: '1.3rem',
     },
 

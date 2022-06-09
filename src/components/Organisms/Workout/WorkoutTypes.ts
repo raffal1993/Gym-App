@@ -5,9 +5,20 @@ export interface Set {
   set: string;
 }
 
+export interface Column {
+  id: 'set' | 'weight' | 'reps' | 'info';
+  label: string;
+}
+
 export interface Version {
   alternativeName?: string;
   sets: Set[];
+}
+
+export interface WorkoutStatsProps {
+  exerciseID: string;
+  selectedVersion: number;
+  stats: Set[];
 }
 
 export interface WorkoutCardProps {
@@ -21,4 +32,8 @@ export interface CellToChange {
   set: string;
   cell: string;
   value: string;
+}
+
+export interface AddExerciseProps {
+  name?: string;
 }

@@ -2,7 +2,7 @@ import { useAppDispatch } from 'app/hooks';
 import { setModalClose } from 'app/slices/interfaceSlice';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
 import { TitleStyled } from 'components/Molecules/CardStyled/CardStyled.styled';
-import { FoodCardInfo, NutrientsTypes } from 'components/Organisms/Food/FoodTypes';
+import { NutrientsTypes } from 'components/Organisms/Food/FoodTypes';
 import { addFoodToDB } from 'firebase-cfg/database/food/add';
 import { countNutrientsByWeight } from 'helpers/countNutrientsByWeight';
 import { filterNumberInputValue } from 'helpers/filterNumberInputValue';
@@ -11,6 +11,7 @@ import React, { ChangeEvent, FC, MouseEvent, useEffect, useState } from 'react';
 import { v4 as uuid4 } from 'uuid';
 import AddEditNameModal from '../AddEditNameModal/AddEditNameModal';
 import { NameStyled } from '../Modals.styled';
+import { AddCustomFoodModalProps } from '../ModalsTypes';
 import { EnterNutrientsStyled, PickFoodSetStyled, Wrapper } from './AddCustomFoodModal.styled';
 
 const nutrients: (keyof NutrientsTypes)[] = ['weight', 'kcal', 'fat', 'carbs', 'protein', 'fiber'];
@@ -36,11 +37,6 @@ const initialInputValues: NutrientsTypes = {
   protein: '',
   fiber: '',
 };
-
-interface AddCustomFoodModalProps {
-  cards: FoodCardInfo[];
-  subPageID: string;
-}
 
 const AddCustomFoodModal: FC<AddCustomFoodModalProps> = ({ cards, subPageID }) => {
   const [nutrientsValue, setNutrientsValue] = useState(initialInputValues);
@@ -68,7 +64,7 @@ const AddCustomFoodModal: FC<AddCustomFoodModalProps> = ({ cards, subPageID }) =
     setFocusOnInput({ ...initialFocuses, [inputType]: true });
   };
 
-  const handlePickFoodSet = (e: MouseEvent<HTMLSpanElement>, id: string) => {
+  const handlePickFoodSet = (_: MouseEvent<HTMLSpanElement>, id: string) => {
     if (pickedFoodSetID === id) return setPickedFoodSetID('');
     setPickedFoodSetID(id);
   };
