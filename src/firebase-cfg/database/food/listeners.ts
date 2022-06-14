@@ -2,6 +2,7 @@ import { FoodCardDB, NutrientsDB } from 'components/Organisms/Food/FoodTypes';
 import { auth, db } from 'firebase-cfg/firebase-config';
 import { ref, onValue } from 'firebase/database';
 import { sortedArrayByTimestamp } from 'helpers/sortArrayByTimestamp';
+import { pagesPaths } from 'helpers/staticVariables';
 
 const foodCardsDBListener = (
   subPageID: string | undefined,
@@ -10,7 +11,7 @@ const foodCardsDBListener = (
 ) => {
   const uid = auth.currentUser?.uid;
 
-  const dbRef = ref(db, `users/${uid}/food/${subPageID}`);
+  const dbRef = ref(db, `users/${uid}/${pagesPaths.food.name}/${subPageID}`);
 
   return onValue(dbRef, (snapshot) => {
     if (uid && subPageID) {

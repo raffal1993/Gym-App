@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+import { animateButton } from 'helpers/animateButton';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { setEditMode } from 'app/slices/interfaceSlice';
 import { RootState } from 'app/store';
@@ -8,15 +10,26 @@ import { EditModeButtonStyled } from './EditModeButton.styled';
 const EditModeButton = () => {
   const {
     interface: { isEditModeOn },
+    pages: { sidebarList },
   } = useAppSelector((state: RootState) => state);
 
+  const ref = useRef<HTMLButtonElement>(null);
   const dispatch = useAppDispatch();
 
   const handleHideAddExercise = () => {
     dispatch(setEditMode(!isEditModeOn));
   };
+
+  useEffect(() => {
+    if (ref.current) {
+      sidebarList.length <= 0 && !isEditModeOn
+        ? animateButton(ref, 'start', 'editModeButton')
+        : animateButton(ref, 'stop', 'editModeButton');
+    }
+  }, [sidebarList, isEditModeOn]);
+
   return (
-    <EditModeButtonStyled onClick={handleHideAddExercise}>
+    <EditModeButtonStyled ref={ref} onClick={handleHideAddExercise}>
       {isEditModeOn ? <CloseIcon /> : <ConstructionIcon />}
     </EditModeButtonStyled>
   );

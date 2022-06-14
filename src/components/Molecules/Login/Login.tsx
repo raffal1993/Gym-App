@@ -1,13 +1,20 @@
+import { useAppSelector } from 'app/hooks';
+import { RootState } from 'app/store';
 import Button from 'components/Atoms/Buttons/CustomButton/CustomButton';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
 import Email from 'components/Atoms/Inputs/Email/Email';
 import Password from 'components/Atoms/Inputs/Password/Password';
 import LoginPanelTitle from 'components/Atoms/LoginPanelTitle/LoginPanelTitle';
-import { auth } from 'firebase-cfg/firebase-config';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { InfoStyled, TestAcc } from './Login.styled';
+import googleIconRegister from 'assets/images/googleIconRegister.webp';
+import { addNewUserToDB } from 'firebase-cfg/database/user/add';
+import { auth, db, provider } from 'firebase-cfg/firebase-config';
+import { child, get, ref } from 'firebase/database';
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { pagesPaths } from 'helpers/staticVariables';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { GoogleSignInStyled } from '../Register/Register.styled';
+import { InfoStyled } from './Login.styled';
 
 const Login = () => {
   const [email, setEmail] = useState<string>('');
@@ -15,20 +22,50 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState<string>(``);
   const [isSucceed, setIsSucceed] = useState<boolean>(false);
 
+  const {
+    pages: { mainPage },
+  } = useAppSelector((state: RootState) => state);
+
   const handleEmail = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
 
   const handlePassword = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
 
+  const navigate = useNavigate();
+
   // === SIGN IN ===
 
-  const handleSignIn = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const handleSignIn = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
         setIsSucceed(true);
+        setTimeout(() => {
+          navigate(`${pagesPaths.dashboard.fullPath}/${mainPage}`);
+        }, 1500);
       })
       .catch(({ code }) => {
         setErrorMessage(code);
+      });
+  };
+
+  // === SIGN IN WITH GOOGLE POPUP ===
+
+  const handleRegisterByGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then(async (res) => {
+        const { email, uid } = res.user;
+        if (email && uid) {
+          get(child(ref(db), `users/${uid}`)).then(
+            (snapshot) => !snapshot.exists() && addNewUserToDB(email, uid),
+          );
+          setTimeout(() => {
+            navigate(`${pagesPaths.dashboard.fullPath}/${mainPage}`);
+          }, 1500);
+        } else return Promise.reject();
+        setIsSucceed(true);
+        setErrorMessage(``);
+      })
+      .catch((error) => {
+        setErrorMessage(error.code);
       });
   };
 
@@ -44,18 +81,29 @@ const Login = () => {
   return (
     <>
       <LoginPanelTitle title="Login" />
-      <Email isError={!!errorMessage} email={email} handleEmail={handleEmail} />
+      <Email
+        handleSubmit={handleSignIn}
+        isError={!!errorMessage}
+        email={email}
+        handleEmail={handleEmail}
+      />
 
       <Password
         label="Password"
         isError={!!errorMessage}
         password={password}
         handlePassword={handlePassword}
+        handleSubmit={handleSignIn}
       />
 
       <Button isError={!!errorMessage} handleClick={handleSignIn} isSucceed={isSucceed}>
         Login
       </Button>
+
+      <GoogleSignInStyled>
+        <p>or... </p>
+        <img onClick={handleRegisterByGoogle} src={googleIconRegister} alt="googleSignIn" />
+      </GoogleSignInStyled>
 
       {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
 
@@ -66,13 +114,13 @@ const Login = () => {
 
       <InfoStyled>
         Forgot you password?&nbsp;
-        <Link to="/forgot-password">Click here</Link>
+        <Link to="/forgot-password">Send password</Link>
       </InfoStyled>
 
       {/* INSERT TEST USER */}
-      <TestAcc>
-        Login on
-        <strong> Test Account </strong>
+      <InfoStyled>
+        Want
+        <strong> Test Account ? </strong>
         <a
           onClick={(e) => {
             e.preventDefault();
@@ -81,9 +129,9 @@ const Login = () => {
           }}
           href="/"
         >
-          Click here
+          Insert email and password
         </a>
-      </TestAcc>
+      </InfoStyled>
     </>
   );
 };

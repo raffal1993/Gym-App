@@ -6,14 +6,15 @@ import Navbar from 'components/Molecules/Navbar/Navbar';
 import Sidebar from 'components/Molecules/Sidebar/Sidebar';
 import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarTypes';
 import Food from 'components/Organisms/Food/Food';
-import Profile from 'components/Organisms/Profile/Profile';
+import Settings from 'components/Organisms/Settings/Settings';
 import Weather from 'components/Organisms/Weather/Weather';
 import Workout from 'components/Organisms/Workout/Workout';
 import CustomizedRoutes from 'components/Templates/CustomizedRoutes/CustomizedRoutes';
 import DashboardContent from 'components/Templates/DashboardContent/DashboardContent';
 import { sidebarListDBListener } from 'firebase-cfg/database/dashboard/listener';
+import { pagesPaths } from 'helpers/staticVariables';
 import { useEffect } from 'react';
-import { Route, useNavigate } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { Wrapper } from './Dashboard.styled';
 
 const Dashboard = () => {
@@ -23,33 +24,23 @@ const Dashboard = () => {
 
   const dispatch = useAppDispatch();
 
-  const navigate = useNavigate();
-
   useEffect(() => {
     const dispatcher = (list: SidebarListProps[]) => dispatch(setSidebarList(list));
     return sidebarListDBListener(mainPage, dispatcher);
   }, [mainPage, dispatch]);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (mainPage) navigate(`/dashboard/${mainPage}`);
-    }, 100);
-
-    return () => clearTimeout(timeout);
-  }, [navigate, mainPage]);
 
   return (
     <Wrapper>
       <Navbar />
       <Sidebar />
       <DashboardContent>
-        <EditModeButton />
+        {mainPage !== pagesPaths.settings.name && <EditModeButton />}
         <CustomizedRoutes>
           <Route path="/" element={<></>} />
-          <Route path="/workout" element={<Workout />} />
-          <Route path="/food" element={<Food />} />
-          <Route path="/weather" element={<Weather />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path={`/${pagesPaths.workout.name}`} element={<Workout />} />
+          <Route path={`/${pagesPaths.food.name}`} element={<Food />} />
+          <Route path={`/${pagesPaths.weather.name}`} element={<Weather />} />
+          <Route path={`/${pagesPaths.settings.name}/*`} element={<Settings />} />
         </CustomizedRoutes>
       </DashboardContent>
     </Wrapper>

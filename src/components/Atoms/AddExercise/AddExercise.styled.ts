@@ -1,9 +1,11 @@
 import { styled } from '@mui/material';
 
-export const Wrapper = styled('div')(({ theme }) => ({
+export const Wrapper = styled('div')<{ is_disabled: string }>(({ theme, is_disabled }) => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
+  pointerEvents: is_disabled === 'true' ? 'none' : 'auto',
+  opacity: is_disabled === 'true' ? '0.5' : '1',
 
   '&:hover': {
     img: {
@@ -26,7 +28,6 @@ export const Wrapper = styled('div')(({ theme }) => ({
 
   svg: {
     fontSize: '3rem',
-    pointerEvents: 'auto',
   },
 
   [theme.breakpoints.down('sm')]: {

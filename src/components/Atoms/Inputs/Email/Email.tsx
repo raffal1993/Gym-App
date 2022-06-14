@@ -1,17 +1,24 @@
 import { TextField } from '@mui/material';
-import { ChangeEvent, FC } from 'react';
+import { ChangeEvent, FC, KeyboardEvent } from 'react';
 import { FormControlStyled } from '../Inputs.styled';
 
 interface EmailProps {
   email: string;
   handleEmail: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (e: KeyboardEvent<HTMLDivElement>) => void;
   isError: boolean;
 }
 
-const Email: FC<EmailProps> = ({ email, handleEmail, isError }) => {
+const Email: FC<EmailProps> = ({ email, handleEmail, isError, handleSubmit }) => {
   return (
     <FormControlStyled>
-      <TextField error={isError} label="Email" value={email} onChange={handleEmail} />
+      <TextField
+        onKeyPress={(e) => e.key === 'Enter' && handleSubmit(e)}
+        error={isError}
+        label="Email"
+        value={email}
+        onChange={handleEmail}
+      />
     </FormControlStyled>
   );
 };

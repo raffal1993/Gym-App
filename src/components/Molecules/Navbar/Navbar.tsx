@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import { auth } from 'firebase-cfg/firebase-config';
+import { pages } from 'helpers/staticVariables';
 import { useNavigate } from 'react-router-dom';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { v4 as uuid4 } from 'uuid';
@@ -19,13 +20,6 @@ import {
   Wrapper,
 } from './Navbar.styled';
 
-const basicPages = [
-  { name: 'Workout', path: 'workout' },
-  { name: 'Food', path: 'food' },
-  { name: 'Weather', path: 'weather' },
-  { name: 'Profile', path: 'profile' },
-];
-
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
@@ -33,14 +27,15 @@ const Navbar = () => {
 
   const {
     user: { email: userEmail },
-    interface: { isSidebarHide },
     pages: { mainPage },
+    interface: { isSidebarHide },
   } = useAppSelector((state: RootState) => state);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
   const handleNavMenu = (path: string, isHamburger = false) => {
+    if (mainPage === path) return;
     dispatch(setSidebarList([]));
     dispatch(setMainPage(path));
     dispatch(setEditMode(false));
@@ -51,13 +46,6 @@ const Navbar = () => {
     auth.signOut();
     navigate('/');
   };
-
-  useEffect(() => {
-    if (!mainPage) {
-      navigate('/dashboard/profile');
-      dispatch(setMainPage('profile'));
-    }
-  }, [navigate, mainPage, dispatch]);
 
   return (
     <Wrapper>
@@ -73,7 +61,7 @@ const Navbar = () => {
         </LogoutButtonStyled>
       </WelcomeLogoStyled>
       <PagesStyled>
-        {basicPages.map(({ name, path }) => (
+        {pages.map(({ name, path }) => (
           <NavLinkStyled to={`${path}`} key={uuid4()} onClick={() => handleNavMenu(path)}>
             {name}
           </NavLinkStyled>
@@ -106,7 +94,7 @@ const Navbar = () => {
           onClose={() => setAnchorElNav(null)}
         >
           <PagesStyled is_hamburger_menu="true">
-            {basicPages.map(({ name, path }) => (
+            {pages.map(({ name, path }) => (
               <NavLinkStyled
                 onClick={() => handleNavMenu(path, true)}
                 is_hamburger_menu_element="true"

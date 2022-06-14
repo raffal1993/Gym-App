@@ -96,7 +96,6 @@ export const SmallTable = styled('div')(({ theme }) => ({
     alignItems: 'flex-start',
     color: theme.colors.primaryLight,
     letterSpacing: '1px',
-    textTransform: 'capitalize',
   },
 
   '& .macronutrient': {
@@ -111,6 +110,7 @@ export const SmallTable = styled('div')(({ theme }) => ({
       width: '50%',
       direction: 'rtl',
       marginRight: '10px',
+      textTransform: 'capitalize',
     },
 
     '& .value': {

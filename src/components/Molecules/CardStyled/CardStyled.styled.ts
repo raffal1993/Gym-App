@@ -5,9 +5,9 @@ export const CardWrapper = styled(`div`)(({ theme }) => ({
   width: '90%',
   minHeight: '300px',
   maxHeight: '500px',
-  marginTop: '30px',
-  marginBottom: '25px',
-  borderRadius: '10px',
+  marginTop: '25px',
+  marginBottom: '10px',
+  borderRadius: '5px',
   display: 'flex',
   flexDirection: 'column',
   overflow: 'hidden',
@@ -26,24 +26,22 @@ export const CardWrapper = styled(`div`)(({ theme }) => ({
   },
 }));
 
-export const TitleStyled = styled(`h3`)(({ theme }) => ({
-  minHeight: '25px',
+export const TitleStyled = styled(`h4`)(({ theme }) => ({
   fontSize: '1.8rem',
   letterSpacing: '1px',
   fontWeight: '400',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
   textAlign: 'center',
   padding: '5px 0px 10px 0px',
-  margin: '10px 55px 10px 60px',
+  margin: '10px 60px',
   pointerEvents: 'none',
   wordBreak: 'break-word',
+  filter: 'drop-shadow(0px 0px 4px black)',
 
   [theme.breakpoints.down('sm')]: {
-    fontSize: '1.4rem',
+    fontSize: '1.5rem',
   },
 
   [theme.breakpoints.down('xs')]: {
-    fontSize: '1.2rem',
+    fontSize: '1.3rem',
   },
 }));

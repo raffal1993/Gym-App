@@ -1,13 +1,14 @@
 import { child, ref, update, push, serverTimestamp } from 'firebase/database';
-import { ConvertTimestampDB } from 'components/Organisms/Food/FoodTypes';
 import { Set, Version, WorkoutCardProps } from 'components/Organisms/Workout/WorkoutTypes';
+import { pagesPaths } from 'helpers/staticVariables';
 import { auth, db } from '../../firebase-config';
+import { ConvertTimestampDB } from '../dbTypes';
 
 const addVersionToDB = (exerciseID: string, subPageID: string, indexOfNextVersion: number) => {
   const uid = auth.currentUser?.uid;
 
   if (uid) {
-    const targetPath = `users/${uid}/workout/${subPageID}/${exerciseID}/versions/${indexOfNextVersion}`;
+    const targetPath = `users/${uid}/${pagesPaths.workout.name}/${subPageID}/${exerciseID}/versions/${indexOfNextVersion}`;
 
     const newVersion = {
       alternativeName: '',
@@ -40,7 +41,7 @@ const addSetToDB = (
   const uid = auth.currentUser?.uid;
 
   if (uid) {
-    const targetPath = `users/${uid}/workout/${subPageID}/${exerciseID}/versions/${indexOfSelectedVersion}/sets/${indexOfNextSet}`;
+    const targetPath = `users/${uid}/${pagesPaths.workout.name}/${subPageID}/${exerciseID}/versions/${indexOfSelectedVersion}/sets/${indexOfNextSet}`;
 
     const newSet = {
       set: `${indexOfNextSet + 1}`,
@@ -63,7 +64,7 @@ const addExerciseToDB = (subPageID: string, name: string, type: string) => {
   const uid = auth.currentUser?.uid;
 
   if (uid) {
-    const targetPath = `users/${uid}/workout/${subPageID}`;
+    const targetPath = `users/${uid}/${pagesPaths.workout.name}/${subPageID}`;
 
     const newExerciseKey = push(child(ref(db), targetPath)).key;
     if (!newExerciseKey) return console.error('newExerciseKey is null');

@@ -2,6 +2,7 @@ import { styled } from '@mui/material';
 import { CardWrapper } from 'components/Molecules/CardStyled/CardStyled.styled';
 
 export const Wrapper = styled(CardWrapper)<{ url: string }>(({ url }) => ({
+  minHeight: '400px',
   '&:after': {
     content: '""',
     background: `url('${url}') `,

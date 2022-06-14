@@ -18,11 +18,11 @@ export const Wrapper = styled('div')(({ theme }) => ({
 
   '.addExerciseTabs': {
     border: `none`,
-    boxShadow: `0px 0px 3px 1px ${theme.colors.white}`,
+    boxShadow: `0px 0px 3px 1px ${theme.colors.whiteLight}`,
     minHeight: '70px',
     width: '100%',
     display: 'flex',
-    borderRadius: '10px',
+    borderRadius: '5px',
     padding: '0',
 
     '& .MuiTabs-indicator': {

@@ -4,6 +4,10 @@ import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrow
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { Wrapper } from './WeatherCardItem.styled';
 
+const weatherIconUrl = (url: string) => {
+  return url ? `http://openweathermap.org/img/w/${url}.png` : '';
+};
+
 const WeatherCardItem: FC<{ dailyWeatherInfos: DailyWeatherInfos }> = ({
   dailyWeatherInfos: {
     time,
@@ -24,7 +28,7 @@ const WeatherCardItem: FC<{ dailyWeatherInfos: DailyWeatherInfos }> = ({
         {time}
       </p>
       <div className="imgContainer">
-        <img src={`http://openweathermap.org/img/w/${icon}.png`} alt="weatherImage" />
+        <img src={weatherIconUrl(icon)} alt="weatherImage" />
         <p>
           {temperature.toFixed(1)} <span>°C</span>
         </p>

@@ -35,7 +35,7 @@ export const Wrapper = styled('div')(({ theme }) => ({
     minWidth: '1px',
     width: '40px',
     height: '35px',
-    margin: '10px 10px 0px 10px',
+    margin: '10px',
     transition: 'all 0.3s ease-in-out',
 
     svg: {
@@ -48,8 +48,9 @@ export const Wrapper = styled('div')(({ theme }) => ({
     },
 
     [theme.breakpoints.down('sm')]: {
-      width: '35px',
-      height: '25px',
+      width: '40px',
+      height: '30px',
+      margin: '0px 5px',
     },
   },
 }));

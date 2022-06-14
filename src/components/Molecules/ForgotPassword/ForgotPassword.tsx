@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from 'firebase-cfg/firebase-config';
@@ -17,9 +17,7 @@ const ForgotPassword = () => {
 
   const handleEmail = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
 
-  const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-
+  const handleSubmit = () => {
     sendPasswordResetEmail(auth, email)
       .then(() => {
         setIsSucceed(true);
@@ -45,7 +43,12 @@ const ForgotPassword = () => {
     <>
       <LoginPanelTitle title="Forgot password?" />
 
-      <Email email={email} handleEmail={handleEmail} isError={!!errorMessage} />
+      <Email
+        handleSubmit={handleSubmit}
+        email={email}
+        handleEmail={handleEmail}
+        isError={!!errorMessage}
+      />
 
       <Button isError={!!errorMessage} isSucceed={isSucceed} handleClick={handleSubmit}>
         Send password

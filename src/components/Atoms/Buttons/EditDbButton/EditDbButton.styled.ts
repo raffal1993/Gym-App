@@ -9,6 +9,7 @@ export const EditDbButtonStyled = styled('button')(({ theme }) => ({
   borderRadius: '5px',
   padding: '2px 7px',
   color: theme.colors.white,
+  filter: 'brightness(100%)',
 
   '&:hover': {
     filter: 'brightness(140%)',

@@ -2,6 +2,7 @@ import { Version, WorkoutCardProps } from 'components/Organisms/Workout/WorkoutT
 import { auth, db } from 'firebase-cfg/firebase-config';
 import { ref, onValue } from 'firebase/database';
 import { sortedArrayByTimestamp } from 'helpers/sortArrayByTimestamp';
+import { pagesPaths } from 'helpers/staticVariables';
 
 const workoutListDBListener = (
   subPageID: string | undefined,
@@ -9,7 +10,7 @@ const workoutListDBListener = (
 ) => {
   const uid = auth.currentUser?.uid;
 
-  const dbRef = ref(db, `users/${uid}/workout/${subPageID}`);
+  const dbRef = ref(db, `users/${uid}/${pagesPaths.workout.name}/${subPageID}`);
 
   return onValue(dbRef, (snapshot) => {
     if (uid && subPageID) {
@@ -42,7 +43,7 @@ const exerciseDBListener = (
 ) => {
   const uid = auth.currentUser?.uid;
   if (uid) {
-    const dbRef = ref(db, `users/${uid}/workout/${subPageID}/${exerciseID}`);
+    const dbRef = ref(db, `users/${uid}/${pagesPaths.workout.name}/${subPageID}/${exerciseID}`);
 
     return onValue(dbRef, (snapshot) => {
       const data = snapshot.val() as WorkoutCardProps;

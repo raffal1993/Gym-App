@@ -1,7 +1,7 @@
 import { child, ref, update, push, serverTimestamp } from 'firebase/database';
-import { ConvertTimestampDB } from 'components/Organisms/Food/FoodTypes';
 import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarTypes';
 import { auth, db } from '../../firebase-config';
+import { ConvertTimestampDB } from '../dbTypes';
 
 const addSubPageToDB = (mainPage: string, subPageName: string) => {
   const uid = auth.currentUser?.uid;

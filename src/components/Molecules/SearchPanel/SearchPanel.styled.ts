@@ -9,6 +9,7 @@ export const SearchPanelStyled = styled('div')(({ theme }) => ({
   background: theme.colors.bgColorOne,
   borderRadius: '10px',
   paddingTop: '20px',
+  marginBottom: '15px',
 
   h2: {
     fontSize: '1.6rem',

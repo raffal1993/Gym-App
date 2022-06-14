@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import { forwardRef, ReactNode, Ref } from 'react';
 import { EditDbButtonStyled } from './EditDbButton.styled';
 
 interface EditDbButtonProps {
@@ -7,13 +7,15 @@ interface EditDbButtonProps {
   children?: ReactNode;
 }
 
-const EditDbButton: FC<EditDbButtonProps> = ({ onClick, className, children }) => {
-  return (
-    <EditDbButtonStyled className={className} onClick={onClick}>
-      {children || '+'}
-    </EditDbButtonStyled>
-  );
-};
+const EditDbButton = forwardRef(
+  ({ onClick, className, children }: EditDbButtonProps, ref: Ref<HTMLButtonElement>) => {
+    return (
+      <EditDbButtonStyled ref={ref} className={className} onClick={onClick}>
+        {children || '+'}
+      </EditDbButtonStyled>
+    );
+  },
+);
 
 export default EditDbButton;
 

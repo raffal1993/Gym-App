@@ -1,5 +1,5 @@
 import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
-import { ChangeEvent, FC, KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
 import { Wrapper } from './AddEditNameModal.styled';
 import { AddEditNameModalProps } from '../ModalsTypes';
@@ -33,10 +33,6 @@ const AddEditNameModal: FC<AddEditNameModalProps> = ({
     }
   };
 
-  const handleEnterKey = (e: KeyboardEvent) => {
-    e.key === 'Enter' && updateToDB();
-  };
-
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsErrorMessage(false);
@@ -53,7 +49,7 @@ const AddEditNameModal: FC<AddEditNameModalProps> = ({
     <Wrapper className={className}>
       <p className="title">{title}</p>
       <input
-        onKeyDown={handleEnterKey}
+        onKeyDown={(e) => e.key === 'Enter' && updateToDB()}
         ref={ref}
         maxLength={30}
         autoComplete="off"

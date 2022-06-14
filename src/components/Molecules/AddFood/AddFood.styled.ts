@@ -7,7 +7,7 @@ export const AddButtonsStyled = styled('div')(({ theme }) => ({
   height: '40px',
   width: '95%',
   maxWidth: '400px',
-  margin: '20px 5px 0px 0px',
+  margin: '5px 0px',
   gap: '20px',
 
   '& .addButton': {

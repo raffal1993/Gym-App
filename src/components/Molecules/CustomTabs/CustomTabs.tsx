@@ -18,6 +18,7 @@ const CustomTabs = ({ value, setValue, className, children }: CustomTabsProps) =
 
   return (
     <TabsStyled
+      style={{ marginTop: '5px' }}
       className={className}
       value={value || defaultValue}
       onChange={handleChange}

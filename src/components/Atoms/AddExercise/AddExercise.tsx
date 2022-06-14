@@ -11,7 +11,7 @@ import { Wrapper } from './AddExercise.styled';
 
 const { images } = importImages();
 
-const AddExercise: FC<AddExerciseProps> = ({ name = '' }) => {
+const AddExercise: FC<AddExerciseProps> = ({ name = '', isDisabled }) => {
   const dispatch = useAppDispatch();
   const {
     pages: { subPageID },
@@ -35,7 +35,7 @@ const AddExercise: FC<AddExerciseProps> = ({ name = '' }) => {
   };
 
   return images ? (
-    <Wrapper onClick={handleOpenModal}>
+    <Wrapper is_disabled={isDisabled.toString()} onClick={handleOpenModal}>
       <h5>{name}</h5>
       <img src={images[name]} alt="imageExercise" />
       <AddIcon />

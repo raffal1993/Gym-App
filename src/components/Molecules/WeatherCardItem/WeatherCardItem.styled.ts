@@ -78,8 +78,3 @@ export const Wrapper = styled(`div`)<{ wind_deg: number }>(({ theme, wind_deg })
     },
   },
 }));
-
-// time
-// weatherImage
-// description
-// infos

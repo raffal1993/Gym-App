@@ -1,11 +1,12 @@
 import { ref, remove, set } from 'firebase/database';
 import { Set, Version } from 'components/Organisms/Workout/WorkoutTypes';
+import { pagesPaths } from 'helpers/staticVariables';
 import { auth, db } from '../../firebase-config';
 import { getDataFromDB } from '../../dbHelpers';
 
 const removeVersion = async (subPageID: string, exerciseID: string, versionIndex: number) => {
   const uid = auth.currentUser?.uid;
-  const targetPath = `users/${uid}/workout/${subPageID}/${exerciseID}/versions/${versionIndex}`;
+  const targetPath = `users/${uid}/${pagesPaths.workout.name}/${subPageID}/${exerciseID}/versions/${versionIndex}`;
 
   if (uid) {
     const data = (await getDataFromDB(targetPath)
@@ -19,7 +20,7 @@ const removeVersion = async (subPageID: string, exerciseID: string, versionIndex
 };
 const removeExercise = async (subPageID: string, exerciseID: string) => {
   const uid = auth.currentUser?.uid;
-  const targetPath = `users/${uid}/workout/${subPageID}/${exerciseID}`;
+  const targetPath = `users/${uid}/${pagesPaths.workout.name}/${subPageID}/${exerciseID}`;
 
   if (uid) {
     const data = await getDataFromDB(targetPath)
@@ -38,7 +39,7 @@ const removeSet = async (
   setIndex: number,
 ) => {
   const uid = auth.currentUser?.uid;
-  const targetPath = `users/${uid}/workout/${subPageID}/${exerciseID}/versions/${versionIndex}/sets`;
+  const targetPath = `users/${uid}/${pagesPaths.workout.name}/${subPageID}/${exerciseID}/versions/${versionIndex}/sets`;
 
   if (uid) {
     const data = (await getDataFromDB(targetPath)

@@ -11,6 +11,8 @@ import { auth } from 'firebase-cfg/firebase-config';
 import { setUserEmail } from 'app/slices/userSlice';
 import { RootState } from 'app/store';
 import Modal from 'components/Templates/Modal/Modal';
+import { pagesPaths } from 'helpers/staticVariables';
+import { setMainPage } from 'app/slices/pagesSlice';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -19,6 +21,7 @@ function App() {
   const {
     user: { email },
     interface: { isModalOpen },
+    pages: { mainPage },
   } = useAppSelector((state: RootState) => state);
 
   useEffect(() => {
@@ -27,27 +30,33 @@ function App() {
       if (user) {
         const userEmail = user.email || '';
         dispatch(setUserEmail(userEmail));
-        if (!!window.location.pathname.match(/^(\/|\/register)$/))
-          if (email === null) return navigate('/dashboard');
-          else
-            setTimeout(() => {
-              navigate('/dashboard');
-            }, 1500);
-      } else dispatch(setUserEmail(''));
+        const isLoginOrRegisterPage = !!window.location.pathname.match(/^(\/|\/register)$/);
+        if (isLoginOrRegisterPage && email === null)
+          return navigate(`${pagesPaths.dashboard.fullPath}/${mainPage}`);
+      } else {
+        dispatch(setUserEmail(''));
+      }
     });
 
     return () => {
       unsubscribe();
     };
-  }, [dispatch, navigate, email]);
+  }, [dispatch, navigate, email, mainPage]);
+
+  useEffect(() => {
+    if (!mainPage) {
+      navigate(pagesPaths.workout.fullPath);
+      dispatch(setMainPage(pagesPaths.workout.name));
+    }
+  }, [navigate, mainPage, dispatch]);
 
   return (
     <Wrapper>
       {email !== null && (
         <CustomizedRoutes>
           <Route path="/*" element={<LoginPanel />} />
-          <Route path="/dashboard/*" element={<Dashboard />} />
-          <Route path="/page-not-found" element={<PageNotFound />} />
+          <Route path={`${pagesPaths.dashboard.fullPath}/*`} element={<Dashboard />} />
+          <Route path={pagesPaths.pageNotFound.fullPath} element={<PageNotFound />} />
         </CustomizedRoutes>
       )}
       {isModalOpen && <Modal />}

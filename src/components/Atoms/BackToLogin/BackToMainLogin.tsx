@@ -5,7 +5,7 @@ const BackToLogin = () => {
   return (
     <LinkStyled to="/">
       <KeyboardBackspaceIcon />
-      <p>Back to login</p>
+      <p>Back to login page</p>
     </LinkStyled>
   );
 };

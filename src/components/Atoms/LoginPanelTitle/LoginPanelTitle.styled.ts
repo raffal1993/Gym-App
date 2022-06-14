@@ -5,7 +5,7 @@ export const LoginPanelTitleStyled = styled('h2')(({ theme }) => ({
   fontWeight: '600',
   padding: '10% 0px',
 
-  [theme.breakpoints.down('xs')]: {
+  [theme.breakpoints.down('sm')]: {
     fontSize: '2rem',
   },
 }));

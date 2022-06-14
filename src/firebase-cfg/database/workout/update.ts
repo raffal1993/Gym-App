@@ -1,5 +1,6 @@
 import { ref, set } from 'firebase/database';
 import { Set, Version } from 'components/Organisms/Workout/WorkoutTypes';
+import { pagesPaths } from 'helpers/staticVariables';
 import { auth, db } from '../../firebase-config';
 import { getDataFromDB } from '../../dbHelpers';
 
@@ -12,7 +13,9 @@ const updateSetToDB = async (
   const uid = auth.currentUser?.uid;
   if (uid) {
     const data = (await getDataFromDB(
-      `users/${uid}/workout/${subPageID}/${exerciseID}/versions/${[versionIndex]}/sets`,
+      `users/${uid}/${pagesPaths.workout.name}/${subPageID}/${exerciseID}/versions/${[
+        versionIndex,
+      ]}/sets`,
     )
       .then((res) => res)
       .catch((err) => err)) as Set[];
@@ -26,7 +29,7 @@ const updateSetToDB = async (
     return set(
       ref(
         db,
-        `users/${uid}/workout/${subPageID}/${exerciseID}/versions/${versionIndex}/sets/${indexOfSet}`,
+        `users/${uid}/${pagesPaths.workout.name}/${subPageID}/${exerciseID}/versions/${versionIndex}/sets/${indexOfSet}`,
       ),
       newSet,
     );
@@ -41,7 +44,7 @@ const updateExerciseName = async (
 ) => {
   const uid = auth.currentUser?.uid;
 
-  const targetPath = `users/${uid}/workout/${subPageID}/${exerciseID}/versions/${versionIndex}`;
+  const targetPath = `users/${uid}/${pagesPaths.workout.name}/${subPageID}/${exerciseID}/versions/${versionIndex}`;
 
   if (uid) {
     const data = (await getDataFromDB(targetPath)

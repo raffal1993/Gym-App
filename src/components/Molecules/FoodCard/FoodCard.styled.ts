@@ -13,8 +13,8 @@ export const Wrapper = styled(CardWrapper)(({ theme }) => ({
 
   [theme.breakpoints.down('sm')]: {
     '& .mainTitle': {
-      padding: '5px 0px',
-      minHeight: '50px',
+      //       padding: '5px 0px',
+      //       minHeight: '50px',
     },
   },
 }));

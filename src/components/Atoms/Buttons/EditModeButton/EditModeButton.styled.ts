@@ -1,11 +1,9 @@
 import { styled } from '@mui/material';
 
-export const EditModeButtonStyled = styled('div')(({ theme }) => ({
+export const EditModeButtonStyled = styled('button')(({ theme }) => ({
   display: 'flex',
-  margin: '15px 20px 0px 20px',
-  width: '20%',
-  maxWidth: '200px',
-  minWidth: '100px',
+  margin: '10px 0px',
+  width: '100px',
   padding: '2px 20px',
   justifyContent: 'center',
   alignSelf: 'center',
@@ -13,10 +11,9 @@ export const EditModeButtonStyled = styled('div')(({ theme }) => ({
   border: `none`,
   boxShadow: `0px 0px 4px 0px ${theme.colors.white}`,
   cursor: 'pointer',
-  borderRadius: '5px',
 
   '&:hover': {
-    boxShadow: `0px 0px 10px 1px ${theme.colors.white}`,
+    boxShadow: `0px 0px 5px 1px ${theme.colors.white}`,
   },
 
   '& svg': {
@@ -24,6 +21,6 @@ export const EditModeButtonStyled = styled('div')(({ theme }) => ({
   },
 
   [theme.breakpoints.down('sm')]: {
-    margin: '10px 20px 0px 20px',
+    margin: '5px 20px 10px 20px',
   },
 }));

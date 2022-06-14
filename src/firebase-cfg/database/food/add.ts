@@ -1,18 +1,15 @@
-import {
-  ConvertTimestampDB,
-  FoodCardDB,
-  NutrientsDB,
-  NutrientsTypes,
-} from 'components/Organisms/Food/FoodTypes';
+import { FoodCardDB, NutrientsDB, NutrientsTypes } from 'components/Organisms/Food/FoodTypes';
 import { getDataFromDB } from 'firebase-cfg/dbHelpers';
 import { child, ref, push, serverTimestamp, update } from 'firebase/database';
+import { pagesPaths } from 'helpers/staticVariables';
 import { auth, db } from '../../firebase-config';
+import { ConvertTimestampDB } from '../dbTypes';
 
 const addFoodSetToDB = (subPageID: string, name: string) => {
   const uid = auth.currentUser?.uid;
 
   if (uid) {
-    const targetPath = `users/${uid}/food/${subPageID}`;
+    const targetPath = `users/${uid}/${pagesPaths.food.name}/${subPageID}`;
 
     const newFoodSetKey = push(child(ref(db), targetPath)).key;
     if (!newFoodSetKey) return console.error('newFoodSet is null');
@@ -41,7 +38,7 @@ const addFoodToDB = async (
   const uid = auth.currentUser?.uid;
 
   if (uid) {
-    const targetPath = `users/${uid}/food/${subPageID}/${foodCardID}`;
+    const targetPath = `users/${uid}/${pagesPaths.food.name}/${subPageID}/${foodCardID}`;
 
     const data = await getDataFromDB(targetPath)
       .then((res) => res as Partial<FoodCardDB>)

@@ -22,7 +22,7 @@ const sidebarListDBListener = (
         const newArray = [] as SidebarListProps[];
 
         for (const key in data) {
-          if (data[key].timestamp) {
+          if (data[key].name) {
             newArray.push({
               id: key,
               name: data[key].name,

@@ -36,4 +36,5 @@ export interface CellToChange {
 
 export interface AddExerciseProps {
   name?: string;
+  isDisabled: boolean;
 }

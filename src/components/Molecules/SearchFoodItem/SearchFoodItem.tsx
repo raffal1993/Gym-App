@@ -111,7 +111,7 @@ const SearchFoodItem = memo(
       </Wrapper>
     ) : (
       <Wrapper onMouseLeave={handleOnMouseLeave} onClick={handleShowAddFoodPanel}>
-        <h4 className="foodName">{label}</h4>
+        <h3 className="foodName">{label}</h3>
         {src ? <img onError={() => handleImgError()} src={src} alt="food" /> : <MyIcon />}
         <NutrientsStyled>
           <p>

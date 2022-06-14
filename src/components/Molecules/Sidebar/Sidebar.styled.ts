@@ -5,14 +5,24 @@ import { darken } from '@mui/system';
 // gridTemplateColumns: '45px 205px 1fr',
 // gridTemplateRows: `50px 65px 1fr`,
 
-export const Wrapper = styled(`div`)(({ theme }) => ({
-  color: theme.colors.white,
-  display: 'grid',
-  gridArea: '1/1/4/3',
-  gridTemplateColumns: '40px 1fr 15px',
-  gridTemplateRows: `50px 70px 1fr`,
-  marginRight: '5px',
-}));
+export const Wrapper = styled(`div`)<{ is_settings_page: string }>(
+  ({ theme, is_settings_page }) => ({
+    color: theme.colors.white,
+    display: 'grid',
+    gridArea: '1/1/4/3',
+    gridTemplateColumns: '40px 1fr 15px',
+    gridTemplateRows: `50px 70px 1fr`,
+    marginRight: '5px',
+
+    ...(is_settings_page === 'true' && {
+      '& .sidebar': {
+        backgroundColor: darken(theme.colors.primary, 0.3),
+
+        textTransform: 'uppercase',
+      },
+    }),
+  }),
+);
 
 export const SidebarListStyled = styled(List)<ListProps & { is_sidebar_hide: string }>(
   ({ theme, is_sidebar_hide }) => ({
@@ -47,7 +57,6 @@ export const SidebarListStyled = styled(List)<ListProps & { is_sidebar_hide: str
 
     '& .MuiTypography-root': {
       fontFamily: theme.fonts.roboto,
-      textTransform: 'uppercase',
       fontSize: '1.3rem',
       textAlign: 'center',
       paddingLeft: '10px',
