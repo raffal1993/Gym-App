@@ -8,7 +8,8 @@ interface PasswordProps {
   handlePassword: (e: ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (e: KeyboardEvent<HTMLDivElement>) => void;
   isError: boolean;
-  label: 'Password' | 'Confirm Password';
+  label: 'Password' | 'Confirm Password' | 'Old Password';
+  className?: string;
 }
 
 const Password: FC<PasswordProps> = ({
@@ -17,6 +18,7 @@ const Password: FC<PasswordProps> = ({
   password,
   isError,
   label,
+  className,
 }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -31,6 +33,7 @@ const Password: FC<PasswordProps> = ({
       </InputLabel>
 
       <OutlinedInput
+        className={className}
         error={isError}
         id={label}
         type={showPassword ? 'text' : 'password'}
@@ -55,3 +58,7 @@ const Password: FC<PasswordProps> = ({
 };
 
 export default Password;
+
+Password.defaultProps = {
+  className: undefined,
+};
