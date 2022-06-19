@@ -1,7 +1,7 @@
 import { CardWrapper } from 'components/Molecules/CardStyled/CardStyled.styled';
 import { styled } from '@mui/material';
 
-export const Wrapper = styled(CardWrapper)({
+export const Wrapper = styled(CardWrapper)(({ theme }) => ({
   '& .sunTime': {
     position: 'absolute',
     top: '15px',
@@ -40,4 +40,7 @@ export const Wrapper = styled(CardWrapper)({
       height: '100%',
     },
   },
-});
+  [theme.breakpoints.up('lg')]: {
+    width: '90%',
+  },
+}));
