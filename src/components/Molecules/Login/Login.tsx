@@ -13,8 +13,7 @@ import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { pagesPaths } from 'helpers/staticVariables';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { GoogleSignInStyled } from '../Register/Register.styled';
-import { InfoStyled } from './Login.styled';
+import { GoogleSignInStyled, InfoStyled } from './Login.styled';
 
 const Login = () => {
   const [email, setEmail] = useState<string>('');

@@ -1,8 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { auth, provider } from 'firebase-cfg/firebase-config';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from 'firebase-cfg/firebase-config';
 import { addNewUserToDB } from 'firebase-cfg/database/user/add';
-import googleIconRegister from 'assets/images/googleIconRegister.webp';
 import Email from 'components/Atoms/Inputs/Email/Email';
 import BackToLogin from 'components/Atoms/BackToLogin/BackToMainLogin';
 import Password from 'components/Atoms/Inputs/Password/Password';
@@ -13,7 +12,6 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'app/hooks';
 import { RootState } from 'app/store';
 import { pagesPaths } from 'helpers/staticVariables';
-import { GoogleSignInStyled } from './Register.styled';
 
 const Register = () => {
   const [email, setEmail] = useState<string>('');
@@ -53,26 +51,6 @@ const Register = () => {
       });
   };
 
-  // === SIGN IN WITH GOOGLE POPUP ===
-
-  const handleRegisterByGoogle = () => {
-    signInWithPopup(auth, provider)
-      .then((res) => {
-        const { email, uid } = res.user;
-        if (email && uid) {
-          addNewUserToDB(email, uid);
-          setTimeout(() => {
-            navigate(`${pagesPaths.dashboard.fullPath}/${mainPage}`);
-          }, 1500);
-        } else return Promise.reject();
-        setIsSucceed(true);
-        setErrorMessage(``);
-      })
-      .catch((error) => {
-        setErrorMessage(error.code);
-      });
-  };
-
   // === CLEAR ERROR MESSAGE ===
   useEffect(() => {
     const interval = setInterval(() => {
@@ -109,10 +87,7 @@ const Register = () => {
         Register
       </Button>
       {errorMessage && <ErrorMessage errorMessage={errorMessage} />}
-      <GoogleSignInStyled>
-        <p>or... </p>
-        <img onClick={handleRegisterByGoogle} src={googleIconRegister} alt="googleSignIn" />
-      </GoogleSignInStyled>
+
       <BackToLogin />
     </>
   );
