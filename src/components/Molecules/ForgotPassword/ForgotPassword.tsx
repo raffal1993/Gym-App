@@ -4,7 +4,7 @@ import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from 'firebase-cfg/firebase-config';
 import Email from 'components/Atoms/Inputs/Email/Email';
 import Button from 'components/Atoms/Buttons/CustomButton/CustomButton';
-import BackToLogin from 'components/Atoms/BackToLogin/BackToMainLogin';
+import BackToLogin from 'components/Atoms/BackToLogin/BackToLogin';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
 import LoginPanelTitle from 'components/Atoms/LoginPanelTitle/LoginPanelTitle';
 

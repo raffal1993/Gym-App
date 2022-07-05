@@ -3,7 +3,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from 'firebase-cfg/firebase-config';
 import { addNewUserToDB } from 'firebase-cfg/database/user/add';
 import Email from 'components/Atoms/Inputs/Email/Email';
-import BackToLogin from 'components/Atoms/BackToLogin/BackToMainLogin';
+import BackToLogin from 'components/Atoms/BackToLogin/BackToLogin';
 import Password from 'components/Atoms/Inputs/Password/Password';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
 import Button from 'components/Atoms/Buttons/CustomButton/CustomButton';
