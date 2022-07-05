@@ -35,9 +35,13 @@ const AddExercise: FC<AddExerciseProps> = ({ name = '', isDisabled }) => {
   };
 
   return images ? (
-    <Wrapper is_disabled={isDisabled.toString()} onClick={handleOpenModal}>
+    <Wrapper data-testid="wrapper" is_disabled={isDisabled.toString()} onClick={handleOpenModal}>
       <h5>{name}</h5>
-      <img src={images[name]} alt="imageExercise" />
+      <img
+        src={images[name]}
+        alt="imageExercise"
+        onError={(e) => e.currentTarget.setAttribute('alt', 'imageNotFound')}
+      />
       <AddIcon />
     </Wrapper>
   ) : null;
