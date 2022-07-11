@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { setModalOpen, setSidebarVisibility } from 'app/slices/interfaceSlice';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuid4 } from 'uuid';
 import { setSubPageID } from 'app/slices/pagesSlice';
 import SidebarTabs from '../CustomTabs/CustomTabs';
 import useResize from '../../../hooks/useResize';
@@ -79,7 +79,7 @@ const Sidebar = () => {
         <SidebarTabs className="sidebar" setValue={setIndexSidebarPage} value={indexSidebarPage}>
           {sidebarList.length > 0 &&
             sidebarList.map((el) => (
-              <Tab key={uuidv4()} label={el.name} onClick={() => optionalNavigate(el.name)} />
+              <Tab key={uuid4()} label={el.name} onClick={() => optionalNavigate(el.name)} />
             ))}
           {isEditModeOn && (
             <EditDbButton ref={buttonRef} className="buttonAddSubPage" onClick={handleOpenModal}>
@@ -91,7 +91,7 @@ const Sidebar = () => {
         <SidebarListStyled className="sidebar" is_sidebar_hide={isSidebarHide!.toString()}>
           {sidebarList.map((el, index) => (
             <ListItemButton
-              key={uuidv4()}
+              key={uuid4()}
               selected={indexSidebarPage === index}
               onClick={(event) => handleListItemClick(event, index, el.name)}
             >
