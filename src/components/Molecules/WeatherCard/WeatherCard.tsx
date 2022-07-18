@@ -28,7 +28,7 @@ const WeatherCard = ({ name, sunrise, sunset, dailyWeatherList }: WeatherDataTyp
         </div>
       )}
 
-      <WeatherCardTabs className="weatherTabs">
+      <WeatherCardTabs value={null} className="weatherTabs">
         {dailyWeatherList.map((el) => (
           <Tab key={uuidv4()} label={<WeatherCardItem dailyWeatherInfos={el} />}></Tab>
         ))}

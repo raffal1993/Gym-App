@@ -24,5 +24,5 @@ export interface AddEditNameModalProps {
 }
 
 export interface EditSidebarModalProps {
-  setIndexSidebarPage: React.Dispatch<React.SetStateAction<number>>;
+  setIndexSidebarPage: React.Dispatch<React.SetStateAction<number | null>>;
 }

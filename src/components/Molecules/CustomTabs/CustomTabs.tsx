@@ -4,7 +4,7 @@ import { TabsStyled } from './CustomTabs.styled';
 interface CustomTabsProps {
   value?: number | null;
   className?: string;
-  setValue?: React.Dispatch<React.SetStateAction<number>>;
+  setValue?: React.Dispatch<React.SetStateAction<number | null>>;
   children?: ReactNode;
 }
 
@@ -18,9 +18,10 @@ const CustomTabs = ({ value, setValue, className, children }: CustomTabsProps) =
 
   return (
     <TabsStyled
+      TabIndicatorProps={{ style: { display: value === null ? 'none' : 'initial' } }}
       style={{ marginTop: '5px' }}
       className={className}
-      value={value || defaultValue}
+      value={value === undefined ? defaultValue : value === null ? false : value}
       onChange={handleChange}
       variant="scrollable"
       allowScrollButtonsMobile
@@ -32,7 +33,7 @@ const CustomTabs = ({ value, setValue, className, children }: CustomTabsProps) =
 };
 
 CustomTabs.defaultProps = {
-  value: null,
+  value: undefined,
   className: '',
   setValue: () => {},
   children: null,
