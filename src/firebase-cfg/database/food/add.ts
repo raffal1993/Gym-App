@@ -42,7 +42,9 @@ const addFoodToDB = async (
 
     const data = await getDataFromDB(targetPath)
       .then((res) => res as Partial<FoodCardDB>)
-      .catch((err) => console.log(err));
+      .catch(() => {
+        throw alert('Error: Cannot get data from DB');
+      });
 
     if (data) {
       let pathToNewFood: string;

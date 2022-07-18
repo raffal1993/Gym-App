@@ -90,8 +90,7 @@ const Weather = memo(() => {
         });
         setWeatherCards(weatherDataArray);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         setErrorMessage('An error has occurred');
       })
       .finally(() => {

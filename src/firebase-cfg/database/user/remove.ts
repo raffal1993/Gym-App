@@ -11,14 +11,14 @@ const removeUserFromDB = async () => {
     const data = await getDataFromDB(targetPath)
       .then((res) => Promise.resolve(res))
       .catch((err) => {
-        console.log(err);
+        console.warn(err);
         return Promise.reject(err);
       });
 
     if (data) {
       await remove(ref(db, targetPath))
-        .then(() => user.delete().catch((err) => console.log(`Error deleting user : ${err}`)))
-        .catch((err) => console.log(`Error deleting userDb : ${err}`));
+        .then(() => user.delete().catch((err) => console.warn(`Error deleting user : ${err}`)))
+        .catch((err) => console.warn(`Error deleting userDb : ${err}`));
     }
   }
 };

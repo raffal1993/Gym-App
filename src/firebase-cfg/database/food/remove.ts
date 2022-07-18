@@ -12,7 +12,9 @@ const removeFoodItem = async (subPageID: string, foodCardID: string, foodItemID:
   if (uid) {
     const data = await getDataFromDB(targetPath)
       .then((res) => res)
-      .catch((err) => console.log(err));
+      .catch(() => {
+        throw alert('Error: Cannot get data from DB');
+      });
 
     if (data) {
       const newFoodSet = (data as NutrientsDB[]).filter((foodItem) => foodItem.id !== foodItemID);
