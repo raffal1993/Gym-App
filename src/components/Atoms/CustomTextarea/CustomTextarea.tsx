@@ -1,5 +1,6 @@
 import { CellToChange } from 'components/Organisms/Workout/WorkoutTypes';
-import { ChangeEvent, FC, KeyboardEvent, useState } from 'react';
+import { getlastPressedKey } from 'helpers/getLastPressedKey';
+import { ChangeEvent, FC, useState } from 'react';
 import { TextAreaStyled } from './CustomTextarea.styled';
 
 interface CellData {
@@ -21,17 +22,19 @@ const CustomTextarea: FC<CustomTextareaProps> = ({
   updateSet,
 }) => {
   const [value, setValue] = useState<string>(initialValue);
-  const [lastKey, setLastKey] = useState<string>('');
   const [deleteValue, setDeleteValue] = useState<boolean>(true);
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const newValue = e.currentTarget.value;
+
     if (deleteValue) {
+      const lastKey = getlastPressedKey(newValue, value);
       setValue(lastKey);
       setDeleteValue(false);
       return;
     }
-    if (Number((maxWidth / 9).toFixed(0)) < e.target.value.length) return;
-    setValue(e.target.value.replace(/\n/g, ''));
+    if (Number((maxWidth / 9).toFixed(0)) < newValue.length) return;
+    setValue(newValue.replace(/\n/g, ''));
   };
 
   const handleBlur = () => {
@@ -39,15 +42,11 @@ const CustomTextarea: FC<CustomTextareaProps> = ({
     setDeleteValue(true);
   };
 
-  const onKeyPress = (e: KeyboardEvent) => {
-    setLastKey(e.key === 'Enter' || e.key === 'Backspace' ? '' : e.key);
-  };
   return (
     <TextAreaStyled
       width={value.length}
       onBlur={handleBlur}
       onChange={handleChange}
-      onKeyDown={onKeyPress}
       value={value}
       disabled={cellData?.cell === 'set'}
       max_width={maxWidth}
