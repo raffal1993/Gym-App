@@ -6,6 +6,7 @@ interface InterfaceState {
   isEditModeOn: boolean;
   isModalOpen: boolean;
   modalContent: ReactElement | null;
+  isSidebarItemSelected: boolean;
 }
 
 const initialState: InterfaceState = {
@@ -13,6 +14,7 @@ const initialState: InterfaceState = {
   isEditModeOn: false,
   isModalOpen: false,
   modalContent: null,
+  isSidebarItemSelected: false,
 };
 
 export const interfaceSlice = createSlice({
@@ -21,6 +23,12 @@ export const interfaceSlice = createSlice({
   reducers: {
     setSidebarVisibility: (state) => {
       state.isSidebarHide = !state.isSidebarHide;
+    },
+    setSidebarItemSelected: (
+      state,
+      action: PayloadAction<InterfaceState['isSidebarItemSelected']>,
+    ) => {
+      state.isSidebarItemSelected = action.payload;
     },
     setEditMode: (state, action: PayloadAction<InterfaceState['isEditModeOn']>) => {
       state.isEditModeOn = action.payload;
@@ -36,7 +44,12 @@ export const interfaceSlice = createSlice({
   },
 });
 
-export const { setSidebarVisibility, setEditMode, setModalOpen, setModalClose } =
-  interfaceSlice.actions;
+export const {
+  setSidebarVisibility,
+  setEditMode,
+  setModalOpen,
+  setModalClose,
+  setSidebarItemSelected,
+} = interfaceSlice.actions;
 
 export default interfaceSlice.reducer;

@@ -16,6 +16,7 @@ const AddFood: FC<{ cards: FoodCardInfo[] }> = ({ cards }) => {
 
   const {
     pages: { subPageID, sidebarList },
+    interface: { isSidebarItemSelected },
   } = useAppSelector((state: RootState) => state);
 
   const addFoodSet = (newName: string) => {
@@ -42,7 +43,7 @@ const AddFood: FC<{ cards: FoodCardInfo[] }> = ({ cards }) => {
   return (
     <AddButtonsStyled>
       <CustomButton
-        disabled={cards.length >= MAX_CARDS || sidebarList.length <= 0}
+        disabled={cards.length >= MAX_CARDS || sidebarList.length <= 0 || !isSidebarItemSelected}
         className="addFoodSetButton addButton"
         handleClick={handleAddFoodSetModal}
       >

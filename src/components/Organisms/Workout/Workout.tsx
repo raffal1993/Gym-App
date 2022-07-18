@@ -21,7 +21,7 @@ const Workout = memo(() => {
 
   const {
     pages: { subPageID, sidebarList },
-    interface: { isEditModeOn },
+    interface: { isEditModeOn, isSidebarItemSelected },
   } = useAppSelector((state: RootState) => state);
 
   useEffect(() => {
@@ -33,13 +33,14 @@ const Workout = memo(() => {
     return () => clearLocalStorage('selectedVersions');
   }, [subPageID]);
 
-  const isAddExerciseDisabled = sidebarList.length <= 0 || workoutList.length >= MAX_CARDS;
+  const isAddExerciseDisabled =
+    sidebarList.length <= 0 || workoutList.length >= MAX_CARDS || !isSidebarItemSelected;
 
   return (
     <Wrapper>
       <StoperWidget />
       {isEditModeOn && (
-        <AddExerciseTabs className="addExerciseTabs">
+        <AddExerciseTabs value={null} className="addExerciseTabs">
           {exercises.map((el) => (
             <Tab
               style={{ cursor: isAddExerciseDisabled ? 'not-allowed' : 'pointer' }}
