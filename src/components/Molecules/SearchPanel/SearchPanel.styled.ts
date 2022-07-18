@@ -3,6 +3,7 @@ import { styled } from '@mui/material';
 export const SearchPanelStyled = styled('div')(({ theme }) => ({
   width: '95%',
   maxWidth: '700px',
+  position: 'relative',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -10,6 +11,7 @@ export const SearchPanelStyled = styled('div')(({ theme }) => ({
   borderRadius: '10px',
   paddingTop: '20px',
   marginBottom: '15px',
+  overflow: 'hidden',
 
   h2: {
     fontSize: '1.6rem',
@@ -66,6 +68,11 @@ export const SearchPanelStyled = styled('div')(({ theme }) => ({
   button: {
     width: 'auto',
     padding: '5px 15px',
+  },
+
+  '& .progressBar': {
+    position: 'absolute',
+    bottom: '0%',
   },
 
   [theme.breakpoints.down('sm')]: {

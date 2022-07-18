@@ -48,6 +48,10 @@ export const Wrapper = styled(TableContainer)(({ theme }) => ({
   '& .tableRowTotal': {
     position: 'sticky',
     bottom: '-1px',
+
+    '& .cellTotal': {
+      whiteSpace: 'nowrap',
+    },
   },
 
   '::-webkit-scrollbar': {

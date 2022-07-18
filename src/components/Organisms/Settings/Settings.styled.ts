@@ -5,6 +5,16 @@ export const Wrapper = styled('div')({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
+  height: '100%',
+
+  '& .constructionIcon': {
+    width: '50%',
+    maxWidth: '300px',
+    color: 'white',
+    height: '100%',
+    opacity: '.1',
+    margin: 'auto',
+  },
 });
 
 export const SettingsCardStyled = styled(CardWrapper)(({ theme }) => ({
