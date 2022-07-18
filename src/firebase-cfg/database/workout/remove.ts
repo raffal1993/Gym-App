@@ -6,7 +6,7 @@ import { getDataFromDB } from '../../dbHelpers';
 
 const removeVersion = async (subPageID: string, exerciseID: string, versionIndex: number) => {
   const uid = auth.currentUser?.uid;
-  const targetPath = `users/${uid}/${pagesPaths.workout.name}/${subPageID}/${exerciseID}/versions/${versionIndex}`;
+  const targetPath = `users/${uid}/${pagesPaths.workout.name}/${subPageID}/${exerciseID}/versions`;
 
   if (uid) {
     const data = (await getDataFromDB(targetPath)
@@ -14,10 +14,12 @@ const removeVersion = async (subPageID: string, exerciseID: string, versionIndex
       .catch((err) => err)) as Version[];
 
     if (data) {
-      return remove(ref(db, targetPath));
+      data.splice(versionIndex, 1);
+      return set(ref(db, targetPath), data);
     }
   }
 };
+
 const removeExercise = async (subPageID: string, exerciseID: string) => {
   const uid = auth.currentUser?.uid;
   const targetPath = `users/${uid}/${pagesPaths.workout.name}/${subPageID}/${exerciseID}`;
