@@ -3,22 +3,26 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import { animateButton } from 'helpers/animateButton';
-import { pagesPaths } from 'helpers/staticVariables';
+import { pages, pagesPaths } from 'helpers/staticVariables';
 import { ListItemButton, ListItemText, Tab } from '@mui/material';
 import { RootState } from 'app/store';
-import { useNavigate } from 'react-router-dom';
-import { setModalOpen, setSidebarVisibility } from 'app/slices/interfaceSlice';
+import { useLocation, useNavigate } from 'react-router-dom';
+import {
+  setModalOpen,
+  setSidebarItemSelected,
+  setSidebarVisibility,
+} from 'app/slices/interfaceSlice';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
 import { v4 as uuid4 } from 'uuid';
-import { setSubPageID } from 'app/slices/pagesSlice';
+import { setMainPage, setSubPageID } from 'app/slices/pagesSlice';
 import SidebarTabs from '../CustomTabs/CustomTabs';
 import useResize from '../../../hooks/useResize';
 import { SidebarListStyled, SliderStyled, Wrapper } from './Sidebar.styled';
 import EditSidebarModal from '../Modals/EditSidebarModal/EditSidebarModal';
 
 const Sidebar = () => {
-  const [indexSidebarPage, setIndexSidebarPage] = useState(0);
+  const [indexSidebarPage, setIndexSidebarPage] = useState<number | null>(null);
   const { isWidthSmaller } = useResize('sm');
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -26,6 +30,8 @@ const Sidebar = () => {
     interface: { isSidebarHide, isEditModeOn },
     pages: { mainPage, subPageID, sidebarList },
   } = useAppSelector((state: RootState) => state);
+
+  const location = useLocation();
 
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -52,14 +58,37 @@ const Sidebar = () => {
   };
 
   useEffect(() => {
-    setIndexSidebarPage(0);
+    if (mainPage === pagesPaths.settings.name) {
+      const index = sidebarList.findIndex(
+        (subPage) => !!location.pathname.match(subPage.name.replace(' ', '')),
+      );
+      setIndexSidebarPage(index === -1 ? null : index);
+    }
+  }, [location, sidebarList, mainPage, indexSidebarPage]);
+
+  useEffect(() => {
+    if (indexSidebarPage === null) dispatch(setSidebarItemSelected(false));
+    if (typeof indexSidebarPage === 'number') dispatch(setSidebarItemSelected(true));
+  }, [indexSidebarPage, dispatch]);
+
+  useEffect(() => {
+    setIndexSidebarPage(null);
   }, [mainPage]);
+
+  useEffect(() => {
+    pages.forEach((page) => {
+      const { path } = page;
+      if (!!location.pathname.match(path)) dispatch(setMainPage(path));
+    });
+  }, [location, dispatch]);
 
   useEffect(() => {
     if (sidebarList.length === 0) {
       dispatch(setSubPageID(''));
       return;
     }
+    if (indexSidebarPage === null) return;
+
     if (subPageID === sidebarList[indexSidebarPage].id) return;
 
     dispatch(setSubPageID(sidebarList[indexSidebarPage].id));

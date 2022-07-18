@@ -12,9 +12,10 @@ import Workout from 'components/Organisms/Workout/Workout';
 import CustomizedRoutes from 'components/Templates/CustomizedRoutes/CustomizedRoutes';
 import DashboardContent from 'components/Templates/DashboardContent/DashboardContent';
 import { sidebarListDBListener } from 'firebase-cfg/database/dashboard/listener';
+import { auth } from 'firebase-cfg/firebase-config';
 import { pagesPaths } from 'helpers/staticVariables';
 import { useEffect } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, useNavigate } from 'react-router-dom';
 import { Wrapper } from './Dashboard.styled';
 
 const Dashboard = () => {
@@ -23,11 +24,16 @@ const Dashboard = () => {
   } = useAppSelector((state: RootState) => state);
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const dispatcher = (list: SidebarListProps[]) => dispatch(setSidebarList(list));
     return sidebarListDBListener(mainPage, dispatcher);
   }, [mainPage, dispatch]);
+
+  useEffect(() => {
+    if (!auth.currentUser) navigate('/');
+  }, [navigate]);
 
   return (
     <Wrapper>

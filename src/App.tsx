@@ -44,7 +44,7 @@ function App() {
   }, [dispatch, navigate, email, mainPage]);
 
   useEffect(() => {
-    if (!mainPage) {
+    if (!mainPage && auth.currentUser) {
       navigate(pagesPaths.workout.fullPath);
       dispatch(setMainPage(pagesPaths.workout.name));
     }
