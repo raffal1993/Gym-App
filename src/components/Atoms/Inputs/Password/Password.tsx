@@ -1,4 +1,5 @@
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
 import { ChangeEvent, FC, KeyboardEvent, MouseEvent, useState } from 'react';
 import { FormControlStyled } from '../Inputs.styled';
