@@ -79,7 +79,7 @@ const SearchPanel = forwardRef(
         <Button handleClick={handleSearch}>{buttonText}</Button>
         {errorMessage && <ErrorMessage className="errorMessage" errorMessage={errorMessage} />}
         {info && <p className="info">{info}</p>}
-        {isLoading && <ProgressBar />}
+        {isLoading && <ProgressBar className="progressBar" />}
       </SearchPanelStyled>
     );
   },

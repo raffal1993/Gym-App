@@ -137,7 +137,9 @@ const FoodTable: FC<{ foodSet: NutrientsDB[] }> = ({ foodSet }) => {
                     className="tableCellTotal"
                   >
                     {cellValue}
-                    {cellValue === 'TOTAL' && <p>[ {totalMacronutrients(foodSet).weight} ]</p>}
+                    {cellValue === 'TOTAL' && (
+                      <p className="cellTotal">[ {totalMacronutrients(foodSet).weight} ]</p>
+                    )}
                   </TableCell>
                 );
               })}

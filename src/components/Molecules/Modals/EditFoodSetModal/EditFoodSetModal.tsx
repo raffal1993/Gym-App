@@ -7,7 +7,6 @@ import { FoodCardInfo, FoodCardDB } from 'components/Organisms/Food/FoodTypes';
 import { foodCardsDBListener } from 'firebase-cfg/database/food/listeners';
 import { updateFoodSetName } from 'firebase-cfg/database/food/update';
 import { setModalClose } from 'app/slices/interfaceSlice';
-
 import { removeFoodItem, removeFoodSet } from 'firebase-cfg/database/food/remove';
 import {
   ConfirmationButtonStyled,
@@ -20,7 +19,7 @@ import AddEditNameModal from '../AddEditNameModal/AddEditNameModal';
 
 let timeout: NodeJS.Timeout;
 
-const EditFoodSetModal: FC<Omit<FoodCardInfo, 'foodSet'>> = ({ foodCardID, name }) => {
+const EditFoodSetModal: FC<Omit<FoodCardInfo, 'foodSet'>> = ({ foodCardID }) => {
   const [foodCard, setFoodCard] = useState<FoodCardDB[]>([]);
   const [isFoodCardNameActive, setIsFoodCardNameActive] = useState<boolean>(false);
   const [confirmItems, setConfirmItems] = useState<string[]>([]);
@@ -108,7 +107,7 @@ const EditFoodSetModal: FC<Omit<FoodCardInfo, 'foodSet'>> = ({ foodCardID, name 
         <RemoveCardButtonStyled onClick={handleRemoveFoodSet}>ARE YOU SURE?</RemoveCardButtonStyled>
       ) : (
         <RemoveCardButtonStyled onClick={() => handleConfirmations(foodCardID)}>
-          Remove {`"${name}" ?`}
+          Remove Food Set ?
         </RemoveCardButtonStyled>
       )}
     </Wrapper>
