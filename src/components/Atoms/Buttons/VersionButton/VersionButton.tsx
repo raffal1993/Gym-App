@@ -7,9 +7,9 @@ interface VersionProps {
   onClick: (e: SyntheticEvent) => void;
 }
 
-const VersionButton: FC<VersionProps> = ({ versionNumber, isActive, ...props }) => {
+const VersionButton: FC<VersionProps> = ({ versionNumber, isActive, onClick }) => {
   return (
-    <VersionButtonStyled {...props} className={isActive ? 'active' : undefined}>
+    <VersionButtonStyled onClick={onClick} className={isActive ? 'active' : undefined}>
       {versionNumber}
     </VersionButtonStyled>
   );
