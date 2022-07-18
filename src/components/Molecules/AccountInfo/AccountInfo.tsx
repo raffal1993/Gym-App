@@ -6,6 +6,7 @@ import SendIcon from '@mui/icons-material/Send';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
 import DangerousSharpIcon from '@mui/icons-material/DangerousSharp';
 import ContactMailSharpIcon from '@mui/icons-material/ContactMailSharp';
+import { updateEmailToDB } from 'firebase-cfg/database/user/update';
 import { TitleStyled } from '../CardStyled/CardStyled.styled';
 import { Wrapper } from './AccountInfo.styled';
 
@@ -49,6 +50,7 @@ const AccountInfo = () => {
       updateEmail(auth.currentUser, inputEmail)
         .then(() => {
           setIsEmailUpdated(true);
+          updateEmailToDB(inputEmail);
         })
         .catch((error) => {
           setErrorMessage(error.message.replace('Firebase: ', ''));
@@ -97,9 +99,7 @@ const AccountInfo = () => {
         </span>
       )}
       {isEmailUpdated ? (
-        <span className="info">
-          Email has been changed. Check your emailbox. You can login now with new email.
-        </span>
+        <span className="info">Email has been changed. You can login now with new email.</span>
       ) : (
         <label className="changeEmail" htmlFor="changeEmail">
           <span>Change email: </span>
