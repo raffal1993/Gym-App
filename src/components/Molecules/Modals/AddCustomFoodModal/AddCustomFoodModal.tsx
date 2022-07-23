@@ -14,7 +14,14 @@ import { NameStyled } from '../Modals.styled';
 import { AddCustomFoodModalProps } from '../ModalsTypes';
 import { EnterNutrientsStyled, PickFoodSetStyled, Wrapper } from './AddCustomFoodModal.styled';
 
-const nutrients: (keyof NutrientsTypes)[] = ['weight', 'kcal', 'fat', 'carbs', 'protein', 'fiber'];
+export const nutrients: (keyof NutrientsTypes)[] = [
+  'weight',
+  'kcal',
+  'fat',
+  'carbs',
+  'protein',
+  'fiber',
+];
 
 type NutrientsFocus = {
   [key in keyof NutrientsTypes]: boolean;
@@ -107,8 +114,9 @@ const AddCustomFoodModal: FC<AddCustomFoodModalProps> = ({ cards, subPageID }) =
             <React.Fragment key={uuid4()}>
               {index === 1 && <p className="info">Nutrients in 100g: </p>}
               <div className="insertNutrient">
-                <p>{nutrient}</p>
+                <label htmlFor={nutrient}>{nutrient}</label>
                 <input
+                  name={nutrient}
                   autoFocus={focusOnInput[nutrient] === true}
                   value={nutrientsValue[nutrient]}
                   onChange={(e) => handleInputChange(e)}

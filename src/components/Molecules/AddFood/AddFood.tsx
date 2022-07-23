@@ -36,10 +36,9 @@ const AddFood: FC<{ cards: FoodCardInfo[] }> = ({ cards }) => {
     );
   };
 
-  const handleAddCustomFoodtModal = () => {
-    dispatch(setModalOpen(<AddCustomFoodModal subPageID={subPageID || ''} cards={cards} />));
+  const handleAddCustomFoodModal = () => {
+    dispatch(setModalOpen(<AddCustomFoodModal subPageID={subPageID} cards={cards} />));
   };
-
   return (
     <AddButtonsStyled>
       <CustomButton
@@ -53,7 +52,7 @@ const AddFood: FC<{ cards: FoodCardInfo[] }> = ({ cards }) => {
       <CustomButton
         disabled={cards.length === 0}
         className="addCustomFoodButton addButton"
-        handleClick={handleAddCustomFoodtModal}
+        handleClick={handleAddCustomFoodModal}
       >
         <AddIcon />
         Add Custom Food

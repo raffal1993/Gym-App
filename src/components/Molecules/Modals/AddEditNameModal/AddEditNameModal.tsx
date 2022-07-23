@@ -56,6 +56,7 @@ const AddEditNameModal: FC<AddEditNameModalProps> = ({
         type={inputType}
         value={name}
         onChange={handleInputChange}
+        data-testid="addEditNameInput"
       />
       {isErrorMessage && (
         <ErrorMessage className="errorMessage" errorMessage="Name must be at least 3 chars !" />

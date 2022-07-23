@@ -2,7 +2,7 @@ import CustomButton from 'components/Atoms/Buttons/CustomButton/CustomButton';
 import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
 import { auth } from 'firebase-cfg/firebase-config';
 import { signInWithEmailAndPassword, updatePassword } from 'firebase/auth';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useState } from 'react';
 import { TitleStyled } from '../CardStyled/CardStyled.styled';
 import { Wrapper } from './ChangePassword.styled';
 
@@ -14,19 +14,21 @@ const ChangePassword = () => {
   const [isSucceed, setIsSucceed] = useState<boolean>(false);
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-    switch (e.currentTarget.getAttribute('datatype')) {
+    switch (e.currentTarget.getAttribute('id')) {
       case 'oldPassword':
         return setOldPassword(e.currentTarget.value);
       case 'newPassword':
         return setNewPassword(e.currentTarget.value);
       case 'confirmPassword':
         return setConfirmPassword(e.currentTarget.value);
-
       default:
-        return 1;
+        return null;
     }
   };
-  const handleChangePassword = async () => {
+  const handleChangePassword = async (
+    e: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLInputElement>,
+  ) => {
+    e.preventDefault();
     const user = auth.currentUser;
     let isVerified = false;
     await signInWithEmailAndPassword(auth, user?.email || '', oldPassword)
@@ -75,48 +77,55 @@ const ChangePassword = () => {
   return (
     <Wrapper>
       <TitleStyled className="title">Change password</TitleStyled>
-      <label htmlFor="oldPassword">
-        <span>Old password:</span>
-        <input
-          value={oldPassword}
-          onChange={(e) => handleOnChange(e)}
-          onKeyPress={(e) => e.key === 'Enter' && handleChangePassword()}
-          datatype="oldPassword"
-          className="oldPassword"
-          type="password"
-        />
-      </label>
-      <label htmlFor="newPassword">
-        <span>New password:</span>
-        <input
-          value={newPassword}
-          onChange={(e) => handleOnChange(e)}
-          onKeyPress={(e) => e.key === 'Enter' && handleChangePassword()}
-          datatype="newPassword"
-          className="newPassword"
-          type="password"
-        />
-      </label>
-      <label htmlFor="confirmPassword">
-        <span>Confirm new password:</span>
-        <input
-          value={confirmPassword}
-          onChange={(e) => handleOnChange(e)}
-          onKeyPress={(e) => e.key === 'Enter' && handleChangePassword()}
-          datatype="confirmPassword"
-          className="confirmPassword"
-          type="password"
-        />
-      </label>
-      <CustomButton
-        isError={!!errorMessage}
-        handleClick={handleChangePassword}
-        className="changePassButton"
-        isSucceed={isSucceed}
-      >
-        Change Password
-      </CustomButton>
-      {errorMessage && <ErrorMessage errorMessage={errorMessage} className="errorMessage" />}
+      <form>
+        <label htmlFor="oldPassword">
+          <span>Old password:</span>
+          <input
+            value={oldPassword}
+            onChange={(e) => handleOnChange(e)}
+            onKeyPress={(e) => e.key === 'Enter' && handleChangePassword(e)}
+            id="oldPassword"
+            className="oldPassword"
+            type="password"
+            data-testid="oldPassword"
+          />
+        </label>
+
+        <label htmlFor="newPassword">
+          <span>New password:</span>
+          <input
+            value={newPassword}
+            onChange={(e) => handleOnChange(e)}
+            onKeyPress={(e) => e.key === 'Enter' && handleChangePassword(e)}
+            id="newPassword"
+            className="newPassword"
+            type="password"
+            data-testid="newPassword"
+          />
+        </label>
+
+        <label htmlFor="confirmPassword">
+          <span>Confirm new password:</span>
+          <input
+            value={confirmPassword}
+            onChange={(e) => handleOnChange(e)}
+            onKeyPress={(e) => e.key === 'Enter' && handleChangePassword(e)}
+            id="confirmPassword"
+            className="confirmPassword"
+            type="password"
+            data-testid="confirmPassword"
+          />
+        </label>
+        <CustomButton
+          isError={!!errorMessage}
+          handleClick={handleChangePassword}
+          className="changePassButton"
+          isSucceed={isSucceed}
+        >
+          Change Password
+        </CustomButton>
+        {errorMessage && <ErrorMessage errorMessage={errorMessage} className="errorMessage" />}
+      </form>
     </Wrapper>
   );
 };
