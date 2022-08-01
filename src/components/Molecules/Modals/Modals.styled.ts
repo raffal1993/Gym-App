@@ -5,13 +5,17 @@ export const CustomModalWrapper = styled(`div`)({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  margin: '5px 5px 20px 5px',
-  maxHeight: '100vh',
+  marginBottom: '5px',
+  overflowY: 'auto',
 
   li: {
     display: 'flex',
     paddingBottom: '10px',
     width: '300px',
+  },
+
+  '::-webkit-scrollbar': {
+    width: '4px',
   },
 });
 
