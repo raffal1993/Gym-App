@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import { auth } from 'firebase-cfg/firebase-config';
 import { pages } from 'helpers/staticVariables';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { v4 as uuid4 } from 'uuid';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
@@ -31,13 +31,15 @@ const Navbar = () => {
     interface: { isSidebarHide },
   } = useAppSelector((state: RootState) => state);
 
+  const location = useLocation();
+
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleNavMenu = (path: string, isHamburger = false) => {
     if (mainPage === path) return;
     dispatch(setSidebarList([]));
-    dispatch(setMainPage(path));
     dispatch(setEditMode(false));
     if (isHamburger) setAnchorElNav(null);
   };
@@ -47,10 +49,17 @@ const Navbar = () => {
     navigate('/');
   };
 
+  useEffect(() => {
+    pages.forEach((page) => {
+      const { path } = page;
+      if (!!location.pathname.match(path)) dispatch(setMainPage(path));
+    });
+  }, [location, dispatch]);
+
   return (
     <Wrapper>
       <WelcomeLogoStyled
-        is_sidebar_hide={isSidebarHide!.toString()}
+        is_sidebar_hide={isSidebarHide.toString()}
         is_email_long={userEmail && userEmail?.length > 12 ? 'true' : 'false'}
       >
         <span>Welcome</span>
@@ -70,7 +79,7 @@ const Navbar = () => {
 
       <HamburgerStyled>
         <IconButton
-          aria-label="account of current user"
+          aria-label="hamburger menu"
           aria-controls="menu-appbar"
           aria-haspopup="true"
           onClick={handleOpenNavMenu}

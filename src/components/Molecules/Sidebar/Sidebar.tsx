@@ -3,7 +3,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import { animateButton } from 'helpers/animateButton';
-import { pages, pagesPaths } from 'helpers/staticVariables';
+import { pagesPaths } from 'helpers/staticVariables';
 import { ListItemButton, ListItemText, Tab } from '@mui/material';
 import { RootState } from 'app/store';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -15,7 +15,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
 import { v4 as uuid4 } from 'uuid';
-import { setMainPage, setSubPageID } from 'app/slices/pagesSlice';
+import { setSubPageID } from 'app/slices/pagesSlice';
 import SidebarTabs from '../CustomTabs/CustomTabs';
 import useResize from '../../../hooks/useResize';
 import { SidebarListStyled, SliderStyled, Wrapper } from './Sidebar.styled';
@@ -76,19 +76,11 @@ const Sidebar = () => {
   }, [mainPage]);
 
   useEffect(() => {
-    pages.forEach((page) => {
-      const { path } = page;
-      if (!!location.pathname.match(path)) dispatch(setMainPage(path));
-    });
-  }, [location, dispatch]);
-
-  useEffect(() => {
     if (sidebarList.length === 0) {
       dispatch(setSubPageID(''));
       return;
     }
     if (indexSidebarPage === null) return;
-
     if (subPageID === sidebarList[indexSidebarPage].id) return;
 
     dispatch(setSubPageID(sidebarList[indexSidebarPage].id));
@@ -96,7 +88,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     if (buttonRef.current) {
-      sidebarList.length <= 0
+      sidebarList.length === 0
         ? animateButton(buttonRef, 'start', 'sidebarButton')
         : animateButton(buttonRef, 'stop', 'sidebarButton');
     }
