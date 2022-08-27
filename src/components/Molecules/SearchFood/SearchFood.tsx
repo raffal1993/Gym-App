@@ -10,8 +10,8 @@ import {
   SearchFoodItemTypes,
   SearchFoodMethod,
 } from 'components/Organisms/Food/FoodTypes';
+import SearchFoodResults from 'components/Molecules/SearchFoodResults/SearchFoodResults';
 import { Wrapper, PaginationStyled } from './SearchFood.styled';
-import SearchFoodResults from '../SearchFoodResults/SearchFoodResults';
 import SearchPanel from '../SearchPanel/SearchPanel';
 
 const SearchFood: FC<{ foodCards: FoodCardDB[] }> = ({ foodCards }) => {
@@ -72,8 +72,7 @@ const SearchFood: FC<{ foodCards: FoodCardDB[] }> = ({ foodCards }) => {
               } as NutrientsTypes,
             }),
           );
-          if (!foods.length) setErrorMessage('No results found');
-
+          if (foods.length === 0) setErrorMessage('No results found');
           setSearchResults(foods);
         })
         .catch(() => {
@@ -88,7 +87,6 @@ const SearchFood: FC<{ foodCards: FoodCardDB[] }> = ({ foodCards }) => {
         });
     }
   };
-
   return (
     <Wrapper>
       <SearchPanel
@@ -120,7 +118,6 @@ const SearchFood: FC<{ foodCards: FoodCardDB[] }> = ({ foodCards }) => {
               <ArrowBackIosNewIcon />
               prev page
             </Button>
-
             <div className="goToPage">
               <input
                 type="number"
@@ -131,6 +128,7 @@ const SearchFood: FC<{ foodCards: FoodCardDB[] }> = ({ foodCards }) => {
                 }
               />
               <Button
+                data-testid="goToPageButton"
                 className="button pageButton"
                 handleClick={() => handleSearchFood('searchByPageNumber', Number(pageNumber))}
               >

@@ -34,6 +34,7 @@ const Password: FC<PasswordProps> = ({
       </InputLabel>
 
       <OutlinedInput
+        inputProps={{ 'data-testid': 'password' }}
         className={className}
         error={isError}
         id={label}

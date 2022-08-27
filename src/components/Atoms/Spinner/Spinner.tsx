@@ -8,7 +8,7 @@ interface SpinnerProps {
 
 const Spinner: FC<SpinnerProps> = ({ className }) => {
   return (
-    <Box className={className} sx={{ display: 'flex' }}>
+    <Box data-testid="spinner" className={className} sx={{ display: 'flex' }}>
       <CircularProgress />
     </Box>
   );

@@ -10,7 +10,7 @@ import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
 import ProgressBar from 'components/Atoms/ProgressBar/ProgressBar';
 import { SearchPanelStyled } from './SearchPanel.styled';
 
-interface SearchPanelProps {
+export interface SearchPanelProps {
   className?: string;
   title: string;
   setInputValue: React.Dispatch<React.SetStateAction<string>>;
@@ -22,10 +22,7 @@ interface SearchPanelProps {
   placeholder?: string;
   buttonText: string;
   searchFoodCb?: (searchType: SearchFoodMethod, page?: number) => Promise<void>;
-  searchWeatherCb?: (
-    params: WeatherCordsParams | WeatherCityNameParams,
-    dataType?: 'getCityName' | 'getWeather',
-  ) => Promise<void>;
+  searchWeatherCb?: (params: WeatherCordsParams | WeatherCityNameParams) => Promise<void>;
 }
 
 const SearchPanel = forwardRef(
@@ -49,7 +46,6 @@ const SearchPanel = forwardRef(
     const handleInputSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setInputValue(e.target.value);
     };
-
     const handleSearch = () => {
       searchFoodCb && searchFoodCb('searchByPhrase');
       searchWeatherCb && searchWeatherCb({ q: inputValue });
@@ -64,7 +60,7 @@ const SearchPanel = forwardRef(
     }, [errorMessage, setErrorMessage]);
 
     return (
-      <SearchPanelStyled className={className} ref={ref}>
+      <SearchPanelStyled data-testid="searchPanel" className={className} ref={ref}>
         <h2>{title}</h2>
         <label htmlFor="searchLabel">
           <SearchIcon />

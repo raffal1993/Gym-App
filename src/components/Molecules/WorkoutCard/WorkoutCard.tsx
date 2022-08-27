@@ -47,7 +47,7 @@ const WorkoutCard: FC<WorkoutCardProps> = ({ exerciseID, name, type, versions })
   };
 
   return (
-    <Wrapper key={uuid4()} url={images[type]}>
+    <Wrapper data-testid="wrapper" key={uuid4()} url={images[type]}>
       {isEditModeOn && <EditCardButton onClick={handleOpenModal}></EditCardButton>}
       <TitleStyled>
         {versions[selectedVersion - 1].alternativeName?.toUpperCase() || name.toUpperCase()}

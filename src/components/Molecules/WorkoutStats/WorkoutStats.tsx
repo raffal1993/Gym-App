@@ -82,11 +82,10 @@ const WorkoutStats: FC<WorkoutStatsProps> = ({ stats, exerciseID, selectedVersio
 
     function listener() {
       clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        if (refItem) {
-          updateScrollPosition({ [exerciseID]: refItem.scrollTop });
-        }
-      }, 300);
+      timeout = setTimeout(
+        () => refItem && updateScrollPosition({ [exerciseID]: refItem.scrollTop }),
+        300,
+      );
     }
 
     if (refItem) refItem.addEventListener('scroll', listener);
@@ -105,7 +104,7 @@ const WorkoutStats: FC<WorkoutStatsProps> = ({ stats, exerciseID, selectedVersio
         </HeaderStyled>
       )}
 
-      <StatsStyled ref={ref}>
+      <StatsStyled ref={ref} data-testid="stats">
         {stats.map((row) => {
           return isWidthSmaller ? (
             <StatsSmallerStyled key={uuidv4()}>

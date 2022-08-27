@@ -6,7 +6,7 @@ import PauseCircleIcon from '@mui/icons-material/PauseCircle';
 import TimerIcon from '@mui/icons-material/Timer';
 import { modifyTimerValue } from 'helpers/modifyTimerValue';
 import CustomizedSnackbars from 'components/Atoms/Snackbar/CustomizedSnackbars';
-import { createRef, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IconStyled, TimerStyled, Wrapper } from './StoperWidget.styled';
 
 const StoperWidget = () => {
@@ -14,8 +14,6 @@ const StoperWidget = () => {
   const [timer, setTimer] = useState<number>(0);
   const [isTimerOn, setIsTimerOn] = useState<boolean>(false);
   const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
-
-  const ref = createRef() as React.RefObject<HTMLDivElement>;
 
   const handleHideStoper = () => {
     setIsHided(!isHided);
@@ -62,12 +60,11 @@ const StoperWidget = () => {
   }, [isTimerOn, timer]);
 
   return (
-    <Wrapper is_hided={isHided.toString()}>
+    <Wrapper data-testid="wrapper" is_hided={isHided.toString()}>
       <IconStyled onClick={() => handleHideStoper()}>
         {isHided ? <TimerIcon /> : <ArrowForwardIcon />}
       </IconStyled>
-
-      <TimerStyled ref={ref}>{modifyTimerValue(timer)}</TimerStyled>
+      <TimerStyled data-testid="display">{modifyTimerValue(timer)}</TimerStyled>
       <IconStyled onClick={isTimerOn ? handleStopTimer : handleStartTimer}>
         {isTimerOn ? <PauseCircleIcon /> : <PlayCircleOutlineIcon />}
       </IconStyled>

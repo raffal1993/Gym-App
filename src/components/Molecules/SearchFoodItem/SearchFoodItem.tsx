@@ -104,13 +104,16 @@ const SearchFoodItem = memo(
 
       return () => clearTimeout(errorMessageTimeout);
     });
-
     return isLoading ? (
       <Wrapper>
         <Spinner className="spinner" />
       </Wrapper>
     ) : (
-      <Wrapper onMouseLeave={handleOnMouseLeave} onClick={handleShowAddFoodPanel}>
+      <Wrapper
+        data-testid="wrapper"
+        onMouseLeave={handleOnMouseLeave}
+        onClick={handleShowAddFoodPanel}
+      >
         <h3 className="foodName">{label}</h3>
         {src ? <img onError={() => handleImgError()} src={src} alt="food" /> : <MyIcon />}
         <NutrientsStyled>
@@ -147,7 +150,7 @@ const SearchFoodItem = memo(
                   Add
                 </CustomButton>
                 {inputWeightError && (
-                  <ErrorMessage className="error" errorMessage="Weight must be provided!" />
+                  <ErrorMessage className="error" errorMessage="Enter properly value!" />
                 )}
               </InsertWeightStyled>
             ) : (
