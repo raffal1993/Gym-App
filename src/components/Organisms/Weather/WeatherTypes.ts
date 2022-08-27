@@ -23,7 +23,7 @@ export interface TodayWeatherInfosAPI extends SearchingCityInfoTypes {
   timezone: number;
 }
 
-export interface WeatherTimestampDataAPI {
+export interface WeatherDataAPI {
   dt: number;
   main: {
     temp: number;

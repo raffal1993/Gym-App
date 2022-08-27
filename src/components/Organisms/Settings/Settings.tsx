@@ -11,7 +11,7 @@ const Settings = () => {
     <Wrapper>
       <CustomizedRoutes>
         <Route path="/" element={<ConstructionIcon className="constructionIcon" />} />
-        <Route caseSensitive path="/AccountInfo" element={<AccountInfo />} />
+        <Route path="/AccountInfo" element={<AccountInfo />} />
         <Route path="/ChangePassword" element={<ChangePassword />} />
         <Route path="/DeleteAccount" element={<DeleteAccount />} />
       </CustomizedRoutes>

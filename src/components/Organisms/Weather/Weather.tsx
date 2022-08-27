@@ -1,8 +1,8 @@
 import { memo, useEffect, useMemo, useState } from 'react';
 import CustomButton from 'components/Atoms/Buttons/CustomButton/CustomButton';
-import { getDayName, getTime } from 'helpers/dates';
 import { v4 as uuid4 } from 'uuid';
 import { WeatherApiInstance } from 'api/WeatherAPI/instance';
+import { convertedWeatherDataFromAPI } from 'helpers/convertedWeatherDataFromAPI';
 import { RootState } from 'app/store';
 import { useAppSelector } from 'app/hooks';
 import WeatherCard from 'components/Molecules/WeatherCard/WeatherCard';
@@ -10,13 +10,12 @@ import SearchPanel from 'components/Molecules/SearchPanel/SearchPanel';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { Wrapper } from './Weather.styled';
 import {
-  DailyWeatherInfos,
   SearchingCityInfoTypes,
   TodayWeatherInfosAPI,
   WeatherCityNameParams,
   WeatherCordsParams,
   WeatherDataType,
-  WeatherTimestampDataAPI,
+  WeatherDataAPI,
 } from './WeatherTypes';
 
 const Weather = memo(() => {
@@ -37,58 +36,17 @@ const Weather = memo(() => {
     if (inputValue === '' && dataType === 'getWeather')
       return setErrorMessage('Enter name of the city !');
     setIsLoading(true);
+
     await WeatherApiInstance.get('', { params: { units: 'metric', ...params } })
       .then((res) => {
         if (dataType === 'getCityName') return setInputValue(res.data.city.name);
         const { name, timezone, country, sunrise, sunset }: TodayWeatherInfosAPI = res.data.city;
-        const WeatherTimestampsData: WeatherTimestampDataAPI[] = res.data.list;
+
+        const weatherDataAPI: WeatherDataAPI[] = res.data.list;
 
         setSearchingCityInfo({ name, country });
 
-        const weatherDataArray: WeatherDataType[] = [];
-        const dailyWeatherList: DailyWeatherInfos[] = [];
-
-        WeatherTimestampsData.forEach((timestamp: WeatherTimestampDataAPI, index: number) => {
-          const { dt, main, pop, weather, wind } = timestamp;
-
-          const dayName = getDayName(dt, timezone);
-
-          const prevDayName =
-            index > 0 ? getDayName(WeatherTimestampsData[index - 1].dt, timezone) : dayName;
-
-          dailyWeatherList.push({
-            time: getTime(dt, timezone),
-            temperature: main.temp,
-            sensibleTemperature: main.feels_like,
-            pressure: main.pressure,
-            possibilityOfPrecipitation: pop,
-            description: weather[0].description,
-            icon: weather[0].icon,
-            windDeg: wind.deg,
-            windSpeed: wind.speed,
-          } as DailyWeatherInfos);
-
-          const isLastListItem = index === WeatherTimestampsData.length - 1;
-
-          if (dayName !== prevDayName || isLastListItem) {
-            const name = isLastListItem ? dayName : prevDayName;
-            const sunsetAndSunrise =
-              name === 'Today'
-                ? {
-                    sunrise: getTime(sunrise, timezone, 'sunriseOrSunset'),
-                    sunset: getTime(sunset, timezone, 'sunriseOrSunset'),
-                  }
-                : {};
-
-            weatherDataArray.push({
-              name,
-              dailyWeatherList: [...dailyWeatherList],
-              ...sunsetAndSunrise,
-            });
-            dailyWeatherList.length = 0;
-          }
-        });
-        setWeatherCards(weatherDataArray);
+        setWeatherCards(convertedWeatherDataFromAPI(weatherDataAPI, timezone, sunrise, sunset));
       })
       .catch(() => {
         setErrorMessage('An error has occurred');
