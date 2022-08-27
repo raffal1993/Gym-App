@@ -18,11 +18,8 @@ const FoodCard: FC<{ foodCard: FoodCardDB }> = ({ foodCard }) => {
   const dispatch = useAppDispatch();
 
   const handleOpenModal = () => {
-    dispatch(
-      setModalOpen(<EditFoodSetModal foodCardID={foodCard.foodCardID} name={foodCard.name} />),
-    );
+    dispatch(setModalOpen(<EditFoodSetModal foodCardID={foodCard.foodCardID} />));
   };
-
   return (
     <Wrapper>
       {isEditModeOn && <EditCardButton onClick={handleOpenModal}></EditCardButton>}

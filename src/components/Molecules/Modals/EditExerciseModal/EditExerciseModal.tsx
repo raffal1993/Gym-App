@@ -1,14 +1,15 @@
-import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
 import CloseIcon from '@mui/icons-material/Close';
 import React, { FC, useEffect, useState } from 'react';
 import { v4 as uuid4 } from 'uuid';
 import { removeExercise, removeVersion, removeSet } from 'firebase-cfg/database/workout/remove';
-import { Version } from 'components/Organisms/Workout/WorkoutTypes';
-import { clearLocalStorage } from 'helpers/localStorage';
-import { useDispatch } from 'react-redux';
-import { setModalClose } from 'app/slices/interfaceSlice';
 import { updateExerciseName } from 'firebase-cfg/database/workout/update';
 import { exerciseDBListener } from 'firebase-cfg/database/workout/listeners';
+import { clearLocalStorage } from 'helpers/localStorage';
+import { useAppDispatch } from 'app/hooks';
+import { setModalClose } from 'app/slices/interfaceSlice';
+import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
+import { Version } from 'components/Organisms/Workout/WorkoutTypes';
+import { EditExerciseModalProps, EditNameExercise } from '../ModalsTypes';
 import AddEditNameModal from '../AddEditNameModal/AddEditNameModal';
 import { Wrapper } from './EditExerciseModal.styled';
 import {
@@ -17,7 +18,6 @@ import {
   RemoveButtonStyled,
   RemoveCardButtonStyled,
 } from '../Modals.styled';
-import { EditExerciseModalProps, EditNameExercise } from '../ModalsTypes';
 
 let timeout: NodeJS.Timer;
 
@@ -28,7 +28,7 @@ const EditExerciseModal: FC<EditExerciseModalProps> = ({ exerciseID, subPageID }
   const [mainExerciseName, setMainExerciseName] = useState<string>();
   const [nameDataForChange, setNameDataForChange] = useState<EditNameExercise>();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handeRemoveExercise = () => {
     removeExercise(subPageID, exerciseID);
@@ -110,7 +110,7 @@ const EditExerciseModal: FC<EditExerciseModalProps> = ({ exerciseID, subPageID }
                   className={versionIndex === selectedVersionIndex ? 'active' : ''}
                   onClick={() => handleSetNameForChange(versionIndex)}
                 >
-                  <p>{versionIndex + 1}.</p>
+                  <p>{`${versionIndex + 1}.`}</p>
                   {`${alternativeName?.toUpperCase() || mainExerciseName?.toUpperCase()} `}
                 </NameStyled>
               </div>

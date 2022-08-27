@@ -1,7 +1,7 @@
 import React, { ReactNode, useState } from 'react';
 import { TabsStyled } from './CustomTabs.styled';
 
-interface CustomTabsProps {
+export interface CustomTabsProps {
   value?: number | null;
   className?: string;
   setValue?: React.Dispatch<React.SetStateAction<number | null>>;
@@ -19,7 +19,6 @@ const CustomTabs = ({ value, setValue, className, children }: CustomTabsProps) =
   return (
     <TabsStyled
       TabIndicatorProps={{ style: { display: value === null ? 'none' : 'initial' } }}
-      style={{ marginTop: '5px' }}
       className={className}
       value={value === undefined ? defaultValue : value === null ? false : value}
       onChange={handleChange}
@@ -35,7 +34,7 @@ const CustomTabs = ({ value, setValue, className, children }: CustomTabsProps) =
 CustomTabs.defaultProps = {
   value: undefined,
   className: '',
-  setValue: () => {},
+  setValue: undefined,
   children: null,
 };
 

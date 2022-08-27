@@ -11,7 +11,7 @@ describe('test Password', () => {
 
   let renderNew: (ui: React.ReactElement<any, string | React.JSXElementConstructor<any>>) => void;
 
-  let inputPassword: HTMLElement;
+  const inputPassword = () => screen.getByLabelText('Password');
 
   beforeEach(() => {
     const { rerender } = renderWithProviders(
@@ -23,31 +23,31 @@ describe('test Password', () => {
         label="Password"
       />,
     );
-    inputPassword = screen.getByLabelText('Password');
+
     renderNew = rerender;
   });
 
   test('label prop, check if input is in document', () => {
-    expect(inputPassword).toBeInTheDocument();
+    expect(inputPassword()).toBeInTheDocument();
   });
 
   test('password prop', () => {
-    expect(inputPassword).toHaveValue('testPassword');
+    expect(inputPassword()).toHaveValue('testPassword');
   });
 
   test('onChange = handlePassword prop', () => {
-    fireEvent.change(inputPassword, { target: { value: 'newPassword' } });
+    fireEvent.change(inputPassword(), { target: { value: 'newPassword' } });
     expect(handlePassword).toHaveBeenCalledTimes(1);
   });
 
   test('onKeyPress = handleSubmit prop', () => {
-    fireEvent.change(inputPassword, { target: { value: 'newPassword' } });
-    fireEvent.keyPress(inputPassword, { charCode: 13 });
+    fireEvent.change(inputPassword(), { target: { value: 'newPassword' } });
+    fireEvent.keyPress(inputPassword(), { charCode: 13 });
     expect(handleSubmit).toHaveBeenCalledTimes(1);
   });
 
   test('isError prop', () => {
-    expect(inputPassword).toHaveAttribute('aria-invalid', 'false');
+    expect(inputPassword()).toHaveAttribute('aria-invalid', 'false');
     renderNew(
       <Password
         password="testPassword"
@@ -57,7 +57,7 @@ describe('test Password', () => {
         label="Password"
       />,
     );
-    expect(inputPassword).toHaveAttribute('aria-invalid', 'true');
+    expect(inputPassword()).toHaveAttribute('aria-invalid', 'true');
   });
 
   test('show Password', async () => {

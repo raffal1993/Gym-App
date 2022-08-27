@@ -50,7 +50,7 @@ const Login = () => {
 
   const handleRegisterByGoogle = () => {
     signInWithPopup(auth, provider)
-      .then(async (res) => {
+      .then((res) => {
         const { email, uid } = res.user;
         if (email && uid) {
           get(child(ref(db), `users/${uid}`)).then(
@@ -63,8 +63,8 @@ const Login = () => {
         setIsSucceed(true);
         setErrorMessage(``);
       })
-      .catch((error) => {
-        setErrorMessage(error.code);
+      .catch(({ code }) => {
+        setErrorMessage(code);
       });
   };
 

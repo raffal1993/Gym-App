@@ -3,9 +3,10 @@ import React from 'react';
 import EditModeButton from 'components/Atoms/Buttons/EditModeButton/EditModeButton';
 import { animateButton } from 'helpers/animateButton';
 import { EditModeButtonStyled } from 'components/Atoms/Buttons/EditModeButton/EditModeButton.styled';
-import { setupStore } from 'app/store';
+import { state } from 'app/store';
 import { setEditMode } from 'app/slices/interfaceSlice';
 import { convertToElement } from '__tests__/helpers/convertToElement';
+import { mockedReduxState } from '__tests__/mocks/mockedReduxState';
 
 jest.mock('helpers/animateButton', () => ({
   animateButton: jest.fn(),
@@ -28,9 +29,7 @@ describe('test EditModeButton', () => {
   test('onClick on child element', () => {
     const wrapper = mountWithProviders(<EditModeButton />);
     wrapper.find(EditModeButtonStyled).simulate('click');
-    expect(dispatch).toHaveBeenCalledWith(
-      setEditMode(!setupStore().getState().interface.isEditModeOn),
-    );
+    expect(dispatch).toHaveBeenCalledWith(setEditMode(!state.interface.isEditModeOn));
   });
 
   describe('check button icon and animations for toggle editMode on/off', () => {
@@ -38,11 +37,9 @@ describe('test EditModeButton', () => {
       jest.clearAllMocks();
     });
 
-    test('isEditModeOn === true', async () => {
+    test('isEditModeOn === false', async () => {
       const wrapper = mountWithProviders(<EditModeButton />, {
-        store: setupStore({
-          interface: { ...setupStore().getState().interface, isEditModeOn: false },
-        }),
+        preloadedState: mockedReduxState({ interfaceState: { isEditModeOn: false } }),
       });
 
       const closeIcon = wrapper.find('svg');
@@ -57,13 +54,14 @@ describe('test EditModeButton', () => {
       expect(animation).toBeCalledWith(ref, 'start', 'editModeButton');
     });
 
-    test('isEditModeOn === false', () => {
+    test('isEditModeOn === true', () => {
       const wrapper = mountWithProviders(<EditModeButton />, {
-        store: setupStore({
-          interface: { ...setupStore().getState().interface, isEditModeOn: true },
-          pages: { ...setupStore().getState().pages, sidebarList: [{ id: '1', name: 'test1' }] },
+        preloadedState: mockedReduxState({
+          interfaceState: { isEditModeOn: true },
+          pagesState: { sidebarList: [{ id: '1', name: 'test1' }] },
         }),
       });
+
       const constructionIcon = wrapper.find('svg');
       expect(constructionIcon.exists()).toBeTruthy();
       expect(constructionIcon.getDOMNode()).toHaveAttribute('data-testid', 'CloseIcon');

@@ -19,7 +19,7 @@ import AddEditNameModal from '../AddEditNameModal/AddEditNameModal';
 
 let timeout: NodeJS.Timeout;
 
-const EditFoodSetModal: FC<Omit<FoodCardInfo, 'foodSet'>> = ({ foodCardID }) => {
+const EditFoodSetModal: FC<Omit<FoodCardInfo, 'foodSet' | 'name'>> = ({ foodCardID }) => {
   const [foodCard, setFoodCard] = useState<FoodCardDB[]>([]);
   const [isFoodCardNameActive, setIsFoodCardNameActive] = useState<boolean>(false);
   const [confirmItems, setConfirmItems] = useState<string[]>([]);
@@ -66,7 +66,7 @@ const EditFoodSetModal: FC<Omit<FoodCardInfo, 'foodSet'>> = ({ foodCardID }) => 
   useEffect(() => {
     timeout = setTimeout(() => {
       setConfirmItems([]);
-    }, 1500);
+    }, 2500);
     return () => clearTimeout(timeout);
   }, []);
 
