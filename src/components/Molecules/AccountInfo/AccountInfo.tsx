@@ -45,6 +45,7 @@ const AccountInfo = () => {
   };
 
   const handleChangeEmail = () => {
+    if (email === 'test@wp.pl') return setErrorMessage("Can't change test@wp.pl email");
     if (inputEmail.length === 0) return setErrorMessage("Email can't be empty");
     auth.currentUser &&
       updateEmail(auth.currentUser, inputEmail)

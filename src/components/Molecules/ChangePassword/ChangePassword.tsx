@@ -29,6 +29,8 @@ const ChangePassword = () => {
     e: MouseEvent<HTMLButtonElement> | KeyboardEvent<HTMLInputElement>,
   ) => {
     e.preventDefault();
+    if (auth.currentUser?.email === 'test@wp.pl')
+      return setErrorMessage("Can't change password on test@wp.pl account");
     const user = auth.currentUser;
     let isVerified = false;
     await signInWithEmailAndPassword(auth, user?.email || '', oldPassword)

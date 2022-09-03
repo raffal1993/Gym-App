@@ -18,6 +18,7 @@ const DeleteAccount = () => {
   const handleRemoveAccount = () => {
     const email = auth.currentUser?.email;
     if (!email) return setErrorMessage('An error has occurred');
+    if (email === 'test@wp.pl') return setErrorMessage("Can't delete account test@wp.pl");
 
     if (email !== inputValue)
       return setErrorMessage('Email address is different than your account email address.');
