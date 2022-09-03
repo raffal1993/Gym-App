@@ -15,7 +15,6 @@ import {
   WeatherCityNameParams,
   WeatherCordsParams,
   WeatherDataType,
-  WeatherDataAPI,
 } from './WeatherTypes';
 
 const Weather = memo(() => {
@@ -42,11 +41,9 @@ const Weather = memo(() => {
         if (dataType === 'getCityName') return setInputValue(res.data.city.name);
         const { name, timezone, country, sunrise, sunset }: TodayWeatherInfosAPI = res.data.city;
 
-        const weatherDataAPI: WeatherDataAPI[] = res.data.list;
-
         setSearchingCityInfo({ name, country });
 
-        setWeatherCards(convertedWeatherDataFromAPI(weatherDataAPI, timezone, sunrise, sunset));
+        setWeatherCards(convertedWeatherDataFromAPI(res.data.list, timezone, sunrise, sunset));
       })
       .catch(() => {
         setErrorMessage('An error has occurred');
