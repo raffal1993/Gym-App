@@ -51,7 +51,7 @@ function App() {
   }, [navigate, mainPage, dispatch]);
 
   return (
-    <Wrapper>
+    <Wrapper data-testid="wrapper">
       {email !== null && (
         <CustomizedRoutes>
           <Route path="/*" element={<LoginPanel />} />

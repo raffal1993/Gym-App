@@ -16,6 +16,7 @@ const Modal = () => {
 
   return (
     <BasicModal
+      BackdropProps={{ componentsProps: { root: { 'data-testid': 'backdrop' } } }}
       sx={{ minHeight: '650px', minWidth: '300px' }}
       open={isModalOpen}
       onClose={handleCloseModal}
