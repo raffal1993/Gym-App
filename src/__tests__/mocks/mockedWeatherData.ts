@@ -1,4 +1,9 @@
-import { DailyWeatherInfos, WeatherDataType } from 'components/Organisms/Weather/WeatherTypes';
+import {
+  DailyWeatherInfos,
+  TodayWeatherInfosAPI,
+  WeatherDataAPI,
+  WeatherDataType,
+} from 'components/Organisms/Weather/WeatherTypes';
 
 export const mockedDailyWeatherInfos = (number: number = 1): DailyWeatherInfos => {
   return {
@@ -14,7 +19,7 @@ export const mockedDailyWeatherInfos = (number: number = 1): DailyWeatherInfos =
   };
 };
 
-export const mockedWeatherDataType = (number: number = 1): WeatherDataType => {
+export const mockedWeatherData = (number: number = 1): WeatherDataType => {
   return {
     name: `testName${number}`,
     sunrise: `testSunrise${number}`,
@@ -26,3 +31,31 @@ export const mockedWeatherDataType = (number: number = 1): WeatherDataType => {
     ],
   };
 };
+
+export const mockedWeatherDataAPI = (number: number = 1): WeatherDataAPI => ({
+  dt: 1661612406721 + number * 10000,
+  main: {
+    temp: number * 10,
+    feels_like: number * 10 + 1,
+    pressure: number * 10 + 2,
+  },
+  pop: number * 10 + 3,
+  weather: [
+    {
+      description: `testDescription${number}`,
+      icon: `testSRC${number}`,
+    },
+  ],
+  wind: {
+    speed: number * 10 + 4,
+    deg: number * 10 + 5,
+  },
+});
+
+export const todayWeatherInfosAPI = (number: number = 1): TodayWeatherInfosAPI => ({
+  name: `testCityName${number}`,
+  country: `testCountryName${number}`,
+  sunrise: 1661612406721 + number * 10000,
+  sunset: 1661612406721 + number * 20000,
+  timezone: 1661612406721 + number * 30000,
+});

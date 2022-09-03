@@ -16,3 +16,10 @@ export const mockedSidebarList: SidebarListProps[] = [
   mockedSidebarItem(2),
   mockedSidebarItem(3),
 ];
+
+export const mockedSubPageDBSnapshot = (number: number) => ({
+  [`${mockedSubPageID}${number}`]: {
+    name: `testSubPageName${number}`,
+    timestamp: number * 1000,
+  },
+});

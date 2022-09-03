@@ -58,3 +58,12 @@ export const workoutStatsProps: WorkoutStatsProps = {
     { ...mockedExerciseSet('stat3') },
   ],
 };
+
+export const mockedExerciseCardDBSnapshot = (number: number) => ({
+  [`-testExerciseNameID${number}`]: {
+    name: `testExerciseName${number}`,
+    timestamp: number * 1000,
+    type: 'testType',
+    versions: mockedExerciseVersions,
+  },
+});
