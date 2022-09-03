@@ -1,7 +1,7 @@
 import { cleanup, screen } from '@testing-library/react';
 import WeatherCard from 'components/Molecules/WeatherCard/WeatherCard';
 import React from 'react';
-import { mockedWeatherDataType } from '../../mocks/mockedWeatherData';
+import { mockedWeatherData } from '../../mocks/mockedWeatherData';
 import { renderWithProviders } from '../../utils/test-utils';
 
 jest.mock('components/Molecules/WeatherCardItem/WeatherCardItem', () => ({
@@ -12,7 +12,7 @@ jest.mock('components/Molecules/WeatherCardItem/WeatherCardItem', () => ({
 }));
 describe('testing WeatherCard component', () => {
   beforeEach(() => {
-    renderWithProviders(<WeatherCard {...mockedWeatherDataType()} />);
+    renderWithProviders(<WeatherCard {...mockedWeatherData()} />);
     jest.restoreAllMocks();
   });
 
@@ -29,7 +29,7 @@ describe('testing WeatherCard component', () => {
   test('if sunrise and sunset props are not provided', () => {
     cleanup();
     renderWithProviders(
-      <WeatherCard {...{ ...mockedWeatherDataType(), sunrise: undefined, sunset: undefined }} />,
+      <WeatherCard {...{ ...mockedWeatherData(), sunrise: undefined, sunset: undefined }} />,
     );
     expect(screen.queryByTestId(/WbSunnyIcon/i)).not.toBeInTheDocument();
     expect(screen.queryByTestId(/ArrowUpwardIcon/i)).not.toBeInTheDocument();
