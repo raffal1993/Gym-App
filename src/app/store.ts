@@ -23,6 +23,8 @@ export function setupStore(preloadedState?: PreloadedState<RootState>) {
   });
 }
 
+export const state = setupStore().getState();
+
 export type RootState = ReturnType<typeof rootReducer>;
 export type AppStore = ReturnType<typeof setupStore>;
 export type AppDispatch = AppStore['dispatch'];
