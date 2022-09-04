@@ -63,6 +63,20 @@ const Weather = memo(() => {
     }
   };
 
+  const weatherCardsMemoized = useMemo(
+    () =>
+      weatherCards.map(({ name, sunrise, sunset, dailyWeatherList }: WeatherDataType) => (
+        <WeatherCard
+          name={name}
+          sunrise={sunrise}
+          sunset={sunset}
+          dailyWeatherList={dailyWeatherList}
+          key={uuid4()}
+        />
+      )),
+    [weatherCards],
+  );
+
   useEffect(() => {
     if (sidebarList.length <= 0) return;
 
@@ -90,19 +104,7 @@ const Weather = memo(() => {
           searchingCityInfo ? `${searchingCityInfo.name} [${searchingCityInfo.country}]` : undefined
         }
       />
-      {useMemo(
-        () =>
-          weatherCards.map(({ name, sunrise, sunset, dailyWeatherList }: WeatherDataType) => (
-            <WeatherCard
-              name={name}
-              sunrise={sunrise}
-              sunset={sunset}
-              dailyWeatherList={dailyWeatherList}
-              key={uuid4()}
-            />
-          )),
-        [weatherCards],
-      )}
+      {weatherCardsMemoized}
     </Wrapper>
   );
 });

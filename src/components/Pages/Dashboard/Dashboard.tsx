@@ -42,7 +42,6 @@ const Dashboard = () => {
       <DashboardContent>
         {mainPage !== pagesPaths.settings.name && <EditModeButton />}
         <CustomizedRoutes>
-          <Route path="/" element={<></>} />
           <Route path={`/${pagesPaths.workout.name}`} element={<Workout />} />
           <Route path={`/${pagesPaths.food.name}`} element={<Food />} />
           <Route path={`/${pagesPaths.weather.name}`} element={<Weather />} />
