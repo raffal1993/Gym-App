@@ -1,5 +1,5 @@
-export const getlastPressedKey = (newValue: string, value: string) => {
-  const newValuearr = [...newValue];
+export const getLastPressedKey = (newValue: string, value: string) => {
+  const newValueArr = [...newValue];
   const valueArr = [...value];
   const lastKeyArr: string[] = [];
 
@@ -7,9 +7,9 @@ export const getlastPressedKey = (newValue: string, value: string) => {
     const index = valueArr.indexOf(elem);
     if (index === -1) {
       lastKeyArr.push(elem);
-      newValuearr.splice(0, 1);
+      newValueArr.splice(0, 1);
     } else {
-      newValuearr.splice(0, 1);
+      newValueArr.splice(0, 1);
       valueArr.splice(index, 1);
     }
   });

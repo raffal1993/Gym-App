@@ -1,5 +1,5 @@
 import { CellToChange } from 'components/Organisms/Workout/WorkoutTypes';
-import { getlastPressedKey } from 'helpers/getLastPressedKey';
+import { getLastPressedKey } from 'helpers/getLastPressedKey';
 import { ChangeEvent, FC, useState } from 'react';
 import { TextAreaStyled } from './CustomTextarea.styled';
 
@@ -28,7 +28,7 @@ const CustomTextarea: FC<CustomTextareaProps> = ({
     const newValue = e.currentTarget.value;
 
     if (deleteValue) {
-      const lastKey = getlastPressedKey(newValue, value);
+      const lastKey = getLastPressedKey(newValue, value);
       setValue(lastKey);
       setDeleteValue(false);
       return;
