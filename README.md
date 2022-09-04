@@ -1,46 +1,95 @@
-# Getting Started with Create React App
+<h1 align="center">:trident: Gym App :trident:</h1>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<br>
 
-## Available Scripts
+<h2>:one: About the Project:</h2>
+<br>
 
-In the project directory, you can run:
+<strong>This is an application that consists of:</strong>
 
-### `npm start`
+workout section:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- adding and deleting exercises and their versions
+- saving, modifying, deleting your workout results
+- stopwatch to measure the time, for example, doing a plank
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+food section:
 
-### `npm test`
+- searching for food products and macronutrient information
+- adding and deleting food sets with selected products,
+- information about the total calories and macronutrients in the food set
+- possibility to create and add your own product to food set
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+weather section:
 
-### `npm run build`
+- search for weather in a particular city around the world
+- use geolocation to automatically detect your city
+- weather information 5 days in advance every 3 hours
+- information about temperature, cloud cover, pressure, precipitation possibility, and wind
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+setting section:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- account information
+- change email, password
+- verification by email
+- delete account
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<br>
 
-### `npm run eject`
+<div align="center"><strong>TEST ACCOUNT:<strong></div>
+<div align="center">Login: test@wp.pl</div>
+<div align="center">Password: test1234</div>
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+<h2>:two: Demo:</h2>
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+https://user-images.githubusercontent.com/74503384/188314321-eab8eb9a-f3c3-410a-a418-806f18aba164.MP4
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+https://user-images.githubusercontent.com/74503384/188314339-473ae7a7-c169-440a-b528-a1bcccead4d1.MP4
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+https://user-images.githubusercontent.com/74503384/188314343-c08b30a8-8da9-42d8-a16a-a18571b77c78.MP4
 
-## Learn More
+https://user-images.githubusercontent.com/74503384/188314346-a8bbd52e-01a8-4d74-818d-70847f18d36d.MP4
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<h2>:three: Setup / Installation:</h2>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Clone repo:
+
+<pre><code>git clone https://github.com/raffal1993/Gym-App.git</code></pre>
+
+Install dependencies:
+
+<pre><code>npm install</code></pre>
+<br>
+
+<h2>:four: Testing:</h2>
+
+Unit and integration tests with Jest, RTL, enzyme:
+
+<pre><code>npm run test</code></pre>
+
+<h2>:five: Tech Stack:</h2>
+
+ <ul>
+ 
+ <li>React</li>
+ <li>Typescript</li>
+ <br>
+ <li>Firebase: Auth, Realtime Database</li>
+ <li>Redux-toolkit</li>
+ <li>React-router</li>
+ <li>Material-UI</li>
+ <li>Axios</li>
+ <br>
+ <li>Jest</li>
+ <li>React Testing Library</li>
+ <li>Enzyme</li>
+ 
+ </ul>
+
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)
+![Firebase](https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase)
+![MUI](https://img.shields.io/badge/MUI-%230081CB.svg?style=for-the-badge&logo=mui&logoColor=white)
+![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
+![Testing-Library](https://img.shields.io/badge/-TestingLibrary-%23E33332?style=for-the-badge&logo=testing-library&logoColor=white)
