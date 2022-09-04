@@ -30,7 +30,7 @@ const ChangePassword = () => {
   ) => {
     e.preventDefault();
     if (auth.currentUser?.email === 'test@wp.pl')
-      return setErrorMessage("Can't change password on test@wp.pl account");
+      return setErrorMessage("You can't change password on test@wp.pl account");
     const user = auth.currentUser;
     let isVerified = false;
     await signInWithEmailAndPassword(auth, user?.email || '', oldPassword)
