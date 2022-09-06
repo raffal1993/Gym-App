@@ -1,11 +1,5 @@
 import { Pages, PagesPaths } from 'components/Molecules/Navbar/NavbarTypes';
 
-export const MAX_VERSIONS = 5;
-export const MAX_SETS = 10;
-export const MAX_CARDS = 10;
-export const MAX_SIDEBAR_ELEMENTS = 10;
-export const MAX_FOODS_IN_CARD = 25;
-
 export const pages: Pages[] = [
   { name: 'Workout', path: 'workout' },
   { name: 'Food', path: 'food' },

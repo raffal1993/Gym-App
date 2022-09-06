@@ -1,12 +1,13 @@
 import { useAppDispatch } from 'app/hooks';
 import { setModalClose } from 'app/slices/interfaceSlice';
-import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
+import ErrorMessage from 'components/Commons/ErrorMessage/ErrorMessage';
 import { TitleStyled } from 'components/Molecules/CardStyled/CardStyled.styled';
 import { NutrientsTypes } from 'components/Organisms/Food/FoodTypes';
 import { addFoodToDB } from 'firebase-cfg/database/food/add';
 import { countNutrientsByWeight } from 'helpers/countNutrientsByWeight';
 import { filterNumberInputValue } from 'helpers/filterNumberInputValue';
-import { MAX_FOODS_IN_CARD } from 'helpers/staticVariables';
+import { MAX_FOODS_IN_CARD } from 'utils/staticVariables/maxElements';
+import { isMaxDigitsAfterDot } from 'helpers/isMaxDigitsAfterDot';
 import React, { ChangeEvent, FC, MouseEvent, useEffect, useState } from 'react';
 import { v4 as uuid4 } from 'uuid';
 import AddEditNameModal from '../AddEditNameModal/AddEditNameModal';
@@ -48,9 +49,9 @@ const initialInputValues: NutrientsTypes = {
 const AddCustomFoodModal: FC<AddCustomFoodModalProps> = ({ cards, subPageID }) => {
   const [nutrientsValue, setNutrientsValue] = useState(initialInputValues);
   const [focusOnInput, setFocusOnInput] = useState(initialFocuses);
-  const [pickedFoodSetID, setPickedFoodSetID] = useState<string>('');
-  const [nutrientsError, setNutrientsError] = useState<boolean>(false);
-  const [pickFoodSetError, setPickFoodSetError] = useState<boolean>(false);
+  const [pickedFoodSetID, setPickedFoodSetID] = useState('');
+  const [nutrientsError, setNutrientsError] = useState(false);
+  const [pickFoodSetError, setPickFoodSetError] = useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -60,9 +61,7 @@ const AddCustomFoodModal: FC<AddCustomFoodModalProps> = ({ cards, subPageID }) =
 
     if (Number(value) > 9999) return;
 
-    const isTwoDigitsAfterDot = value.split('.').length === 2 && value.split('.')[1].length === 2;
-
-    if (isTwoDigitsAfterDot) return;
+    if (isMaxDigitsAfterDot(value, 1)) return;
 
     setNutrientsValue({
       ...nutrientsValue,

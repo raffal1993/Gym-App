@@ -1,13 +1,12 @@
 import { FC, SyntheticEvent, useState } from 'react';
-import VersionButton from 'components/Atoms/Buttons/VersionButton/VersionButton';
+import VersionButton from 'components/Commons/Buttons/VersionButton/VersionButton';
 import { importImages } from 'helpers/importImages';
 import { v4 as uuid4 } from 'uuid';
 import { getLocalStorage, updateLocalStorage } from 'helpers/localStorage';
-import { MAX_VERSIONS } from 'helpers/staticVariables';
+import { MAX_VERSIONS } from 'utils/staticVariables/maxElements';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
-import { RootState } from 'app/store';
-import EditCardButton from 'components/Atoms/Buttons/EditCardButton/EditCardButton';
+import EditDbButton from 'components/Commons/Buttons/EditDbButton/EditDbButton';
+import EditCardButton from 'components/Commons/Buttons/EditCardButton/EditCardButton';
 import { setModalOpen } from 'app/slices/interfaceSlice';
 import { addVersionToDB } from 'firebase-cfg/database/workout/add';
 import WorkoutStats from '../WorkoutStats/WorkoutStats';
@@ -28,7 +27,7 @@ const WorkoutCard: FC<WorkoutCardProps> = ({ exerciseID, name, type, versions })
   const {
     pages: { subPageID },
     interface: { isEditModeOn },
-  } = useAppSelector((state: RootState) => state);
+  } = useAppSelector((state) => state);
 
   const handleVersion = (_event: SyntheticEvent, versionNumber: number) => {
     setSelectedVersion(versionNumber);

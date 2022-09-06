@@ -1,6 +1,6 @@
 import { child, ref, update, push, serverTimestamp } from 'firebase/database';
 import { Set, Version, WorkoutCardProps } from 'components/Organisms/Workout/WorkoutTypes';
-import { pagesPaths } from 'helpers/staticVariables';
+import { pagesPaths } from 'utils/staticVariables/pages';
 import { auth, db } from '../../firebase-config';
 import { ConvertTimestampDB } from '../dbTypes';
 

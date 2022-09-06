@@ -1,6 +1,6 @@
 const getScrollPosition = (property?: string) => {
-  if (property) return JSON.parse(sessionStorage.getItem('scrollPositions') || '{}')[property];
-  return JSON.parse(sessionStorage.getItem('scrollPositions') || '{}');
+  const parsedSessionStorage = JSON.parse(sessionStorage.getItem('scrollPositions') || '{}');
+  return property ? parsedSessionStorage[property] : parsedSessionStorage;
 };
 
 const updateScrollPosition = (value: { [key: string]: number }) => {

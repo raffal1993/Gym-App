@@ -3,14 +3,13 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import { auth } from 'firebase-cfg/firebase-config';
-import { pages } from 'helpers/staticVariables';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { pages } from 'utils/staticVariables/pages';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { v4 as uuid4 } from 'uuid';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { setMainPage, setSidebarList } from 'app/slices/pagesSlice';
 import { setEditMode } from 'app/slices/interfaceSlice';
-import { RootState } from 'app/store';
 import {
   HamburgerStyled,
   LogoutButtonStyled,
@@ -22,6 +21,7 @@ import {
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -29,7 +29,7 @@ const Navbar = () => {
     user: { email: userEmail },
     pages: { mainPage },
     interface: { isSidebarHide },
-  } = useAppSelector((state: RootState) => state);
+  } = useAppSelector((state) => state);
 
   const location = useLocation();
 

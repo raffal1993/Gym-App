@@ -2,7 +2,7 @@ import { Version, WorkoutCardProps } from 'components/Organisms/Workout/WorkoutT
 import { auth, db } from 'firebase-cfg/firebase-config';
 import { ref, onValue } from 'firebase/database';
 import { sortedArrayByTimestamp } from 'helpers/sortArrayByTimestamp';
-import { pagesPaths } from 'helpers/staticVariables';
+import { pagesPaths } from 'utils/staticVariables/pages';
 
 const workoutListDBListener = (
   subPageID: string | undefined,

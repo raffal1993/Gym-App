@@ -1,6 +1,6 @@
 const getLocalStorage = (key: string, property?: string) => {
-  if (property) return JSON.parse(localStorage.getItem(key) || '{}')[property];
-  return JSON.parse(localStorage.getItem(key) || '{}');
+  const parsedLocalStorage = JSON.parse(localStorage.getItem(key) || '{}');
+  return property ? parsedLocalStorage[property] : parsedLocalStorage;
 };
 
 const updateLocalStorage = (key: string, value: object) => {

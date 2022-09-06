@@ -1,9 +1,5 @@
-function sortedArrayByTimestamp<Type extends { timestamp: number }>(array: Type[]): Type[] {
-  return array.sort((a, b) => {
-    if (a.timestamp > b.timestamp) return 1;
-    if (a.timestamp < b.timestamp) return -1;
-    return 0;
-  });
+function sortedArrayByTimestamp<DbList extends { timestamp: number }>(array: DbList[]): DbList[] {
+  return array.sort((a, b) => a.timestamp - b.timestamp);
 }
 
 export { sortedArrayByTimestamp };

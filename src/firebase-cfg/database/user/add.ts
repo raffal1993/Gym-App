@@ -1,6 +1,6 @@
 import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarTypes';
 import { child, push, ref, serverTimestamp, update } from 'firebase/database';
-import { pagesPaths } from 'helpers/staticVariables';
+import { pagesPaths } from 'utils/staticVariables/pages';
 import { db } from '../../firebase-config';
 import { ConvertTimestampDB } from '../dbTypes';
 

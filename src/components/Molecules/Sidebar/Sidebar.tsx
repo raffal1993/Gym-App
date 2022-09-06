@@ -3,9 +3,8 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import { animateButton } from 'helpers/animateButton';
-import { pagesPaths } from 'helpers/staticVariables';
+import { pagesPaths } from 'utils/staticVariables/pages';
 import { ListItemButton, ListItemText, Tab } from '@mui/material';
-import { RootState } from 'app/store';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
   setModalOpen,
@@ -13,7 +12,7 @@ import {
   setSidebarVisibility,
 } from 'app/slices/interfaceSlice';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
+import EditDbButton from 'components/Commons/Buttons/EditDbButton/EditDbButton';
 import { v4 as uuid4 } from 'uuid';
 import { setSubPageID } from 'app/slices/pagesSlice';
 import SidebarTabs from '../CustomTabs/CustomTabs';
@@ -23,13 +22,15 @@ import EditSidebarModal from '../Modals/EditSidebarModal/EditSidebarModal';
 
 const Sidebar = () => {
   const [indexSidebarPage, setIndexSidebarPage] = useState<number | null>(null);
+
   const { isWidthSmaller } = useResize('sm');
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const {
     interface: { isSidebarHide, isEditModeOn },
     pages: { mainPage, subPageID, sidebarList },
-  } = useAppSelector((state: RootState) => state);
+  } = useAppSelector((state) => state);
 
   const location = useLocation();
 

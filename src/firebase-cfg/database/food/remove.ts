@@ -1,6 +1,6 @@
 import { NutrientsDB } from 'components/Organisms/Food/FoodTypes';
 import { ref, remove, set } from 'firebase/database';
-import { pagesPaths } from 'helpers/staticVariables';
+import { pagesPaths } from 'utils/staticVariables/pages';
 import { auth, db } from '../../firebase-config';
 import { getDataFromDB } from '../../dbHelpers';
 

@@ -1,7 +1,6 @@
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { setSidebarList } from 'app/slices/pagesSlice';
-import { RootState } from 'app/store';
-import EditModeButton from 'components/Atoms/Buttons/EditModeButton/EditModeButton';
+import EditModeButton from 'components/Commons/Buttons/EditModeButton/EditModeButton';
 import Navbar from 'components/Molecules/Navbar/Navbar';
 import Sidebar from 'components/Molecules/Sidebar/Sidebar';
 import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarTypes';
@@ -13,7 +12,7 @@ import CustomizedRoutes from 'components/Templates/CustomizedRoutes/CustomizedRo
 import DashboardContent from 'components/Templates/DashboardContent/DashboardContent';
 import { sidebarListDBListener } from 'firebase-cfg/database/dashboard/listener';
 import { auth } from 'firebase-cfg/firebase-config';
-import { pagesPaths } from 'helpers/staticVariables';
+import { pagesPaths } from 'utils/staticVariables/pages';
 import { useEffect } from 'react';
 import { Route, useNavigate } from 'react-router-dom';
 import { Wrapper } from './Dashboard.styled';
@@ -21,7 +20,7 @@ import { Wrapper } from './Dashboard.styled';
 const Dashboard = () => {
   const {
     pages: { mainPage },
-  } = useAppSelector((state: RootState) => state);
+  } = useAppSelector((state) => state);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

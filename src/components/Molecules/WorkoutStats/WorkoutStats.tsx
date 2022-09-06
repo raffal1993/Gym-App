@@ -1,20 +1,16 @@
 import { useAppSelector } from 'app/hooks';
-import { RootState } from 'app/store';
-import CustomTextarea from 'components/Atoms/CustomTextarea/CustomTextarea';
-import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
-import {
-  Set,
-  CellToChange,
-  Column,
-  WorkoutStatsProps,
-} from 'components/Organisms/Workout/WorkoutTypes';
+import CustomTextarea from 'components/Commons/CustomTextarea/CustomTextarea';
+import EditDbButton from 'components/Commons/Buttons/EditDbButton/EditDbButton';
+import { Set, CellToChange, WorkoutStatsProps } from 'components/Organisms/Workout/WorkoutTypes';
 import useResize from 'hooks/useResize';
 import { FC, useLayoutEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { getScrollPosition, updateScrollPosition } from 'helpers/scrollPosition';
-import { MAX_SETS } from 'helpers/staticVariables';
 import { updateSetToDB } from 'firebase-cfg/database/workout/update';
 import { addSetToDB } from 'firebase-cfg/database/workout/add';
+import { headerCells } from 'utils/staticVariables/workoutStatsCells';
+import { setCellMaxWidth } from 'helpers/setCellMaxWidth';
+import { MAX_SETS } from 'utils/staticVariables/maxElements';
 import {
   HeaderStyled,
   StatsNormalStyled,
@@ -23,39 +19,13 @@ import {
   StatsSmallerStyled,
 } from './WorkoutStats.styled';
 
-const headerCells: Column[] = [
-  { id: 'set', label: 'Set' },
-  { id: 'weight', label: 'Weight' },
-  {
-    id: 'reps',
-    label: 'Reps/Time',
-  },
-  {
-    id: 'info',
-    label: 'Info',
-  },
-];
-
-const setMaxWidth = (cell: string) => {
-  switch (cell) {
-    case 'weight':
-      return 70;
-    case 'reps':
-      return 70;
-    case 'info':
-      return 120;
-    default:
-      return 80;
-  }
-};
-
 const WorkoutStats: FC<WorkoutStatsProps> = ({ stats, exerciseID, selectedVersion }) => {
   const { isWidthSmaller } = useResize('xs');
 
   const {
     pages: { subPageID },
     interface: { isEditModeOn },
-  } = useAppSelector((state: RootState) => state);
+  } = useAppSelector((state) => state);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -115,7 +85,7 @@ const WorkoutStats: FC<WorkoutStatsProps> = ({ stats, exerciseID, selectedVersio
                     updateSet={updateSet}
                     cellData={{ set: row.set, cell: cell.id }}
                     initialValue={row[cell.id]}
-                    maxWidth={setMaxWidth(cell.id)}
+                    maxWidth={setCellMaxWidth(cell.id)}
                   />
                 </div>
               ))}
@@ -129,7 +99,7 @@ const WorkoutStats: FC<WorkoutStatsProps> = ({ stats, exerciseID, selectedVersio
                       updateSet={updateSet}
                       cellData={{ set: row.set, cell: cell.id }}
                       initialValue={row[cell.id]}
-                      maxWidth={setMaxWidth(cell.id)}
+                      maxWidth={setCellMaxWidth(cell.id)}
                     />
                   </div>
                 );

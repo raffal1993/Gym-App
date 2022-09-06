@@ -1,6 +1,5 @@
 import { useAppSelector } from 'app/hooks';
-import { RootState } from 'app/store';
-import AddExercise from 'components/Atoms/AddExercise/AddExercise';
+import AddExercise from 'components/Commons/AddExercise/AddExercise';
 import AddExerciseTabs from 'components/Molecules/CustomTabs/CustomTabs';
 import StoperWidget from 'components/Molecules/StoperWidget/StoperWidget';
 import WorkoutCard from 'components/Molecules/WorkoutCard/WorkoutCard';
@@ -10,7 +9,7 @@ import { v4 as uuid4 } from 'uuid';
 import { clearLocalStorage } from 'helpers/localStorage';
 import { importImages } from 'helpers/importImages';
 import { workoutListDBListener } from 'firebase-cfg/database/workout/listeners';
-import { MAX_CARDS } from 'helpers/staticVariables';
+import { MAX_CARDS } from 'utils/staticVariables/maxElements';
 import { memo, useEffect, useState } from 'react';
 import { Wrapper } from './Workout.styled';
 
@@ -22,7 +21,7 @@ const Workout = memo(() => {
   const {
     pages: { subPageID, sidebarList },
     interface: { isEditModeOn, isSidebarItemSelected },
-  } = useAppSelector((state: RootState) => state);
+  } = useAppSelector((state) => state);
 
   useEffect(() => {
     return workoutListDBListener(subPageID, setWorkoutList);
@@ -50,15 +49,18 @@ const Workout = memo(() => {
           ))}
         </AddExerciseTabs>
       )}
-      {workoutList.map(({ exerciseID, name, type, versions }) => (
-        <WorkoutCard
-          key={uuid4()}
-          exerciseID={exerciseID}
-          name={name}
-          type={type}
-          versions={versions}
-        />
-      ))}
+      {workoutList.map((workoutItem) => {
+        const { exerciseID, name, type, versions } = workoutItem;
+        return (
+          <WorkoutCard
+            key={uuid4()}
+            exerciseID={exerciseID}
+            name={name}
+            type={type}
+            versions={versions}
+          />
+        );
+      })}
     </Wrapper>
   );
 });
