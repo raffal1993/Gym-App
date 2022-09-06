@@ -2,11 +2,13 @@ import { combineReducers, configureStore, PreloadedState } from '@reduxjs/toolki
 import interfaceReducer from './slices/interfaceSlice';
 import userReducer from './slices/userSlice';
 import pagesReducer from './slices/pagesSlice';
+import foodReducer from './slices/foodSlice';
 
 export const rootReducer = combineReducers({
   user: userReducer,
   interface: interfaceReducer,
   pages: pagesReducer,
+  food: foodReducer,
 });
 
 export function setupStore(preloadedState?: PreloadedState<RootState>) {
