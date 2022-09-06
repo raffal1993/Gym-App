@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { FC, ReactNode, useState } from 'react';
 import { TabsStyled } from './CustomTabs.styled';
 
 export interface CustomTabsProps {
@@ -8,7 +8,7 @@ export interface CustomTabsProps {
   children?: ReactNode;
 }
 
-const CustomTabs = ({ value, setValue, className, children }: CustomTabsProps) => {
+const CustomTabs: FC<CustomTabsProps> = ({ value, setValue, className, children }) => {
   const [defaultValue, setDefaultValue] = useState(0);
 
   const handleChange = (_event: React.SyntheticEvent, index: number) => {

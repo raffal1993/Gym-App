@@ -1,7 +1,7 @@
 import { TextField } from '@mui/material';
-import CustomButton from 'components/Atoms/Buttons/CustomButton/CustomButton';
-import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
-import { FormControlStyled } from 'components/Atoms/Inputs/Inputs.styled';
+import CustomButton from 'components/Commons/Buttons/CustomButton/CustomButton';
+import ErrorMessage from 'components/Commons/ErrorMessage/ErrorMessage';
+import { FormControlStyled } from 'components/Commons/Inputs/Inputs.styled';
 import { removeUserFromDB } from 'firebase-cfg/database/user/remove';
 import { auth } from 'firebase-cfg/firebase-config';
 import { ChangeEvent, useEffect, useState } from 'react';
@@ -10,8 +10,8 @@ import { TitleStyled } from '../CardStyled/CardStyled.styled';
 import { Wrapper } from './DeleteAccount.styled';
 
 const DeleteAccount = () => {
-  const [errorMessage, setErrorMessage] = useState<string>('');
-  const [inputValue, setInputValue] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [inputValue, setInputValue] = useState('');
 
   const navigate = useNavigate();
 

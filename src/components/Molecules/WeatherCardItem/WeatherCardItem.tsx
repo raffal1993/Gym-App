@@ -8,8 +8,12 @@ const weatherIconUrl = (url: string) => {
   return url ? `http://openweathermap.org/img/w/${url}.png` : '';
 };
 
-const WeatherCardItem: FC<{ dailyWeatherInfos: DailyWeatherInfos }> = ({
-  dailyWeatherInfos: {
+interface WeatherCardItemProps {
+  dailyWeatherInfos: DailyWeatherInfos;
+}
+
+const WeatherCardItem: FC<WeatherCardItemProps> = ({ dailyWeatherInfos }) => {
+  const {
     time,
     temperature,
     sensibleTemperature,
@@ -19,8 +23,8 @@ const WeatherCardItem: FC<{ dailyWeatherInfos: DailyWeatherInfos }> = ({
     icon,
     windDeg,
     windSpeed,
-  },
-}) => {
+  } = dailyWeatherInfos;
+
   return (
     <Wrapper wind_deg={windDeg}>
       <p className="time">

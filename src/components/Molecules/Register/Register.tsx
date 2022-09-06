@@ -2,29 +2,28 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from 'firebase-cfg/firebase-config';
 import { addNewUserToDB } from 'firebase-cfg/database/user/add';
-import Email from 'components/Atoms/Inputs/Email/Email';
-import BackToLogin from 'components/Atoms/BackToLogin/BackToLogin';
-import Password from 'components/Atoms/Inputs/Password/Password';
-import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
-import Button from 'components/Atoms/Buttons/CustomButton/CustomButton';
-import LoginPanelTitle from 'components/Atoms/LoginPanelTitle/LoginPanelTitle';
+import Email from 'components/Commons/Inputs/Email/Email';
+import BackToLogin from 'components/Commons/BackToLogin/BackToLogin';
+import Password from 'components/Commons/Inputs/Password/Password';
+import ErrorMessage from 'components/Commons/ErrorMessage/ErrorMessage';
+import Button from 'components/Commons/Buttons/CustomButton/CustomButton';
+import LoginPanelTitle from 'components/Commons/LoginPanelTitle/LoginPanelTitle';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'app/hooks';
-import { RootState } from 'app/store';
-import { pagesPaths } from 'helpers/staticVariables';
+import { pagesPaths } from 'utils/staticVariables/pages';
 
 const Register = () => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [confirmPassword, setConfirmSetPassword] = useState<string>('');
-  const [errorMessage, setErrorMessage] = useState<string>(``);
-  const [isSucceed, setIsSucceed] = useState<boolean>(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmSetPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState(``);
+  const [isSucceed, setIsSucceed] = useState(false);
 
   const navigate = useNavigate();
 
   const {
     pages: { mainPage },
-  } = useAppSelector((state: RootState) => state);
+  } = useAppSelector((state) => state);
 
   const handleEmail = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
   const handlePassword = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);

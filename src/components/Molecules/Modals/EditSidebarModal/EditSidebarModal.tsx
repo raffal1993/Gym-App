@@ -3,8 +3,7 @@ import { SidebarListProps } from 'components/Molecules/Sidebar/SidebarTypes';
 import { FC, useEffect, useState } from 'react';
 import { v4 as uuid4 } from 'uuid';
 import { useAppSelector } from 'app/hooks';
-import { RootState } from 'app/store';
-import { MAX_SIDEBAR_ELEMENTS } from 'helpers/staticVariables';
+import { MAX_SIDEBAR_ELEMENTS } from 'utils/staticVariables/maxElements';
 import { removeSubPage } from 'firebase-cfg/database/dashboard/remove';
 import { addSubPageToDB } from 'firebase-cfg/database/dashboard/add';
 import { updateSubPageName } from 'firebase-cfg/database/dashboard/update';
@@ -13,15 +12,16 @@ import { Wrapper } from './EditSidebarModal.styled';
 import { ConfirmationButtonStyled, NameStyled, RemoveButtonStyled } from '../Modals.styled';
 import { EditSidebarModalProps } from '../ModalsTypes';
 
-let timeout: NodeJS.Timer;
+const initialTimer = setTimeout(() => {});
 
 const EditSidebarModal: FC<EditSidebarModalProps> = ({ setIndexSidebarPage }) => {
   const [nameForChange, setNameForChange] = useState<SidebarListProps>();
   const [confirmIndexes, setConfirmIndexes] = useState<number[]>([]);
+  const [timer, setTimer] = useState<NodeJS.Timeout>(initialTimer);
 
   const {
     pages: { subPageID, mainPage, sidebarList },
-  } = useAppSelector((state): RootState => state);
+  } = useAppSelector((state) => state);
 
   const removePage = (pageID: string) => {
     if (mainPage && pageID) {
@@ -50,8 +50,11 @@ const EditSidebarModal: FC<EditSidebarModalProps> = ({ setIndexSidebarPage }) =>
   useEffect(() => {
     setNameForChange(undefined);
     setConfirmIndexes([]);
-    return () => clearTimeout(timeout);
   }, [sidebarList]);
+
+  useEffect(() => {
+    return () => clearTimeout(timer);
+  });
 
   const handleSetNameForChange = (nameData: SidebarListProps) => {
     if (nameForChange?.id === nameData.id) return setNameForChange(undefined);
@@ -61,10 +64,12 @@ const EditSidebarModal: FC<EditSidebarModalProps> = ({ setIndexSidebarPage }) =>
   const handleAddConfirmation = (index: number) => {
     if (confirmIndexes.includes(index)) return;
     setConfirmIndexes([...confirmIndexes, index]);
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      setConfirmIndexes([]);
-    }, 2500);
+    clearTimeout(timer);
+    setTimer(
+      setTimeout(() => {
+        setConfirmIndexes([]);
+      }, 2500),
+    );
   };
 
   return (

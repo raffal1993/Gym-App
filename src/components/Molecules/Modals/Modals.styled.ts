@@ -1,5 +1,5 @@
 import { styled } from '@mui/material';
-import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
+import EditDbButton from 'components/Commons/Buttons/EditDbButton/EditDbButton';
 
 export const CustomModalWrapper = styled(`div`)({
   display: 'flex',

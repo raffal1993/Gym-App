@@ -7,7 +7,7 @@ import { exerciseDBListener } from 'firebase-cfg/database/workout/listeners';
 import { clearLocalStorage } from 'helpers/localStorage';
 import { useAppDispatch } from 'app/hooks';
 import { setModalClose } from 'app/slices/interfaceSlice';
-import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
+import EditDbButton from 'components/Commons/Buttons/EditDbButton/EditDbButton';
 import { Version } from 'components/Organisms/Workout/WorkoutTypes';
 import { EditExerciseModalProps, EditNameExercise } from '../ModalsTypes';
 import AddEditNameModal from '../AddEditNameModal/AddEditNameModal';
@@ -19,7 +19,7 @@ import {
   RemoveCardButtonStyled,
 } from '../Modals.styled';
 
-let timeout: NodeJS.Timer;
+const initialTimer = setTimeout(() => {});
 
 const EditExerciseModal: FC<EditExerciseModalProps> = ({ exerciseID, subPageID }) => {
   const [selectedVersionIndex, setSelectedVersionIndex] = useState<number>();
@@ -27,12 +27,13 @@ const EditExerciseModal: FC<EditExerciseModalProps> = ({ exerciseID, subPageID }
   const [versions, setVersions] = useState<Version[]>([]);
   const [mainExerciseName, setMainExerciseName] = useState<string>();
   const [nameDataForChange, setNameDataForChange] = useState<EditNameExercise>();
+  const [timer, setTimer] = useState<NodeJS.Timeout>(initialTimer);
 
   const dispatch = useAppDispatch();
 
   const handeRemoveExercise = () => {
     removeExercise(subPageID, exerciseID);
-    clearTimeout(timeout);
+    clearTimeout(timer);
     dispatch(setModalClose());
   };
 
@@ -75,10 +76,12 @@ const EditExerciseModal: FC<EditExerciseModalProps> = ({ exerciseID, subPageID }
   const handleConfirmations = (index: number | string) => {
     if (confirmItems.includes(index)) return;
     setConfirmItems([...confirmItems, index]);
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      setConfirmItems([]);
-    }, 2500);
+    clearTimeout(initialTimer);
+    setTimer(
+      setTimeout(() => {
+        setConfirmItems([]);
+      }, 2500),
+    );
   };
 
   useEffect(() => {
@@ -88,8 +91,11 @@ const EditExerciseModal: FC<EditExerciseModalProps> = ({ exerciseID, subPageID }
   useEffect(() => {
     setConfirmItems([]);
     setSelectedVersionIndex(undefined);
-    return () => clearTimeout(timeout);
   }, [versions]);
+
+  useEffect(() => {
+    return () => clearTimeout(timer);
+  });
 
   return (
     <Wrapper>

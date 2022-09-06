@@ -1,16 +1,15 @@
 import { useAppSelector } from 'app/hooks';
-import { RootState } from 'app/store';
-import Button from 'components/Atoms/Buttons/CustomButton/CustomButton';
-import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
-import Email from 'components/Atoms/Inputs/Email/Email';
-import Password from 'components/Atoms/Inputs/Password/Password';
-import LoginPanelTitle from 'components/Atoms/LoginPanelTitle/LoginPanelTitle';
+import Button from 'components/Commons/Buttons/CustomButton/CustomButton';
+import ErrorMessage from 'components/Commons/ErrorMessage/ErrorMessage';
+import Email from 'components/Commons/Inputs/Email/Email';
+import Password from 'components/Commons/Inputs/Password/Password';
+import LoginPanelTitle from 'components/Commons/LoginPanelTitle/LoginPanelTitle';
 import googleIconRegister from 'assets/images/googleIconRegister.webp';
 import { addNewUserToDB } from 'firebase-cfg/database/user/add';
 import { auth, db, provider } from 'firebase-cfg/firebase-config';
 import { child, get, ref } from 'firebase/database';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { pagesPaths } from 'helpers/staticVariables';
+import { pagesPaths } from 'utils/staticVariables/pages';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { GoogleSignInStyled, InfoStyled } from './Login.styled';
@@ -23,7 +22,7 @@ const Login = () => {
 
   const {
     pages: { mainPage },
-  } = useAppSelector((state: RootState) => state);
+  } = useAppSelector((state) => state);
 
   const handleEmail = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
 

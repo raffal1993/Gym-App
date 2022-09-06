@@ -1,9 +1,8 @@
 import { memo, useEffect, useMemo, useState } from 'react';
-import CustomButton from 'components/Atoms/Buttons/CustomButton/CustomButton';
+import CustomButton from 'components/Commons/Buttons/CustomButton/CustomButton';
 import { v4 as uuid4 } from 'uuid';
 import { WeatherApiInstance } from 'api/WeatherAPI/instance';
 import { convertedWeatherDataFromAPI } from 'helpers/convertedWeatherDataFromAPI';
-import { RootState } from 'app/store';
 import { useAppSelector } from 'app/hooks';
 import WeatherCard from 'components/Molecules/WeatherCard/WeatherCard';
 import SearchPanel from 'components/Molecules/SearchPanel/SearchPanel';
@@ -20,25 +19,28 @@ import {
 const Weather = memo(() => {
   const {
     pages: { sidebarList, subPageID },
-  } = useAppSelector((state: RootState) => state);
+  } = useAppSelector((state) => state);
 
-  const [inputValue, setInputValue] = useState<string>('');
+  const [inputValue, setInputValue] = useState('');
   const [weatherCards, setWeatherCards] = useState<WeatherDataType[]>([]);
   const [searchingCityInfo, setSearchingCityInfo] = useState<SearchingCityInfoTypes | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSearchWeather = async (
     params: WeatherCordsParams | WeatherCityNameParams,
     dataType: 'getCityName' | 'getWeather' = 'getWeather',
   ) => {
-    if (inputValue === '' && dataType === 'getWeather')
+    if (inputValue === '' && dataType === 'getWeather') {
       return setErrorMessage('Enter name of the city !');
+    }
     setIsLoading(true);
 
     await WeatherApiInstance.get('', { params: { units: 'metric', ...params } })
       .then((res) => {
-        if (dataType === 'getCityName') return setInputValue(res.data.city.name);
+        if (dataType === 'getCityName') {
+          return setInputValue(res.data.city.name);
+        }
         const { name, timezone, country, sunrise, sunset }: TodayWeatherInfosAPI = res.data.city;
 
         setSearchingCityInfo({ name, country });
@@ -65,15 +67,18 @@ const Weather = memo(() => {
 
   const weatherCardsMemoized = useMemo(
     () =>
-      weatherCards.map(({ name, sunrise, sunset, dailyWeatherList }: WeatherDataType) => (
-        <WeatherCard
-          name={name}
-          sunrise={sunrise}
-          sunset={sunset}
-          dailyWeatherList={dailyWeatherList}
-          key={uuid4()}
-        />
-      )),
+      weatherCards.map((weatherCard: WeatherDataType) => {
+        const { name, sunrise, sunset, dailyWeatherList } = weatherCard;
+        return (
+          <WeatherCard
+            name={name}
+            sunrise={sunrise}
+            sunset={sunset}
+            dailyWeatherList={dailyWeatherList}
+            key={uuid4()}
+          />
+        );
+      }),
     [weatherCards],
   );
 

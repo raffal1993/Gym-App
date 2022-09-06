@@ -5,15 +5,15 @@ import StopCircleIcon from '@mui/icons-material/StopCircle';
 import PauseCircleIcon from '@mui/icons-material/PauseCircle';
 import TimerIcon from '@mui/icons-material/Timer';
 import { modifyTimerValue } from 'helpers/modifyTimerValue';
-import CustomizedSnackbars from 'components/Atoms/Snackbar/CustomizedSnackbars';
+import CustomizedSnackbars from 'components/Commons/Snackbar/CustomizedSnackbars';
 import { useEffect, useState } from 'react';
 import { IconStyled, TimerStyled, Wrapper } from './StoperWidget.styled';
 
 const StoperWidget = () => {
-  const [isHided, setIsHided] = useState<boolean>(true);
-  const [timer, setTimer] = useState<number>(0);
-  const [isTimerOn, setIsTimerOn] = useState<boolean>(false);
-  const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
+  const [isHided, setIsHided] = useState(true);
+  const [timer, setTimer] = useState(0);
+  const [isTimerOn, setIsTimerOn] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const handleHideStoper = () => {
     setIsHided(!isHided);

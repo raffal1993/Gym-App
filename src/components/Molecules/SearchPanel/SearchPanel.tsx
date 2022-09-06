@@ -1,4 +1,4 @@
-import Button from 'components/Atoms/Buttons/CustomButton/CustomButton';
+import Button from 'components/Commons/Buttons/CustomButton/CustomButton';
 import React, { forwardRef, Ref, useEffect } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { SearchFoodMethod } from 'components/Organisms/Food/FoodTypes';
@@ -6,8 +6,8 @@ import {
   WeatherCityNameParams,
   WeatherCordsParams,
 } from 'components/Organisms/Weather/WeatherTypes';
-import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
-import ProgressBar from 'components/Atoms/ProgressBar/ProgressBar';
+import ErrorMessage from 'components/Commons/ErrorMessage/ErrorMessage';
+import ProgressBar from 'components/Commons/ProgressBar/ProgressBar';
 import { SearchPanelStyled } from './SearchPanel.styled';
 
 export interface SearchPanelProps {
@@ -25,61 +25,58 @@ export interface SearchPanelProps {
   searchWeatherCb?: (params: WeatherCordsParams | WeatherCityNameParams) => Promise<void>;
 }
 
-const SearchPanel = forwardRef(
-  (
-    {
-      title,
-      className,
-      setInputValue,
-      inputValue,
-      errorMessage,
-      setErrorMessage,
-      isLoading,
-      info,
-      placeholder,
-      buttonText,
-      searchFoodCb,
-      searchWeatherCb,
-    }: SearchPanelProps,
-    ref: Ref<HTMLDivElement>,
-  ) => {
-    const handleInputSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setInputValue(e.target.value);
-    };
-    const handleSearch = () => {
-      searchFoodCb && searchFoodCb('searchByPhrase');
-      searchWeatherCb && searchWeatherCb({ q: inputValue });
-    };
+const SearchPanel = forwardRef((props: SearchPanelProps, ref: Ref<HTMLDivElement>) => {
+  const {
+    title,
+    className,
+    setInputValue,
+    inputValue,
+    errorMessage,
+    setErrorMessage,
+    isLoading,
+    info,
+    placeholder,
+    buttonText,
+    searchFoodCb,
+    searchWeatherCb,
+  } = props;
 
-    useEffect(() => {
-      const timeout = setTimeout(() => {
-        setErrorMessage('');
-      }, 2500);
+  const handleInputSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+  const handleSearch = () => {
+    searchFoodCb && searchFoodCb('searchByPhrase');
+    searchWeatherCb && searchWeatherCb({ q: inputValue });
+  };
 
-      return () => clearTimeout(timeout);
-    }, [errorMessage, setErrorMessage]);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setErrorMessage('');
+    }, 2500);
 
-    return (
-      <SearchPanelStyled data-testid="searchPanel" className={className} ref={ref}>
-        <h2>{title}</h2>
-        <label htmlFor="searchLabel">
-          <SearchIcon />
-          <input
-            onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-            placeholder={placeholder}
-            type="text"
-            onChange={(e) => handleInputSearchChange(e)}
-            value={inputValue}
-          />
-        </label>
-        <Button handleClick={handleSearch}>{buttonText}</Button>
-        {errorMessage && <ErrorMessage className="errorMessage" errorMessage={errorMessage} />}
-        {info && <p className="info">{info}</p>}
-        {isLoading && <ProgressBar className="progressBar" />}
-      </SearchPanelStyled>
-    );
-  },
-);
+    return () => clearTimeout(timeout);
+  }, [errorMessage, setErrorMessage]);
+
+  return (
+    <SearchPanelStyled data-testid="searchPanel" className={className} ref={ref}>
+      <h2>{title}</h2>
+      <label htmlFor="searchLabel">
+        <SearchIcon />
+        <input
+          onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+          placeholder={placeholder}
+          type="text"
+          onChange={(e) => handleInputSearchChange(e)}
+          value={inputValue}
+        />
+      </label>
+      <Button handleClick={handleSearch}>{buttonText}</Button>
+      {errorMessage && <ErrorMessage className="errorMessage" errorMessage={errorMessage} />}
+      {info && <p className="info">{info}</p>}
+      {isLoading && <ProgressBar className="progressBar" />}
+    </SearchPanelStyled>
+  );
+});
 
 export default SearchPanel;
 

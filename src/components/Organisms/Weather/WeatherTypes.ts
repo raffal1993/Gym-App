@@ -23,22 +23,28 @@ export interface TodayWeatherInfosAPI extends SearchingCityInfoTypes {
   timezone: number;
 }
 
+interface WeatherDataAPIMain {
+  temp: number;
+  feels_like: number;
+  pressure: number;
+}
+
+interface WeatherDataAPIWeather {
+  description: string;
+  icon: string;
+}
+
+interface WeatherDataAPIWind {
+  speed: number;
+  deg: number;
+}
+
 export interface WeatherDataAPI {
   dt: number;
-  main: {
-    temp: number;
-    feels_like: number;
-    pressure: number;
-  };
+  main: WeatherDataAPIMain;
   pop: number;
-  weather: {
-    description: string;
-    icon: string;
-  }[];
-  wind: {
-    speed: number;
-    deg: number;
-  };
+  weather: WeatherDataAPIWeather[];
+  wind: WeatherDataAPIWind;
 }
 
 export interface DailyWeatherInfos {

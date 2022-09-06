@@ -1,28 +1,32 @@
-import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
+import EditDbButton from 'components/Commons/Buttons/EditDbButton/EditDbButton';
 import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
-import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
+import ErrorMessage from 'components/Commons/ErrorMessage/ErrorMessage';
 import { Wrapper } from './AddEditNameModal.styled';
 import { AddEditNameModalProps } from '../ModalsTypes';
 
-const AddEditNameModal: FC<AddEditNameModalProps> = ({
-  title,
-  buttonText,
-  className,
-  inputType = 'text',
-  updateDbCallback,
-  checkIfAllIsValid,
-}) => {
-  const [name, setName] = useState<string>('');
-  const [isErrorMessage, setIsErrorMessage] = useState<boolean>(false);
+const MIN_NAME_LENGTH = 3;
+
+const AddEditNameModal: FC<AddEditNameModalProps> = (props) => {
+  const {
+    title,
+    buttonText,
+    className,
+    inputType = 'text',
+    updateDbCallback,
+    checkIfAllIsValid,
+  } = props;
+
+  const [name, setName] = useState('');
+  const [isErrorMessage, setIsErrorMessage] = useState(false);
 
   const ref = useRef<HTMLInputElement>(null);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
+    setName(e.target.value.replace(/^\s+/g, ''));
   };
 
   const updateToDB = () => {
-    if (name.length < 3) {
+    if (name.length < MIN_NAME_LENGTH) {
       setIsErrorMessage(true);
       return;
     }
@@ -59,7 +63,10 @@ const AddEditNameModal: FC<AddEditNameModalProps> = ({
         data-testid="addEditNameInput"
       />
       {isErrorMessage && (
-        <ErrorMessage className="errorMessage" errorMessage="Name must be at least 3 chars !" />
+        <ErrorMessage
+          className="errorMessage"
+          errorMessage={`Name must be at least ${MIN_NAME_LENGTH} chars !`}
+        />
       )}
       <EditDbButton onClick={updateToDB}>{buttonText}</EditDbButton>
     </Wrapper>

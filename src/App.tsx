@@ -9,9 +9,8 @@ import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from 'firebase-cfg/firebase-config';
 import { setUserEmail } from 'app/slices/userSlice';
-import { RootState } from 'app/store';
 import Modal from 'components/Templates/Modal/Modal';
-import { pagesPaths } from 'helpers/staticVariables';
+import { pagesPaths } from 'utils/staticVariables/pages';
 import { setMainPage } from 'app/slices/pagesSlice';
 
 function App() {
@@ -22,7 +21,7 @@ function App() {
     user: { email },
     interface: { isModalOpen },
     pages: { mainPage },
-  } = useAppSelector((state: RootState) => state);
+  } = useAppSelector((state) => state);
 
   useEffect(() => {
     if (email === auth.currentUser?.email) return;

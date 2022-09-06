@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, useRef, useState } from 'react';
 import { FoodApiInstance } from 'api/FoodAPI/instance';
-import Button from 'components/Atoms/Buttons/CustomButton/CustomButton';
+import Button from 'components/Commons/Buttons/CustomButton/CustomButton';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import {
@@ -14,13 +14,17 @@ import SearchFoodResults from 'components/Molecules/SearchFoodResults/SearchFood
 import { Wrapper, PaginationStyled } from './SearchFood.styled';
 import SearchPanel from '../SearchPanel/SearchPanel';
 
-const SearchFood: FC<{ foodCards: FoodCardDB[] }> = ({ foodCards }) => {
-  const [inputValue, setInputValue] = useState<string>('');
-  const [searchingPhrase, setSearchingPhrase] = useState<string>('');
-  const [pageNumber, setPageNumber] = useState<number>(1);
+interface SearchfoodProps {
+  foodCards: FoodCardDB[];
+}
+
+const SearchFood: FC<SearchfoodProps> = ({ foodCards }) => {
+  const [inputValue, setInputValue] = useState('');
+  const [searchingPhrase, setSearchingPhrase] = useState('');
+  const [pageNumber, setPageNumber] = useState(1);
   const [searchResults, setSearchResults] = useState<SearchFoodItemTypes[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const searchResultsRef = useRef<HTMLDivElement>(null);
 
@@ -54,13 +58,17 @@ const SearchFood: FC<{ foodCards: FoodCardDB[] }> = ({ foodCards }) => {
 
     if (validation) {
       setIsLoading(true);
+
       page = page <= 0 ? 1 : page;
-      await FoodApiInstance.get('', {
-        params: { ingr: searchingValue, session: page * 20 - 20 },
-      })
+
+      const params = { ingr: searchingValue, session: page * 20 - 20 };
+
+      await FoodApiInstance.get('', { params })
         .then((res) => {
-          const foods = res.data.hints.map(
-            ({ food: { image, label, nutrients } }: { food: FoodDB }) => ({
+          const foods = res.data.hints.map(({ food }: { food: FoodDB }) => {
+            const { image, label, nutrients } = food;
+
+            return {
               label: label || '???',
               image: image || '',
               nutrients: {
@@ -70,8 +78,8 @@ const SearchFood: FC<{ foodCards: FoodCardDB[] }> = ({ foodCards }) => {
                 protein: nutrients.PROCNT?.toFixed(1).toString() || '(?)',
                 fiber: nutrients.FIBTG?.toFixed(1).toString() || '(?)',
               } as NutrientsTypes,
-            }),
-          );
+            };
+          });
           if (foods.length === 0) setErrorMessage('No results found');
           setSearchResults(foods);
         })

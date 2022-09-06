@@ -1,5 +1,4 @@
 import { useAppSelector } from 'app/hooks';
-import { RootState } from 'app/store';
 import { FC, ReactNode } from 'react';
 import { Wrapper } from './DashboardContent.styled';
 
@@ -8,7 +7,7 @@ interface DashboardContentProps {
 }
 
 const DashboardContent: FC<DashboardContentProps> = ({ children }) => {
-  const { isSidebarHide } = useAppSelector((state: RootState) => state.interface);
+  const { isSidebarHide } = useAppSelector((state) => state.interface);
 
   return <Wrapper is_sidebar_hide={isSidebarHide!.toString()}>{children}</Wrapper>;
 };

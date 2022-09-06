@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import WeatherCardItem from 'components/Molecules/WeatherCardItem/WeatherCardItem';
 import { WeatherDataType } from 'components/Organisms/Weather/WeatherTypes';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
@@ -9,7 +10,7 @@ import { TitleStyled } from '../CardStyled/CardStyled.styled';
 import WeatherCardTabs from '../CustomTabs/CustomTabs';
 import { Wrapper } from './WeatherCard.styled';
 
-const WeatherCard = ({ name, sunrise, sunset, dailyWeatherList }: WeatherDataType) => {
+const WeatherCard: FC<WeatherDataType> = ({ name, sunrise, sunset, dailyWeatherList }) => {
   return (
     <Wrapper>
       <TitleStyled>{name}</TitleStyled>

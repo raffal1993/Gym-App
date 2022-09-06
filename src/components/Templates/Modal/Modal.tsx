@@ -2,13 +2,12 @@ import BasicModal from '@mui/material/Modal';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { setModalClose } from 'app/slices/interfaceSlice';
-import { RootState } from 'app/store';
 import { cloneElement } from 'react';
 import { ModalContentStyled } from './Modal.styled';
 
 const Modal = () => {
   const dispatch = useAppDispatch();
-  const { isModalOpen, modalContent } = useAppSelector((state: RootState) => state.interface);
+  const { isModalOpen, modalContent } = useAppSelector((state) => state.interface);
 
   const handleCloseModal = () => {
     dispatch(setModalClose());

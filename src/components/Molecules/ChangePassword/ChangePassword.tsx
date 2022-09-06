@@ -1,5 +1,5 @@
-import CustomButton from 'components/Atoms/Buttons/CustomButton/CustomButton';
-import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
+import CustomButton from 'components/Commons/Buttons/CustomButton/CustomButton';
+import ErrorMessage from 'components/Commons/ErrorMessage/ErrorMessage';
 import { auth } from 'firebase-cfg/firebase-config';
 import { signInWithEmailAndPassword, updatePassword } from 'firebase/auth';
 import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useState } from 'react';
@@ -7,11 +7,11 @@ import { TitleStyled } from '../CardStyled/CardStyled.styled';
 import { Wrapper } from './ChangePassword.styled';
 
 const ChangePassword = () => {
-  const [oldPassword, setOldPassword] = useState<string>('');
-  const [newPassword, setNewPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
-  const [errorMessage, setErrorMessage] = useState<string>(``);
-  const [isSucceed, setIsSucceed] = useState<boolean>(false);
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState(``);
+  const [isSucceed, setIsSucceed] = useState(false);
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     switch (e.currentTarget.getAttribute('id')) {

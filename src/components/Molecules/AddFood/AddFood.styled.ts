@@ -32,8 +32,4 @@ export const AddButtonsStyled = styled('div')(({ theme }) => ({
       transform: 'scale(1.05)',
     },
   },
-
-  '& .addFoodSetButton': {},
-
-  '& .addCustomFoodButton': {},
 }));

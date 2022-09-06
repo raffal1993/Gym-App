@@ -1,23 +1,26 @@
 import { FC } from 'react';
-import CustomButton from 'components/Atoms/Buttons/CustomButton/CustomButton';
+import CustomButton from 'components/Commons/Buttons/CustomButton/CustomButton';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { MAX_CARDS } from 'helpers/staticVariables';
 import { setModalClose, setModalOpen } from 'app/slices/interfaceSlice';
+import { MAX_CARDS } from 'utils/staticVariables/maxElements';
 import { addFoodSetToDB } from 'firebase-cfg/database/food/add';
-import { RootState } from 'app/store';
 import AddIcon from '@mui/icons-material/Add';
 import { FoodCardInfo } from 'components/Organisms/Food/FoodTypes';
 import { AddButtonsStyled } from './AddFood.styled';
 import AddEditNameModal from '../Modals/AddEditNameModal/AddEditNameModal';
 import AddCustomFoodModal from '../Modals/AddCustomFoodModal/AddCustomFoodModal';
 
-const AddFood: FC<{ cards: FoodCardInfo[] }> = ({ cards }) => {
+interface AddFoodProps {
+  cards: FoodCardInfo[];
+}
+
+const AddFood: FC<AddFoodProps> = ({ cards }) => {
   const dispatch = useAppDispatch();
 
   const {
     pages: { subPageID, sidebarList },
     interface: { isSidebarItemSelected },
-  } = useAppSelector((state: RootState) => state);
+  } = useAppSelector((state) => state);
 
   const addFoodSet = (newName: string) => {
     if (subPageID) addFoodSetToDB(subPageID, newName);

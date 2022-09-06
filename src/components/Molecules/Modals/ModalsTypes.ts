@@ -26,3 +26,7 @@ export interface AddEditNameModalProps {
 export interface EditSidebarModalProps {
   setIndexSidebarPage: React.Dispatch<React.SetStateAction<number | null>>;
 }
+
+export interface EditFoodSetModalProps {
+  foodCardID: string;
+}

@@ -35,7 +35,7 @@ export const interfaceSlice = createSlice({
     },
     setModalClose: (state) => {
       state.isModalOpen = false;
-      state.modalContent === null;
+      state.modalContent = null;
     },
     setModalOpen: (state, action: PayloadAction<InterfaceState['modalContent']>) => {
       state.isModalOpen = true;
