@@ -1,12 +1,12 @@
 import { FC, useEffect, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { RootState } from 'app/store';
 import { v4 as uuid4 } from 'uuid';
-import { FoodCardInfo, FoodCardDB } from 'components/Organisms/Food/FoodTypes';
+import { FoodCardDB } from 'components/Organisms/Food/FoodTypes';
 import { foodCardsDBListener } from 'firebase-cfg/database/food/listeners';
 import { updateFoodSetName } from 'firebase-cfg/database/food/update';
 import { setModalClose } from 'app/slices/interfaceSlice';
+import { setFoodCards } from 'app/slices/foodSlice';
 import { removeFoodItem, removeFoodSet } from 'firebase-cfg/database/food/remove';
 import {
   ConfirmationButtonStyled,
@@ -16,17 +16,25 @@ import {
 } from '../Modals.styled';
 import { Wrapper } from './EditFoodSetModal.styled';
 import AddEditNameModal from '../AddEditNameModal/AddEditNameModal';
+import { EditFoodSetModalProps } from '../ModalsTypes';
 
-let timeout: NodeJS.Timeout;
+const initialTimer = setTimeout(() => {});
 
-const EditFoodSetModal: FC<Omit<FoodCardInfo, 'foodSet' | 'name'>> = ({ foodCardID }) => {
-  const [foodCard, setFoodCard] = useState<FoodCardDB[]>([]);
-  const [isFoodCardNameActive, setIsFoodCardNameActive] = useState<boolean>(false);
+const EditFoodSetModal: FC<EditFoodSetModalProps> = ({ foodCardID }) => {
+  const [foodCard, setFoodCard] = useState<FoodCardDB>();
+  const [isFoodCardNameActive, setIsFoodCardNameActive] = useState(false);
   const [confirmItems, setConfirmItems] = useState<string[]>([]);
+  const [timer, setTimer] = useState<NodeJS.Timeout>(initialTimer);
 
   const {
     pages: { subPageID },
-  } = useAppSelector((state: RootState) => state);
+    food: { foodCards },
+  } = useAppSelector((state) => state);
+
+  useEffect(() => {
+    const foodCard = foodCards.find((card) => card.foodCardID === foodCardID);
+    setFoodCard(foodCard);
+  }, [foodCardID, foodCards]);
 
   const dispatch = useAppDispatch();
 
@@ -43,6 +51,8 @@ const EditFoodSetModal: FC<Omit<FoodCardInfo, 'foodSet' | 'name'>> = ({ foodCard
 
   const handleRemoveFoodItem = (id: string) => {
     if (subPageID) removeFoodItem(subPageID, foodCardID, id);
+    clearTimeout(timer);
+    setConfirmItems([]);
   };
 
   const handleRemoveFoodSet = () => {
@@ -53,22 +63,22 @@ const EditFoodSetModal: FC<Omit<FoodCardInfo, 'foodSet' | 'name'>> = ({ foodCard
   const handleConfirmations = (index: string) => {
     if (confirmItems.includes(index)) return;
     setConfirmItems([...confirmItems, index]);
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      setConfirmItems([]);
-    }, 2500);
+    clearTimeout(timer);
+    setTimer(
+      setTimeout(() => {
+        setConfirmItems([]);
+      }, 2500),
+    );
   };
 
   useEffect(() => {
-    return foodCardsDBListener(subPageID, setFoodCard, foodCardID);
-  }, [subPageID, foodCardID]);
+    const dispatcher = (foodCards: FoodCardDB[]) => dispatch(setFoodCards(foodCards));
+    return foodCardsDBListener(subPageID, dispatcher);
+  }, [subPageID, foodCardID, dispatch]);
 
   useEffect(() => {
-    timeout = setTimeout(() => {
-      setConfirmItems([]);
-    }, 2500);
-    return () => clearTimeout(timeout);
-  }, []);
+    return () => clearTimeout(timer);
+  });
 
   return (
     <Wrapper>
@@ -77,12 +87,12 @@ const EditFoodSetModal: FC<Omit<FoodCardInfo, 'foodSet' | 'name'>> = ({ foodCard
           className={`name ${isFoodCardNameActive && `active`}`}
           onClick={handleActivateChangeName}
         >
-          {foodCard.length !== 0 && foodCard[0].name}
+          {foodCard && foodCard.name}
         </NameStyled>
       </div>
       <ul className="foodList">
-        {foodCard.length !== 0 &&
-          foodCard[0].foodSet.map((set) => (
+        {foodCard &&
+          foodCard.foodSet.map((set) => (
             <li key={uuid4()}>
               <RemoveButtonStyled onClick={() => handleConfirmations(set.id)}>
                 <CloseIcon />

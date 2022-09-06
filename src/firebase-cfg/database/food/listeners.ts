@@ -2,12 +2,14 @@ import { FoodCardDB, NutrientsDB } from 'components/Organisms/Food/FoodTypes';
 import { auth, db } from 'firebase-cfg/firebase-config';
 import { ref, onValue } from 'firebase/database';
 import { sortedArrayByTimestamp } from 'helpers/sortArrayByTimestamp';
-import { pagesPaths } from 'helpers/staticVariables';
+import { pagesPaths } from 'utils/staticVariables/pages';
 
 const foodCardsDBListener = (
   subPageID: string | undefined,
-  setStateCallback: (value: React.SetStateAction<FoodCardDB[]>) => void,
-  foodCardID?: string,
+  dispatcher: (foodCards: FoodCardDB[]) => {
+    payload: FoodCardDB[] | [];
+    type: string;
+  },
 ) => {
   const uid = auth.currentUser?.uid;
 
@@ -33,15 +35,9 @@ const foodCardsDBListener = (
           }
         }
 
-        if (foodCardID) {
-          const card = newArr.filter((card) => card.foodCardID === foodCardID);
-          if (card) setStateCallback(card);
-          return;
-        }
-
         const sortedFoodCards = sortedArrayByTimestamp(newArr);
-        setStateCallback(sortedFoodCards);
-      }
+        dispatcher(sortedFoodCards);
+      } else dispatcher([]);
     }
   });
 };

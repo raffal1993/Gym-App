@@ -1,12 +1,12 @@
 import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { useAppSelector } from 'app/hooks';
-import { RootState } from 'app/store';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
-import CustomButton from 'components/Atoms/Buttons/CustomButton/CustomButton';
+import CustomButton from 'components/Commons/Buttons/CustomButton/CustomButton';
 import { v4 as uuid4 } from 'uuid';
 import FoodCard from 'components/Molecules/FoodCard/FoodCard';
 import { foodCardsDBListener } from 'firebase-cfg/database/food/listeners';
+import { setFoodCards } from 'app/slices/foodSlice';
 import SearchFood from 'components/Molecules/SearchFood/SearchFood';
 import AddFood from 'components/Molecules/AddFood/AddFood';
 import { ScrollTopStyled, Wrapper } from './Food.styled';
@@ -14,12 +14,14 @@ import { FoodCardDB } from './FoodTypes';
 
 const Food = memo(() => {
   const [isSearchModeOn, setIsSearchModeOn] = useState(false);
-  const [foodCards, setFoodCards] = useState<FoodCardDB[]>([]);
 
   const {
     interface: { isEditModeOn },
     pages: { subPageID },
-  } = useAppSelector((state: RootState) => state);
+    food: { foodCards },
+  } = useAppSelector((state) => state);
+
+  const dispatch = useAppDispatch();
 
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -35,8 +37,9 @@ const Food = memo(() => {
   };
 
   useEffect(() => {
-    return foodCardsDBListener(subPageID, setFoodCards);
-  }, [subPageID]);
+    const dispatcher = (foodCards: FoodCardDB[]) => dispatch(setFoodCards(foodCards));
+    return foodCardsDBListener(subPageID, dispatcher);
+  }, [subPageID, dispatch]);
 
   useEffect(() => {
     setIsSearchModeOn(false);
@@ -89,7 +92,6 @@ const Food = memo(() => {
       {foodCards.map((foodCard) => (
         <FoodCard key={uuid4()} foodCard={foodCard} />
       ))}
-
       <ScrollTopStyled ref={scrollTopRef} onClick={handleScrollTop}>
         <ArrowCircleUpIcon />
       </ScrollTopStyled>
