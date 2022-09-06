@@ -4,7 +4,7 @@ import { setModalClose, setModalOpen } from 'app/slices/interfaceSlice';
 import { setMainPage } from 'app/slices/pagesSlice';
 import { setUserEmail } from 'app/slices/userSlice';
 import { setupStore } from 'app/store';
-import { pagesPaths } from 'helpers/staticVariables';
+import { pagesPaths } from 'utils/staticVariables/pages';
 import { createMemoryHistory } from 'history';
 import React from 'react';
 import { Router } from 'react-router-dom';

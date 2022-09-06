@@ -1,7 +1,7 @@
 import { renderWithProviders } from '__tests__/utils/test-utils';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import EditDbButton from 'components/Atoms/Buttons/EditDbButton/EditDbButton';
+import EditDbButton from 'components/Commons/Buttons/EditDbButton/EditDbButton';
 import React, { createRef } from 'react';
 
 jest.mock('React', () => ({

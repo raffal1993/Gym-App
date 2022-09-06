@@ -1,7 +1,7 @@
 import { fireEvent, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import { setupStore } from 'app/store';
 import Login from 'components/Molecules/Login/Login';
-import { pagesPaths } from 'helpers/staticVariables';
+import { pagesPaths } from 'utils/staticVariables/pages';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import { renderWithProviders } from '__tests__/utils/test-utils';

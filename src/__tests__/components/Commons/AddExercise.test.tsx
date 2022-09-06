@@ -1,5 +1,5 @@
 import { fireEvent, screen } from '@testing-library/react';
-import AddExercise from 'components/Atoms/AddExercise/AddExercise';
+import AddExercise from 'components/Commons/AddExercise/AddExercise';
 import { renderWithProviders } from '__tests__/utils/test-utils';
 
 jest.mock('helpers/importImages', () => ({

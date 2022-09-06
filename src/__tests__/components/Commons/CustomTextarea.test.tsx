@@ -1,6 +1,6 @@
 import { renderWithProviders } from '__tests__/utils/test-utils';
 import { fireEvent, screen } from '@testing-library/react';
-import CustomTextarea from 'components/Atoms/CustomTextarea/CustomTextarea';
+import CustomTextarea from 'components/Commons/CustomTextarea/CustomTextarea';
 import userEvent from '@testing-library/user-event';
 
 describe('test CustomTextarea', () => {

@@ -1,7 +1,7 @@
 import { renderWithProviders } from '__tests__/utils/test-utils';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import EditCardButton from 'components/Atoms/Buttons/EditCardButton/EditCardButton';
+import EditCardButton from 'components/Commons/Buttons/EditCardButton/EditCardButton';
 
 describe('test EditCardButton', () => {
   const onClick = jest.fn();

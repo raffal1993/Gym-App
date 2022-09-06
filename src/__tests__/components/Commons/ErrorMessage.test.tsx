@@ -1,5 +1,5 @@
 import { screen } from '@testing-library/react';
-import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
+import ErrorMessage from 'components/Commons/ErrorMessage/ErrorMessage';
 import { renderWithProviders } from '__tests__/utils/test-utils';
 
 describe('testing ErrorMessage component', () => {

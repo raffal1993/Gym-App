@@ -1,7 +1,7 @@
 import { renderWithProviders } from '__tests__/utils/test-utils';
 import { cleanup, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import CustomButton from 'components/Atoms/Buttons/CustomButton/CustomButton';
+import CustomButton from 'components/Commons/Buttons/CustomButton/CustomButton';
 
 describe('test CustomButton', () => {
   const onClick = jest.fn();

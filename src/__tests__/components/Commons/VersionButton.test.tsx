@@ -1,6 +1,6 @@
 import { renderWithProviders } from '__tests__/utils/test-utils';
 import React from 'react';
-import VersionButton from 'components/Atoms/Buttons/VersionButton/VersionButton';
+import VersionButton from 'components/Commons/Buttons/VersionButton/VersionButton';
 import { fireEvent, screen } from '@testing-library/react';
 
 describe('test VersionButton', () => {

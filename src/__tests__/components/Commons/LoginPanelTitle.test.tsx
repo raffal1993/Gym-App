@@ -1,7 +1,7 @@
 import { renderWithProviders } from '__tests__/utils/test-utils';
 import React from 'react';
 import { screen } from '@testing-library/react';
-import LoginPanelTitle from 'components/Atoms/LoginPanelTitle/LoginPanelTitle';
+import LoginPanelTitle from 'components/Commons/LoginPanelTitle/LoginPanelTitle';
 
 describe('test LoginPanelTitle', () => {
   test('title prop', () => {

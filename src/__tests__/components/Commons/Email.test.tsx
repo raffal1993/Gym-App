@@ -1,5 +1,5 @@
 import { fireEvent, screen } from '@testing-library/react';
-import Email from 'components/Atoms/Inputs/Email/Email';
+import Email from 'components/Commons/Inputs/Email/Email';
 import { renderWithProviders } from '__tests__/utils/test-utils';
 
 describe('testing Email component', () => {

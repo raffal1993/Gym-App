@@ -1,9 +1,9 @@
 import { fireEvent, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
 import { setupStore } from 'app/store';
 import Register from 'components/Molecules/Register/Register';
-import { pagesPaths } from 'helpers/staticVariables';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
+import { pagesPaths } from 'utils/staticVariables/pages';
 import { renderWithProviders } from '__tests__/utils/test-utils';
 import { mockedReduxState } from '../../mocks/mockedReduxState';
 import { mockedMainPage } from '../../mocks/mockedSidebarData';

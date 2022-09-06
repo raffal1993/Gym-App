@@ -1,4 +1,4 @@
-import BackToLogin from 'components/Atoms/BackToLogin/BackToLogin';
+import BackToLogin from 'components/Commons/BackToLogin/BackToLogin';
 import { Router } from 'react-router-dom';
 import { renderWithProviders } from '__tests__/utils/test-utils';
 import { fireEvent, screen } from '@testing-library/react';

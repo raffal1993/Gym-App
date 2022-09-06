@@ -27,25 +27,25 @@ describe('testing AccountInfo component', () => {
     expect(screen.getByRole('button')).toHaveAttribute('type', 'submit');
   });
 
-  test('email verified', () => {
+  test('show/hide elements when account is verified', () => {
     expect(screen.queryByText(/Send verification email/i)).not.toBeInTheDocument();
     expect(screen.getByTestId(/VerifiedIcon/i)).toBeInTheDocument();
   });
 
-  test('email not verified', () => {
+  test('show/hide elements when account is not verified', () => {
     require('firebase-cfg/firebase-config').auth.currentUser.emailVerified = false;
     renderNew(<AccountInfo />);
     expect(screen.getByTestId(/DangerousSharpIcon/i)).toBeInTheDocument();
     expect(screen.getByText(/Send verification email/i)).toBeInTheDocument();
   });
 
-  test('click button "Send verification email"', async () => {
+  test('show/hide elements after sending veryfication email', async () => {
     fireEvent.click(screen.getByText(/Send verification email/));
     expect(await screen.findByText(/Email has been sent./i)).toBeInTheDocument();
     expect(screen.queryByText(/Send verification email/i)).not.toBeInTheDocument();
   });
 
-  test('change email', async () => {
+  test('show/hide elements after change email', async () => {
     fireEvent.click(screen.getByText(/Send verification email/));
     expect(await screen.findByText(/Email has been sent./i)).toBeInTheDocument();
     expect(screen.queryByText(/Send verification email/i)).not.toBeInTheDocument();

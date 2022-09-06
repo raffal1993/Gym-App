@@ -1,7 +1,7 @@
 import { renderWithProviders } from '__tests__/utils/test-utils';
 import React from 'react';
 import { fireEvent, screen } from '@testing-library/react';
-import Password from 'components/Atoms/Inputs/Password/Password';
+import Password from 'components/Commons/Inputs/Password/Password';
 
 const spyUseState = jest.spyOn(React, 'useState');
 

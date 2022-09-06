@@ -1,8 +1,8 @@
 import { mountWithProviders } from '__tests__/utils/test-utils';
 import React from 'react';
-import EditModeButton from 'components/Atoms/Buttons/EditModeButton/EditModeButton';
+import EditModeButton from 'components/Commons/Buttons/EditModeButton/EditModeButton';
 import { animateButton } from 'helpers/animateButton';
-import { EditModeButtonStyled } from 'components/Atoms/Buttons/EditModeButton/EditModeButton.styled';
+import { EditModeButtonStyled } from 'components/Commons/Buttons/EditModeButton/EditModeButton.styled';
 import { setEditMode } from 'app/slices/interfaceSlice';
 import { convertToElement } from '__tests__/helpers/convertToElement';
 import { mockedReduxState } from '__tests__/mocks/mockedReduxState';
