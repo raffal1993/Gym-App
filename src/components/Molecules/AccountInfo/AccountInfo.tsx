@@ -1,23 +1,21 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { auth } from 'firebase-cfg/firebase-config';
-import { sendEmailVerification, updateEmail } from 'firebase/auth';
-import VerifiedIcon from '@mui/icons-material/Verified';
-import SendIcon from '@mui/icons-material/Send';
-import ErrorMessage from 'components/Atoms/ErrorMessage/ErrorMessage';
-import DangerousSharpIcon from '@mui/icons-material/DangerousSharp';
+import { sendEmailVerification } from 'firebase/auth';
+import ErrorMessage from 'components/Commons/ErrorMessage/ErrorMessage';
 import ContactMailSharpIcon from '@mui/icons-material/ContactMailSharp';
-import { updateEmailToDB } from 'firebase-cfg/database/user/update';
-import { TitleStyled } from '../CardStyled/CardStyled.styled';
 import { Wrapper } from './AccountInfo.styled';
+import AccountInfoInformations from '../AccountInfoInformations/AccountInfoInformations';
+import AccountInfoChangeEmail from '../AccountInfoChangeEmail/AccountInfoChangeEmail';
 
 const userData = () => {
   const { currentUser } = auth;
-  if (currentUser)
+  if (currentUser) {
     return {
       email: currentUser.email,
       emailVerified: currentUser.emailVerified,
       metadata: currentUser.metadata,
     };
+  }
   return {
     email: '',
     emailVerified: false,
@@ -28,8 +26,7 @@ const userData = () => {
 const AccountInfo = () => {
   const [isVerificationEmailSent, setIsVerificationEmailSent] = useState(false);
   const [isEmailUpdated, setIsEmailUpdated] = useState(false);
-  const [inputEmail, setInputEmail] = useState<string>('');
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const { email, emailVerified, metadata } = userData();
 
@@ -38,24 +35,6 @@ const AccountInfo = () => {
       sendEmailVerification(auth.currentUser).then(() => {
         setIsVerificationEmailSent(true);
       });
-  };
-
-  const handleEmailOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputEmail(e.currentTarget.value);
-  };
-
-  const handleChangeEmail = () => {
-    if (email === 'test@wp.pl') return setErrorMessage("You can't change test@wp.pl email");
-    if (inputEmail.length === 0) return setErrorMessage("Email can't be empty");
-    auth.currentUser &&
-      updateEmail(auth.currentUser, inputEmail)
-        .then(() => {
-          setIsEmailUpdated(true);
-          updateEmailToDB(inputEmail);
-        })
-        .catch((error) => {
-          setErrorMessage(error.message.replace('Firebase: ', ''));
-        });
   };
 
   useEffect(() => {
@@ -68,25 +47,7 @@ const AccountInfo = () => {
 
   return (
     <Wrapper email_verified={emailVerified.toString()}>
-      <TitleStyled className="title">Account Info</TitleStyled>
-      <p className="accountInfo">
-        <span className="description">Account email </span>
-        <span className="userInfo">{email}</span>{' '}
-      </p>
-      <p className="accountInfo">
-        <span className="description">Email verified</span>
-        <span className="userInfo">
-          {emailVerified ? <VerifiedIcon /> : <DangerousSharpIcon />}
-        </span>
-      </p>
-      <p className="accountInfo">
-        <span className="description">Account created at </span>
-        <span className="userInfo">{metadata.creationTime}</span>
-      </p>
-      <p className="accountInfo">
-        <span className="description">Last login</span>
-        <span className="userInfo">{metadata.lastSignInTime}</span>
-      </p>
+      <AccountInfoInformations email={email} emailVerified={emailVerified} metadata={metadata} />
       {!emailVerified && !isVerificationEmailSent && (
         <button onClick={handleSendVerificationEmail} className="sendVerificationEmail">
           Send verification email
@@ -102,21 +63,11 @@ const AccountInfo = () => {
       {isEmailUpdated ? (
         <span className="info">Email has been changed. You can login now with new email.</span>
       ) : (
-        <label className="changeEmail" htmlFor="changeEmail">
-          <span>Change email: </span>
-          <div>
-            <input
-              value={inputEmail}
-              onChange={(e) => handleEmailOnChange(e)}
-              onKeyPress={(e) => e.key === 'Enter' && handleChangeEmail()}
-              type="email"
-              id="changeEmail"
-            />
-            <button onClick={handleChangeEmail} type="submit">
-              <SendIcon />
-            </button>
-          </div>
-        </label>
+        <AccountInfoChangeEmail
+          email={email}
+          setErrorMessage={setErrorMessage}
+          setIsEmailUpdated={setIsEmailUpdated}
+        />
       )}
 
       {errorMessage && <ErrorMessage className="errorMessage" errorMessage={errorMessage} />}
