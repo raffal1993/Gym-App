@@ -1,4 +1,4 @@
-import { styled } from '@mui/material';
+import { lighten, styled } from '@mui/material';
 
 export const AccountInfoChangeEmailStyled = styled('label')(({ theme }) => ({
   margin: '40px 0',
@@ -12,6 +12,15 @@ export const AccountInfoChangeEmailStyled = styled('label')(({ theme }) => ({
   span: {
     textShadow: 'none',
     fontSize: '1.3rem',
+  },
+
+  '& .info': {
+    fontSize: '1.4rem',
+    textShadow: 'none',
+    textAlign: 'center',
+    color: lighten(theme.colors.green, 0.3),
+    filter: 'contrast(400%)',
+    margin: '30px 20px 0px 20px',
   },
 
   div: {
@@ -59,6 +68,11 @@ export const AccountInfoChangeEmailStyled = styled('label')(({ theme }) => ({
       },
     },
   },
+
+  '& .errorMessage': {
+    textShadow: 'none',
+  },
+
   [theme.breakpoints.down('sm')]: {
     div: {
       paddingRight: '10px',

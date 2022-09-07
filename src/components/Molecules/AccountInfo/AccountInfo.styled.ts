@@ -38,6 +38,11 @@ export const Wrapper = styled(SettingsCardStyled)<{ email_verified: string }>(({
     },
   },
 
+  span: {
+    textShadow: 'none',
+    fontSize: '1.3rem',
+  },
+
   '& .info': {
     fontSize: '1.4rem',
     textShadow: 'none',
@@ -45,10 +50,6 @@ export const Wrapper = styled(SettingsCardStyled)<{ email_verified: string }>(({
     color: lighten(theme.colors.green, 0.3),
     filter: 'contrast(400%)',
     margin: '30px 20px 0px 20px',
-  },
-
-  '& .errorMessage': {
-    textShadow: 'none',
   },
 
   [theme.breakpoints.down('sm')]: {

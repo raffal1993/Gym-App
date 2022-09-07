@@ -18,7 +18,7 @@ const AccountInfoInformations: FC<AccountInfoInformationsProps> = (props) => {
     <AccountInfoInformationsStyled email_verified={emailVerified.toString()}>
       <TitleStyled>Account Info</TitleStyled>
       <p className="accountInfo">
-        <span className="description">Account email </span>
+        <span className="description">Account email</span>
         <span className="userInfo">{email}</span>{' '}
       </p>
       <p className="accountInfo">
@@ -28,7 +28,7 @@ const AccountInfoInformations: FC<AccountInfoInformationsProps> = (props) => {
         </span>
       </p>
       <p className="accountInfo">
-        <span className="description">Account created at </span>
+        <span className="description">Account created at</span>
         <span className="userInfo">{metadata.creationTime}</span>
       </p>
       <p className="accountInfo">
