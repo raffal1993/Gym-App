@@ -99,7 +99,7 @@ describe('testing WorkoutCard component', () => {
     });
     afterAll(() => {
       store.dispatch(setEditMode(false));
-      require('helpers/staticVariables').MAX_VERSIONS = 5;
+      require('utils/staticVariables/maxElements').MAX_VERSIONS = 5;
     });
 
     test('if element are displayed', () => {
@@ -117,7 +117,7 @@ describe('testing WorkoutCard component', () => {
     });
 
     test('add new version disabled', () => {
-      require('helpers/staticVariables').MAX_VERSIONS = 3;
+      require('utils/staticVariables/maxElements').MAX_VERSIONS = 3;
       rerender();
       expect(screen.queryByRole('button', { name: /\+/i })).not.toBeInTheDocument();
     });

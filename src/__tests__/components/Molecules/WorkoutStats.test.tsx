@@ -104,7 +104,7 @@ describe('testing WorkoutStats component', () => {
   });
   describe('show/hide EditDbButton', () => {
     afterAll(() => {
-      require('helpers/staticVariables').MAX_SETS = 10;
+      require('utils/staticVariables/maxElements').MAX_SETS = 10;
     });
     test('show EditDbButton', () => {
       store.dispatch(setEditMode(true));
@@ -113,7 +113,7 @@ describe('testing WorkoutStats component', () => {
     test('hide EditDbButton', () => {
       expect(addSetButton('query')).not.toBeInTheDocument();
 
-      require('helpers/staticVariables').MAX_SETS = 2;
+      require('utils/staticVariables/maxElements').MAX_SETS = 2;
       store.dispatch(setEditMode(true));
       rerender();
       expect(addSetButton('query')).not.toBeInTheDocument();

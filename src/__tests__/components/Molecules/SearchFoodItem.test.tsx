@@ -49,7 +49,7 @@ describe('testing SearchFoodItem component', () => {
   const weightInput = () => screen.getByRole('spinbutton');
 
   beforeEach(() => {
-    require('helpers/staticVariables').MAX_FOODS_IN_CARD = 25;
+    require('utils/staticVariables/maxElements').MAX_FOODS_IN_CARD = 25;
     renderWithProviders(<SearchFoodItem {...SearchFoodItemProps} />, {
       store,
     });
@@ -108,7 +108,7 @@ describe('testing SearchFoodItem component', () => {
   });
 
   test('foodCardNameButton is disabled when max foods in cards is reached', () => {
-    require('helpers/staticVariables').MAX_FOODS_IN_CARD = 2;
+    require('utils/staticVariables/maxElements').MAX_FOODS_IN_CARD = 2;
 
     fireEvent.click(wrapper());
     expect(foodCardNameButton('testFoodCardName1')).toBeDisabled();

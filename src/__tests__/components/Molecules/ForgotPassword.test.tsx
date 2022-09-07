@@ -17,7 +17,7 @@ jest.mock('firebase/auth', () => ({
 
 const backToLoginOnClick = jest.fn();
 
-jest.mock('components/Atoms/BackToLogin/BackToLogin', () => {
+jest.mock('components/Commons/BackToLogin/BackToLogin', () => {
   return {
     __esModule: true,
     default: () => <button onClick={backToLoginOnClick}>BackToLogin</button>,

@@ -9,7 +9,7 @@ import { mockedReduxState } from '../../mocks/mockedReduxState';
 import { mockedMainPage, mockedSubPageDBSnapshot } from '../../mocks/mockedSidebarData';
 import { renderWithProviders } from '../../utils/test-utils';
 
-jest.mock('components/Atoms/Buttons/EditModeButton/EditModeButton', () => {
+jest.mock('components/Commons/Buttons/EditModeButton/EditModeButton', () => {
   return {
     __esModule: true,
     default: () => <div>EditModeButton</div>,
