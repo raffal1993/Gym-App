@@ -21,7 +21,6 @@ import { EditFoodSetModalProps } from '../ModalsTypes';
 const initialTimer = setTimeout(() => {});
 
 const EditFoodSetModal: FC<EditFoodSetModalProps> = ({ foodCardID }) => {
-  const [foodCard, setFoodCard] = useState<FoodCardDB>();
   const [isFoodCardNameActive, setIsFoodCardNameActive] = useState(false);
   const [confirmItems, setConfirmItems] = useState<string[]>([]);
   const [timer, setTimer] = useState<NodeJS.Timeout>(initialTimer);
@@ -31,10 +30,7 @@ const EditFoodSetModal: FC<EditFoodSetModalProps> = ({ foodCardID }) => {
     food: { foodCards },
   } = useAppSelector((state) => state);
 
-  useEffect(() => {
-    const foodCard = foodCards.find((card) => card.foodCardID === foodCardID);
-    setFoodCard(foodCard);
-  }, [foodCardID, foodCards]);
+  const foodCard = foodCards.find((card) => card.foodCardID === foodCardID);
 
   const dispatch = useAppDispatch();
 

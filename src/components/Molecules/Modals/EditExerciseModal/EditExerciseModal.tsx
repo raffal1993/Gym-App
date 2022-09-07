@@ -120,25 +120,24 @@ const EditExerciseModal: FC<EditExerciseModalProps> = ({ exerciseID, subPageID }
                   {`${alternativeName?.toUpperCase() || mainExerciseName?.toUpperCase()} `}
                 </NameStyled>
               </div>
+
               <div className="sets">
-                {sets.map(({ set }, setIndex) => {
-                  return (
-                    <React.Fragment key={uuid4()}>
-                      {confirmItems.includes(`${versionIndex}.${set}`) ? (
-                        <EditDbButton
-                          className="removeSet"
-                          onClick={() => handleRemoveSet(versionIndex, setIndex)}
-                        >
-                          X
-                        </EditDbButton>
-                      ) : (
-                        <EditDbButton onClick={() => handleConfirmations(`${versionIndex}.${set}`)}>
-                          {set}
-                        </EditDbButton>
-                      )}
-                    </React.Fragment>
-                  );
-                })}
+                {sets.map(({ set }, setIndex) => (
+                  <React.Fragment key={uuid4()}>
+                    {confirmItems.includes(`${versionIndex}.${set}`) ? (
+                      <EditDbButton
+                        className="removeSet"
+                        onClick={() => handleRemoveSet(versionIndex, setIndex)}
+                      >
+                        X
+                      </EditDbButton>
+                    ) : (
+                      <EditDbButton onClick={() => handleConfirmations(`${versionIndex}.${set}`)}>
+                        {set}
+                      </EditDbButton>
+                    )}
+                  </React.Fragment>
+                ))}
               </div>
             </li>
           ))}
