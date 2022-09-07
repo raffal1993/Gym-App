@@ -36,9 +36,10 @@ const foodCardsDBListener = (
         }
 
         const sortedFoodCards = sortedArrayByTimestamp(newArr);
-        dispatcher(sortedFoodCards);
-      } else dispatcher([]);
+        return dispatcher(sortedFoodCards);
+      }
     }
+    dispatcher([]);
   });
 };
 
