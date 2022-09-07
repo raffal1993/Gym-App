@@ -11,6 +11,19 @@ jest.mock('firebase/auth', () => ({
   updateEmail: jest.fn(),
 }));
 
+jest.mock('components/Molecules/AccountInfoInformations/AccountInfoInformations', () => {
+  return {
+    __esModule: true,
+    default: () => <div>AccountInfoInformations</div>,
+  };
+});
+jest.mock('components/Molecules/AccountInfoChangeEmail/AccountInfoChangeEmail', () => {
+  return {
+    __esModule: true,
+    default: () => <div>AccountInfoChangeEmail</div>,
+  };
+});
+
 describe('testing AccountInfo component', () => {
   let renderNew: (ui: React.ReactElement<any, string | React.JSXElementConstructor<any>>) => void;
 
@@ -19,33 +32,22 @@ describe('testing AccountInfo component', () => {
     renderNew = rerender;
   });
 
-  test('to display infos', () => {
-    expect(screen.getByText(/test@test.com/i)).toBeInTheDocument();
-    expect(screen.getByText(/Mon, 18 Jul 2022 10:32:00 GMT/i)).toBeInTheDocument();
-    expect(screen.getByText(/Mon, 18 Jul 2022 12:57:22 GMT/i)).toBeInTheDocument();
-    expect(screen.getByText(/change Email:/i)).toBeInTheDocument();
-    expect(screen.getByRole('button')).toHaveAttribute('type', 'submit');
+  test('to display elements on initial render', () => {
+    expect(screen.getByText(/AccountInfoInformations/i)).toBeInTheDocument();
+    expect(screen.getByText(/AccountInfoChangeEmail/i)).toBeInTheDocument();
   });
 
   test('show/hide elements when account is verified', () => {
     expect(screen.queryByText(/Send verification email/i)).not.toBeInTheDocument();
-    expect(screen.getByTestId(/VerifiedIcon/i)).toBeInTheDocument();
   });
 
   test('show/hide elements when account is not verified', () => {
     require('firebase-cfg/firebase-config').auth.currentUser.emailVerified = false;
     renderNew(<AccountInfo />);
-    expect(screen.getByTestId(/DangerousSharpIcon/i)).toBeInTheDocument();
     expect(screen.getByText(/Send verification email/i)).toBeInTheDocument();
   });
 
-  test('show/hide elements after sending veryfication email', async () => {
-    fireEvent.click(screen.getByText(/Send verification email/));
-    expect(await screen.findByText(/Email has been sent./i)).toBeInTheDocument();
-    expect(screen.queryByText(/Send verification email/i)).not.toBeInTheDocument();
-  });
-
-  test('show/hide elements after change email', async () => {
+  test('show/hide elements after sending verification email', async () => {
     fireEvent.click(screen.getByText(/Send verification email/));
     expect(await screen.findByText(/Email has been sent./i)).toBeInTheDocument();
     expect(screen.queryByText(/Send verification email/i)).not.toBeInTheDocument();
