@@ -1,9 +1,10 @@
 import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import { setModalClose } from 'app/slices/interfaceSlice';
+import { setupStore } from 'app/store';
 import EditFoodSetModal from 'components/Molecules/Modals/EditFoodSetModal/EditFoodSetModal';
 import React from 'react';
 import { renderWithProviders } from '__tests__/utils/test-utils';
-import { mockedFoodCardDBSnapshot } from '../../mocks/mockedFoodData';
+import { mockedFoodCardDBSnapshot, mockedFoodCards } from '../../mocks/mockedFoodData';
 import { mockedReduxState } from '../../mocks/mockedReduxState';
 import { mockedSubPageID } from '../../mocks/mockedSidebarData';
 
@@ -24,14 +25,6 @@ jest.mock('firebase-cfg/database/food/update', () => ({
   updateFoodSetName: () => updateFoodSetName(),
 }));
 
-jest.mock('firebase/database', () => ({
-  ref: jest.fn().mockReturnValue('testRef'),
-  onValue: jest.fn((_ref, callback) => {
-    const snapshot = { val: () => mockedFoodCardDBSnapshot(1) };
-    callback(snapshot);
-  }),
-}));
-
 const removeFoodItem = jest.fn();
 const removeFoodSet = jest.fn();
 
@@ -39,6 +32,35 @@ jest.mock('firebase-cfg/database/food/remove', () => ({
   removeFoodItem: () => removeFoodItem(),
   removeFoodSet: () => removeFoodSet(),
 }));
+
+// jest.mock('firebase/database', () => ({
+//   ref: jest.fn().mockReturnValue('testRef'),
+//   onValue: jest.fn((_ref, callback) => {
+//     const snapshot = { val: () => mockedFoodCardDBSnapshot(1) };
+//     callback(snapshot);
+//   }),
+// }));
+
+jest.mock('firebase/database', () => ({
+  ref: jest.fn().mockReturnValue('testRef'),
+  onValue: jest.fn((_ref, callback) => {
+    const snapshot = {
+      val: () => [
+        mockedFoodCardDBSnapshot(1),
+        mockedFoodCardDBSnapshot(2),
+        mockedFoodCardDBSnapshot(3),
+      ],
+    };
+    callback(snapshot);
+  }),
+}));
+
+const initialState = {
+  pagesState: { subPageID: mockedSubPageID },
+  foodState: { foodCards: mockedFoodCards },
+};
+
+const store = setupStore(mockedReduxState(initialState));
 
 describe('testing EditFoodSetModal component', () => {
   const foodCardName = () => screen.getByText(/testFoodCardName1/i);
@@ -57,8 +79,9 @@ describe('testing EditFoodSetModal component', () => {
 
   beforeEach(() => {
     renderWithProviders(<EditFoodSetModal foodCardID={foodCardID} />, {
-      preloadedState: mockedReduxState({ pagesState: { subPageID: mockedSubPageID } }),
+      store,
     });
+
     jest.clearAllMocks();
   });
 
@@ -115,7 +138,7 @@ describe('testing EditFoodSetModal component', () => {
     });
   });
 
-  describe('remove from DB functions', () => {
+  describe('database functions', () => {
     test('if removeFoodItem is called', () => {
       fireEvent.click(removeFoodButtons()[0]);
       fireEvent.click(screen.getByRole('button', { name: /confirm/i }));
