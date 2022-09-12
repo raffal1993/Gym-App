@@ -20,6 +20,18 @@ export const EditModeButtonStyled = styled('button')(({ theme }) => ({
     fontSize: '2rem',
   },
 
+  '& .arrowPointer': {
+    left: '0%',
+    transform: 'translateX(-80%)',
+    animation: 'movingArrowsEditModeButton .5s linear alternate  infinite',
+
+    '@keyframes movingArrowsEditModeButton': {
+      '100%': {
+        transform: 'translateX(-120%)',
+      },
+    },
+  },
+
   [theme.breakpoints.down('sm')]: {
     margin: '5px 20px 10px 20px',
   },

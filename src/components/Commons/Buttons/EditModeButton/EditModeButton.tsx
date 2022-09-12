@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { animateButton } from 'helpers/animateButton';
+import ArrowPointer from 'components/Commons/ArrowPointer/ArrowPointer';
+import useDelay from 'hooks/useDelay';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { setEditMode } from 'app/slices/interfaceSlice';
 import CloseIcon from '@mui/icons-material/Close';
@@ -9,8 +11,10 @@ import { EditModeButtonStyled } from './EditModeButton.styled';
 const EditModeButton = () => {
   const {
     interface: { isEditModeOn },
-    pages: { sidebarList },
+    pages: { sidebarList, mainPage },
   } = useAppSelector((state) => state);
+
+  const { isDelayed } = useDelay(300, mainPage);
 
   const ref = useRef<HTMLButtonElement>(null);
   const dispatch = useAppDispatch();
@@ -19,17 +23,21 @@ const EditModeButton = () => {
     dispatch(setEditMode(!isEditModeOn));
   };
 
+  const isSidebarEmpty = sidebarList.length === 0;
+  const showArrowPointer = isSidebarEmpty && !isEditModeOn && !isDelayed;
+
   useEffect(() => {
     if (ref.current) {
-      sidebarList.length <= 0 && !isEditModeOn
+      isSidebarEmpty && !isEditModeOn
         ? animateButton(ref, 'start', 'editModeButton')
         : animateButton(ref, 'stop', 'editModeButton');
     }
-  }, [sidebarList, isEditModeOn]);
+  }, [isSidebarEmpty, isEditModeOn]);
 
   return (
     <EditModeButtonStyled ref={ref} onClick={handleHideAddExercise}>
       {isEditModeOn ? <CloseIcon /> : <ConstructionIcon />}
+      {showArrowPointer && <ArrowPointer className="arrowPointer" />}
     </EditModeButtonStyled>
   );
 };
