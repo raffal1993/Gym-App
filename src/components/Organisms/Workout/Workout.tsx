@@ -25,9 +25,7 @@ const Workout = memo(() => {
   const [workoutList, setWorkoutList] = useState<WorkoutCardProps[] | null>(null);
 
   useEffect(() => {
-    if (subPageID) {
-      return workoutListDBListener(subPageID, setWorkoutList);
-    }
+    return workoutListDBListener(subPageID, setWorkoutList);
   }, [subPageID]);
 
   useEffect(() => {
