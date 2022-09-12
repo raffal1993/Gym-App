@@ -1,4 +1,5 @@
 import { combineReducers, configureStore, PreloadedState } from '@reduxjs/toolkit';
+import { handleOnMainPageChange } from './subscribe';
 import interfaceReducer from './slices/interfaceSlice';
 import userReducer from './slices/userSlice';
 import pagesReducer from './slices/pagesSlice';
@@ -25,7 +26,11 @@ export function setupStore(preloadedState?: PreloadedState<RootState>) {
   });
 }
 
-export const state = setupStore().getState();
+export const store = setupStore();
+
+export type Store = typeof store;
+
+store.subscribe(() => handleOnMainPageChange(store));
 
 export type RootState = ReturnType<typeof rootReducer>;
 export type AppStore = ReturnType<typeof setupStore>;

@@ -94,7 +94,6 @@ const Sidebar = () => {
 
   useEffect(() => {
     setIndexSidebarPage(null);
-    dispatch(setSubPageID(''));
   }, [mainPage, dispatch]);
 
   //===================== CHANGE SUBPAGEID

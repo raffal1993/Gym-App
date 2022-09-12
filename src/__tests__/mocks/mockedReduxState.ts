@@ -1,5 +1,7 @@
-import { RootState, state } from 'app/store';
+import { RootState, store } from 'app/store';
 import { PreloadedState } from '@reduxjs/toolkit';
+
+const state = store.getState();
 
 export const mockedReduxState = ({
   interfaceState,

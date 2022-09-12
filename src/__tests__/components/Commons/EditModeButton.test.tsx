@@ -7,7 +7,7 @@ import { EditModeButtonStyled } from 'components/Commons/Buttons/EditModeButton/
 import { setEditMode } from 'app/slices/interfaceSlice';
 import { convertToElement } from '__tests__/helpers/convertToElement';
 import { mockedReduxState } from '__tests__/mocks/mockedReduxState';
-import { state } from 'app/store';
+import { setupStore } from 'app/store';
 import { ReactWrapper } from 'enzyme';
 
 jest.mock('helpers/animateButton', () => ({
@@ -29,6 +29,8 @@ jest.mock('components/Commons/ArrowPointer/ArrowPointer', () => {
     default: () => <div>ArrowPointer</div>,
   };
 });
+
+const state = setupStore().getState();
 
 describe('test EditModeButton', () => {
   let wrapper: ReactWrapper<any, Readonly<{}>, React.Component<{}, {}, any>>;
@@ -56,11 +58,11 @@ describe('test EditModeButton', () => {
       expect(closeIcon.getDOMNode()).toHaveAttribute('data-testid', 'ConstructionIcon');
     });
 
-    test('show animation', () => {
+    test('show animation', async () => {
       const button = wrapper.find(EditModeButtonStyled);
       expect(button.exists()).toBeTruthy();
       const ref = { current: convertToElement(button) };
-      expect(animation).toBeCalledWith(ref, 'start', 'editModeButton');
+      await waitFor(() => expect(animation).toBeCalledWith(ref, 'start', 'editModeButton'));
     });
   });
 

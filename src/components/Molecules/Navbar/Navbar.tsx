@@ -9,7 +9,6 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { v4 as uuid4 } from 'uuid';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { setMainPage } from 'app/slices/pagesSlice';
-import { setEditMode } from 'app/slices/interfaceSlice';
 import {
   HamburgerStyled,
   LogoutButtonStyled,
@@ -39,7 +38,6 @@ const Navbar = () => {
 
   const handleNavMenu = (path: string, isHamburger = false) => {
     if (mainPage === path) return;
-    dispatch(setEditMode(false));
     if (isHamburger) setAnchorElNav(null);
   };
 
