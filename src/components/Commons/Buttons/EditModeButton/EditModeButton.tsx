@@ -27,11 +27,10 @@ const EditModeButton = () => {
   const showArrowPointer = isSidebarEmpty && !isEditModeOn && !isDelayed;
 
   useEffect(() => {
-    if (ref.current) {
-      isSidebarEmpty && !isEditModeOn && !isDelayed
-        ? animateButton(ref, 'start', 'editModeButton')
-        : animateButton(ref, 'stop', 'editModeButton');
-    }
+    if (!ref.current && isDelayed) return;
+    isSidebarEmpty && !isEditModeOn && !isDelayed
+      ? animateButton(ref, 'start', 'editModeButton')
+      : animateButton(ref, 'stop', 'editModeButton');
   }, [isSidebarEmpty, isEditModeOn, isDelayed]);
 
   return (

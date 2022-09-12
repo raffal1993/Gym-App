@@ -1,16 +1,18 @@
 import { RefObject } from 'react';
 
+type AnimatedElement = 'sidebarButton' | 'editModeButton';
+
 let keyframes: {
-  [key: string]: KeyframeEffect;
+  [key in AnimatedElement]: KeyframeEffect;
 };
 let animation: {
-  [key: string]: Animation;
+  [key in AnimatedElement]: Animation;
 };
 
 export const animateButton = (
   ref: RefObject<HTMLElement>,
   option: 'start' | 'stop',
-  type: 'sidebarButton' | 'editModeButton',
+  type: AnimatedElement,
 ) => {
   if (ref.current) {
     const animationKeyframes = [{ filter: 'brightness(150%)' }, { filter: 'brightness(100%)' }];
@@ -22,7 +24,7 @@ export const animateButton = (
 
     if (option === 'start') {
       for (const key in animation) {
-        animation[key].cancel();
+        animation[key as AnimatedElement].cancel();
       }
 
       const tempKeyframes = {
@@ -37,6 +39,9 @@ export const animateButton = (
       animation = { ...animation, ...tempAnimation };
       animation[type].play();
     }
-    if (option === 'stop' && animation[type]) animation[type].cancel();
+
+    if (option === 'stop' && animation && animation[type]) {
+      animation[type].cancel();
+    }
   }
 };
