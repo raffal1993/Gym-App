@@ -6,7 +6,7 @@ import { pagesPaths } from 'utils/staticVariables/pages';
 
 const workoutListDBListener = (
   subPageID: string | undefined,
-  setStateCallback: (value: React.SetStateAction<WorkoutCardProps[]>) => void,
+  setStateCallback: (value: React.SetStateAction<WorkoutCardProps[] | null>) => void,
 ) => {
   const uid = auth.currentUser?.uid;
 

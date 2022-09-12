@@ -8,7 +8,6 @@ import { v4 as uuid4 } from 'uuid';
 import FoodCard from 'components/Molecules/FoodCard/FoodCard';
 import { foodCardsDBListener } from 'firebase-cfg/database/food/listeners';
 import { setFoodCards } from 'app/slices/foodSlice';
-import useDelay from 'hooks/useDelay';
 import SearchFood from 'components/Molecules/SearchFood/SearchFood';
 import AddFood from 'components/Molecules/AddFood/AddFood';
 import { ScrollTopStyled, Wrapper } from './Food.styled';
@@ -17,12 +16,11 @@ import { FoodCardDB } from './FoodTypes';
 const Food = memo(() => {
   const {
     interface: { isEditModeOn, isSidebarItemSelected },
-    pages: { subPageID, mainPage },
+    pages: { subPageID },
     food: { foodCards },
   } = useAppSelector((state) => state);
 
   const [isSearchModeOn, setIsSearchModeOn] = useState(false);
-  const { isDelayed } = useDelay(300, mainPage);
 
   const dispatch = useAppDispatch();
 
@@ -40,7 +38,9 @@ const Food = memo(() => {
 
   useEffect(() => {
     const dispatcher = (foodCards: FoodCardDB[]) => dispatch(setFoodCards(foodCards));
-    return foodCardsDBListener(subPageID, dispatcher);
+    if (subPageID) {
+      return foodCardsDBListener(subPageID, dispatcher);
+    }
   }, [subPageID, dispatch]);
 
   useEffect(() => {
@@ -76,7 +76,10 @@ const Food = memo(() => {
     };
   }, []);
 
-  const showNoCardsFoundInfo = !isEditModeOn && isSidebarItemSelected && foodCards.length === 0;
+  const foodCardsDisplayed = foodCards !== null ? foodCards : [];
+
+  const showNoCardsFoundInfo =
+    !isEditModeOn && isSidebarItemSelected && foodCardsDisplayed.length === 0 && foodCards !== null;
 
   return (
     <Wrapper ref={divRef}>
@@ -85,16 +88,18 @@ const Food = memo(() => {
       </CustomButton>
       {isEditModeOn && (
         <AddFood
-          cards={foodCards.map((card) => ({
+          cards={foodCardsDisplayed.map((card) => ({
             foodCardID: card.foodCardID,
             name: card.name,
             foodSet: card.foodSet,
           }))}
         />
       )}
-      {isSearchModeOn && <SearchFood foodCards={foodCards} />}
+      {isSearchModeOn && <SearchFood foodCards={foodCardsDisplayed} />}
       {showNoCardsFoundInfo && <NoCardsFound text="You don't have any FOOD SETS added" />}
-      {!isDelayed && foodCards.map((foodCard) => <FoodCard key={uuid4()} foodCard={foodCard} />)}
+      {foodCardsDisplayed.map((foodCard) => (
+        <FoodCard key={uuid4()} foodCard={foodCard} />
+      ))}
       <ScrollTopStyled ref={scrollTopRef} onClick={handleScrollTop}>
         <ArrowCircleUpIcon />
       </ScrollTopStyled>

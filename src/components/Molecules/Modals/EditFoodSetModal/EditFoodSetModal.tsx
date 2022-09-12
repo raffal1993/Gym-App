@@ -27,7 +27,8 @@ const EditFoodSetModal: FC<EditFoodSetModalProps> = ({ foodCardID }) => {
     food: { foodCards },
   } = useAppSelector((state) => state);
 
-  const foodCard = foodCards.find((card) => card.foodCardID === foodCardID);
+  const foodCardsDisplayed = foodCards !== null ? foodCards : [];
+  const foodCard = foodCardsDisplayed.find((card) => card.foodCardID === foodCardID);
 
   const dispatch = useAppDispatch();
 

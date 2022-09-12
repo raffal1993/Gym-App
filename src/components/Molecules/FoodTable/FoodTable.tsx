@@ -16,7 +16,9 @@ const FoodTable: FC<FoodTableProps> = ({ foodCardID }) => {
 
   const { isWidthSmaller } = useResize('xs');
 
-  const foodSet = foodCards.find((card) => card.foodCardID === foodCardID)?.foodSet || [];
+  const foodCardsDisplayed = foodCards !== null ? foodCards : [];
+
+  const foodSet = foodCardsDisplayed.find((card) => card.foodCardID === foodCardID)?.foodSet || [];
   return (
     <Wrapper>
       {isWidthSmaller ? (

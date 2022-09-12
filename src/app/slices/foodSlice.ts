@@ -2,11 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { FoodCardDB } from 'components/Organisms/Food/FoodTypes';
 
 interface FoodState {
-  foodCards: FoodCardDB[];
+  foodCards: FoodCardDB[] | null;
 }
 
 const initialState: FoodState = {
-  foodCards: [],
+  foodCards: null,
 };
 
 export const foodSlice = createSlice({

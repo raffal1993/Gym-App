@@ -5,7 +5,6 @@ import StoperWidget from 'components/Molecules/StoperWidget/StoperWidget';
 import WorkoutCard from 'components/Molecules/WorkoutCard/WorkoutCard';
 import { WorkoutCardProps } from 'components/Organisms/Workout/WorkoutTypes';
 import NoCardsFound from 'components/Commons/NoCardsFound/NoCardsFound';
-import useDelay from 'hooks/useDelay';
 import { Tab } from '@mui/material';
 import { v4 as uuid4 } from 'uuid';
 import { clearLocalStorage } from 'helpers/localStorage';
@@ -19,15 +18,16 @@ const { exercises } = importImages();
 
 const Workout = memo(() => {
   const {
-    pages: { subPageID, sidebarList, mainPage },
+    pages: { subPageID, sidebarList },
     interface: { isEditModeOn, isSidebarItemSelected },
   } = useAppSelector((state) => state);
 
-  const [workoutList, setWorkoutList] = useState<WorkoutCardProps[]>([]);
-  const { isDelayed } = useDelay(300, mainPage);
+  const [workoutList, setWorkoutList] = useState<WorkoutCardProps[] | null>(null);
 
   useEffect(() => {
-    return workoutListDBListener(subPageID, setWorkoutList);
+    if (subPageID) {
+      return workoutListDBListener(subPageID, setWorkoutList);
+    }
   }, [subPageID]);
 
   useEffect(() => {
@@ -36,10 +36,13 @@ const Workout = memo(() => {
   }, [subPageID]);
 
   const isAddExerciseDisabled =
-    sidebarList.length === 0 || workoutList.length >= MAX_CARDS || !isSidebarItemSelected;
+    sidebarList.length === 0 ||
+    !workoutList ||
+    workoutList.length >= MAX_CARDS ||
+    !isSidebarItemSelected;
 
   const showNoCardsFoundInfo =
-    !isEditModeOn && isSidebarItemSelected && workoutList.length === 0 && !isDelayed;
+    !isEditModeOn && isSidebarItemSelected && workoutList && workoutList.length === 0;
 
   return (
     <Wrapper>
@@ -56,18 +59,19 @@ const Workout = memo(() => {
         </AddExerciseTabs>
       )}
       {showNoCardsFoundInfo && <NoCardsFound text="You don't have any EXERCISES added" />}
-      {workoutList.map((workoutItem) => {
-        const { exerciseID, name, type, versions } = workoutItem;
-        return (
-          <WorkoutCard
-            key={uuid4()}
-            exerciseID={exerciseID}
-            name={name}
-            type={type}
-            versions={versions}
-          />
-        );
-      })}
+      {workoutList &&
+        workoutList.map((workoutItem) => {
+          const { exerciseID, name, type, versions } = workoutItem;
+          return (
+            <WorkoutCard
+              key={uuid4()}
+              exerciseID={exerciseID}
+              name={name}
+              type={type}
+              versions={versions}
+            />
+          );
+        })}
     </Wrapper>
   );
 });

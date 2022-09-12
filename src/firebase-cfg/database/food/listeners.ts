@@ -7,7 +7,7 @@ import { pagesPaths } from 'utils/staticVariables/pages';
 const foodCardsDBListener = (
   subPageID: string | undefined,
   dispatcher: (foodCards: FoodCardDB[]) => {
-    payload: FoodCardDB[] | [];
+    payload: FoodCardDB[] | null;
     type: string;
   },
 ) => {
