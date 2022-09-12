@@ -28,11 +28,11 @@ const EditModeButton = () => {
 
   useEffect(() => {
     if (ref.current) {
-      isSidebarEmpty && !isEditModeOn
+      isSidebarEmpty && !isEditModeOn && !isDelayed
         ? animateButton(ref, 'start', 'editModeButton')
         : animateButton(ref, 'stop', 'editModeButton');
     }
-  }, [isSidebarEmpty, isEditModeOn]);
+  }, [isSidebarEmpty, isEditModeOn, isDelayed]);
 
   return (
     <EditModeButtonStyled ref={ref} onClick={handleHideAddExercise}>
