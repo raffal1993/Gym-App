@@ -61,6 +61,13 @@ jest.mock('components/Molecules/Modals/EditSidebarModal/EditSidebarModal', () =>
   };
 });
 
+jest.mock('components/Commons/ArrowPointer/ArrowPointer', () => {
+  return {
+    __esModule: true,
+    default: () => <div>ArrowPointer</div>,
+  };
+});
+
 const initialState = {
   interfaceState: { isSidebarHide: false, isEditModeOn: false },
   pagesState: {
@@ -87,7 +94,7 @@ const rerender = (newStore = store) => {
 };
 
 describe('testing Sidebar component', () => {
-  const buttons = (amount: number = mockedSidebarList.length) => {
+  const sidebarElements = (amount: number = mockedSidebarList.length) => {
     const array = [];
     for (let i = 1; i <= amount; i++) {
       array.push(screen.getByRole('button', { name: new RegExp(`${i} testSubPageName${i}`, 'i') }));
@@ -116,7 +123,7 @@ describe('testing Sidebar component', () => {
   });
 
   test('if elements are displayed on wider screens', () => {
-    buttons().forEach((button) => {
+    sidebarElements().forEach((button) => {
       expect(button).toBeInTheDocument();
     });
     expect(slider()).toBeInTheDocument();
@@ -135,19 +142,32 @@ describe('testing Sidebar component', () => {
     });
     afterAll(() => {
       store.dispatch(setEditMode(false));
+      store.dispatch(setSidebarList(mockedSidebarList));
     });
 
-    test('edit Sidebar button on wider screens', () => {
+    test('show + click edit Sidebar button on wider screens', () => {
       expect(editSidebarButton()).toBeInTheDocument();
       fireEvent.click(editSidebarButton());
       expect(dispatch).toHaveBeenCalledWith(mockedSetModalOpen);
     });
-    test('edit Sidebar button on smaller screens', () => {
+    test('show + click edit Sidebar button on smaller screens', () => {
       isWidthSmaller.mockReturnValueOnce(true);
       rerender();
       expect(editSidebarButton()).toBeInTheDocument();
       fireEvent.click(editSidebarButton());
       expect(dispatch).toHaveBeenCalledWith(mockedSetModalOpen);
+    });
+
+    test('show arrowPointer animation on wider screens', () => {
+      store.dispatch(setSidebarList([]));
+      rerender();
+      expect(screen.getByText(/ArrowPointer/i)).toBeInTheDocument();
+    });
+    test('show arrowPointer animation on smaller screens', () => {
+      store.dispatch(setSidebarList([]));
+      isWidthSmaller.mockReturnValueOnce(true);
+      rerender();
+      expect(screen.getByText(/ArrowPointer/i)).toBeInTheDocument();
     });
   });
 
@@ -155,12 +175,12 @@ describe('testing Sidebar component', () => {
     afterAll(() => {
       isWidthSmaller.mockReturnValue(false);
     });
-    test('active on wider screens', async () => {
-      buttons().forEach((button) =>
+    test('active on wider screens', () => {
+      sidebarElements().forEach((button) =>
         expect(button.getAttribute('class')).not.toMatch(/Mui-selected/gi),
       );
-      fireEvent.click(buttons()[1]);
-      expect(buttons()[1].getAttribute('class')).toMatch(/Mui-selected/gi);
+      fireEvent.click(sidebarElements()[1]);
+      expect(sidebarElements()[1].getAttribute('class')).toMatch(/Mui-selected/gi);
     });
 
     test('active on small screens', () => {
@@ -196,21 +216,21 @@ describe('testing Sidebar component', () => {
     });
   });
   describe('setSubPageID', () => {
-    test('setSubPage when sidebarList.length === 0', () => {
+    test('setSubPageID when sidebarList.length === 0', () => {
       store.dispatch(setSidebarList([]));
       rerender();
       expect(dispatch).toHaveBeenCalledWith(setSubPageID(''));
     });
-    test('setSubPage when sidebarList.length > 0', () => {
+    test('setSubPageID when sidebarList.length > 0', () => {
       store.dispatch(setSidebarList(mockedSidebarList));
       rerender();
-      fireEvent.click(buttons()[0]);
+      fireEvent.click(sidebarElements()[0]);
       expect(dispatch).toHaveBeenCalledWith(setSubPageID(mockedSidebarList[0].id));
     });
   });
   test('sidebar element selected/not selected', () => {
     expect(dispatch).toHaveBeenCalledWith(setSidebarItemSelected(false));
-    fireEvent.click(buttons()[0]);
+    fireEvent.click(sidebarElements()[0]);
     expect(dispatch).toHaveBeenCalledWith(setSidebarItemSelected(true));
   });
   test('navigation/routes when mainPage === "settings"', () => {
@@ -218,7 +238,7 @@ describe('testing Sidebar component', () => {
     history.push('dashboard/settings');
     rerender();
     expect(history.location.pathname).toBe('dashboard/settings');
-    fireEvent.click(buttons()[0]);
+    fireEvent.click(sidebarElements()[0]);
     expect(useNavigate).toHaveBeenCalledWith('/dashboard/settings/testSubPageName1');
   });
 });
