@@ -3,6 +3,7 @@ import { setSubPageID } from 'app/slices/pagesSlice';
 import { setupStore } from 'app/store';
 import Weather from 'components/Organisms/Weather/Weather';
 import React from 'react';
+import { pagesPaths } from 'utils/staticVariables/pages';
 import { mockedWeatherDataAPI, todayWeatherInfosAPI } from '__tests__/mocks/mockedWeatherData';
 import { mockedReduxState } from '../../mocks/mockedReduxState';
 import { mockedSidebarList, mockedSubPageID } from '../../mocks/mockedSidebarData';
@@ -35,6 +36,7 @@ const initialState = {
   pagesState: {
     subPageID: mockedSubPageID,
     sidebarList: mockedSidebarList,
+    mainPage: pagesPaths.weather.name,
   },
 };
 

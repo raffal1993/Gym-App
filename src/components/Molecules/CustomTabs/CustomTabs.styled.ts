@@ -51,9 +51,4 @@ export const TabsStyled = styled(Tabs)<TabsProps>(({ theme }) => ({
     borderRadius: '10px',
     bottom: '5px',
   },
-
-  '.buttonAddSubPage': {
-    border: `2px dashed ${theme.colors.bgDark}`,
-    padding: '3px 7px',
-  },
 }));

@@ -1,6 +1,7 @@
 import { memo, useEffect, useMemo, useState } from 'react';
 import CustomButton from 'components/Commons/Buttons/CustomButton/CustomButton';
 import { v4 as uuid4 } from 'uuid';
+import { pagesPaths } from 'utils/staticVariables/pages';
 import { WeatherApiInstance } from 'api/WeatherAPI/instance';
 import { convertedWeatherDataFromAPI } from 'helpers/convertedWeatherDataFromAPI';
 import { useAppSelector } from 'app/hooks';
@@ -18,7 +19,7 @@ import {
 
 const Weather = memo(() => {
   const {
-    pages: { sidebarList, subPageID },
+    pages: { sidebarList, subPageID, mainPage },
   } = useAppSelector((state) => state);
 
   const [inputValue, setInputValue] = useState('');
@@ -83,12 +84,12 @@ const Weather = memo(() => {
   );
 
   useEffect(() => {
-    if (sidebarList.length <= 0) return;
-
-    const name = sidebarList.find((item) => item.id === subPageID)?.name;
-
-    setInputValue(name || '');
-  }, [sidebarList, subPageID]);
+    const isInputChangeAllowed = mainPage === pagesPaths.weather.name && sidebarList.length > 0;
+    if (isInputChangeAllowed) {
+      const name = sidebarList.find((item) => item.id === subPageID)?.name;
+      setInputValue(name || '');
+    }
+  }, [mainPage, sidebarList, subPageID]);
 
   return (
     <Wrapper>

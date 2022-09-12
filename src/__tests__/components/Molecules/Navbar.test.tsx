@@ -1,6 +1,6 @@
 import { cleanup, fireEvent, screen } from '@testing-library/react';
 import { setEditMode, setSidebarVisibility } from 'app/slices/interfaceSlice';
-import { setMainPage, setSidebarList } from 'app/slices/pagesSlice';
+import { setMainPage } from 'app/slices/pagesSlice';
 import { setupStore } from 'app/store';
 import Navbar from 'components/Molecules/Navbar/Navbar';
 import { createMemoryHistory } from 'history';
@@ -98,7 +98,6 @@ describe('testing Navbar component', () => {
     expect(history.location.pathname).toBe('/');
     fireEvent.click(pages('workout')[0]);
     rerender();
-    expect(dispatch).toHaveBeenCalledWith(setSidebarList([]));
     expect(dispatch).toHaveBeenCalledWith(setMainPage('workout'));
     expect(dispatch).toHaveBeenCalledWith(setEditMode(false));
     expect(history.location.pathname).toBe('/workout');
@@ -140,7 +139,6 @@ describe('testing Navbar component', () => {
       expect(history.location.pathname).toBe('/');
       fireEvent.click(pages('workout')[1]);
       rerender();
-      expect(dispatch).toHaveBeenCalledWith(setSidebarList([]));
       expect(dispatch).toHaveBeenCalledWith(setMainPage('workout'));
       expect(dispatch).toHaveBeenCalledWith(setEditMode(false));
       expect(history.location.pathname).toBe('/workout');

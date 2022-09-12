@@ -8,7 +8,7 @@ import { pages } from 'utils/staticVariables/pages';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { v4 as uuid4 } from 'uuid';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { setMainPage, setSidebarList } from 'app/slices/pagesSlice';
+import { setMainPage } from 'app/slices/pagesSlice';
 import { setEditMode } from 'app/slices/interfaceSlice';
 import {
   HamburgerStyled,
@@ -39,7 +39,6 @@ const Navbar = () => {
 
   const handleNavMenu = (path: string, isHamburger = false) => {
     if (mainPage === path) return;
-    dispatch(setSidebarList([]));
     dispatch(setEditMode(false));
     if (isHamburger) setAnchorElNav(null);
   };

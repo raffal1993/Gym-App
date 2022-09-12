@@ -2,11 +2,8 @@ import { FC, useEffect, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { v4 as uuid4 } from 'uuid';
-import { FoodCardDB } from 'components/Organisms/Food/FoodTypes';
-import { foodCardsDBListener } from 'firebase-cfg/database/food/listeners';
 import { updateFoodSetName } from 'firebase-cfg/database/food/update';
 import { setModalClose } from 'app/slices/interfaceSlice';
-import { setFoodCards } from 'app/slices/foodSlice';
 import { removeFoodItem, removeFoodSet } from 'firebase-cfg/database/food/remove';
 import {
   ConfirmationButtonStyled,
@@ -66,11 +63,6 @@ const EditFoodSetModal: FC<EditFoodSetModalProps> = ({ foodCardID }) => {
       }, 2500),
     );
   };
-
-  useEffect(() => {
-    const dispatcher = (foodCards: FoodCardDB[]) => dispatch(setFoodCards(foodCards));
-    return foodCardsDBListener(subPageID, dispatcher);
-  }, [subPageID, foodCardID, dispatch]);
 
   useEffect(() => {
     return () => clearTimeout(timer);

@@ -103,6 +103,7 @@
     "no-plusplus": "off",
     "guard-for-in": "off",
     "no-alert": "off",
+    "no-useless-escape": "off",
     "@typescript-eslint/no-throw-literal": ["off"],
     "testing-library/no-render-in-setup": ["off"],
     "testing-library/no-debugging-utils": ["off"],

@@ -33,28 +33,6 @@ jest.mock('firebase-cfg/database/food/remove', () => ({
   removeFoodSet: () => removeFoodSet(),
 }));
 
-// jest.mock('firebase/database', () => ({
-//   ref: jest.fn().mockReturnValue('testRef'),
-//   onValue: jest.fn((_ref, callback) => {
-//     const snapshot = { val: () => mockedFoodCardDBSnapshot(1) };
-//     callback(snapshot);
-//   }),
-// }));
-
-jest.mock('firebase/database', () => ({
-  ref: jest.fn().mockReturnValue('testRef'),
-  onValue: jest.fn((_ref, callback) => {
-    const snapshot = {
-      val: () => [
-        mockedFoodCardDBSnapshot(1),
-        mockedFoodCardDBSnapshot(2),
-        mockedFoodCardDBSnapshot(3),
-      ],
-    };
-    callback(snapshot);
-  }),
-}));
-
 const initialState = {
   pagesState: { subPageID: mockedSubPageID },
   foodState: { foodCards: mockedFoodCards },
