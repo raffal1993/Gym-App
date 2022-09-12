@@ -3,28 +3,30 @@ import { useAppDispatch, useAppSelector } from 'app/hooks';
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import CustomButton from 'components/Commons/Buttons/CustomButton/CustomButton';
+import NoCardsFound from 'components/Commons/NoCardsFound/NoCardsFound';
 import { v4 as uuid4 } from 'uuid';
 import FoodCard from 'components/Molecules/FoodCard/FoodCard';
 import { foodCardsDBListener } from 'firebase-cfg/database/food/listeners';
 import { setFoodCards } from 'app/slices/foodSlice';
+import useDelay from 'hooks/useDelay';
 import SearchFood from 'components/Molecules/SearchFood/SearchFood';
 import AddFood from 'components/Molecules/AddFood/AddFood';
 import { ScrollTopStyled, Wrapper } from './Food.styled';
 import { FoodCardDB } from './FoodTypes';
 
 const Food = memo(() => {
-  const [isSearchModeOn, setIsSearchModeOn] = useState(false);
-
   const {
-    interface: { isEditModeOn },
-    pages: { subPageID },
+    interface: { isEditModeOn, isSidebarItemSelected },
+    pages: { subPageID, mainPage },
     food: { foodCards },
   } = useAppSelector((state) => state);
+
+  const [isSearchModeOn, setIsSearchModeOn] = useState(false);
+  const { isDelayed } = useDelay(300, mainPage);
 
   const dispatch = useAppDispatch();
 
   const divRef = useRef<HTMLDivElement>(null);
-
   const scrollTopRef = useRef<HTMLDivElement>(null);
 
   const handleScrollTop = () => {
@@ -74,6 +76,8 @@ const Food = memo(() => {
     };
   }, []);
 
+  const showNoCardsFoundInfo = !isEditModeOn && isSidebarItemSelected && foodCards.length === 0;
+
   return (
     <Wrapper ref={divRef}>
       <CustomButton className="searchFoodButton" handleClick={handleSearchMode}>
@@ -89,9 +93,8 @@ const Food = memo(() => {
         />
       )}
       {isSearchModeOn && <SearchFood foodCards={foodCards} />}
-      {foodCards.map((foodCard) => (
-        <FoodCard key={uuid4()} foodCard={foodCard} />
-      ))}
+      {showNoCardsFoundInfo && <NoCardsFound text="You don't have any FOOD SETS added" />}
+      {!isDelayed && foodCards.map((foodCard) => <FoodCard key={uuid4()} foodCard={foodCard} />)}
       <ScrollTopStyled ref={scrollTopRef} onClick={handleScrollTop}>
         <ArrowCircleUpIcon />
       </ScrollTopStyled>

@@ -4,6 +4,8 @@ import AddExerciseTabs from 'components/Molecules/CustomTabs/CustomTabs';
 import StoperWidget from 'components/Molecules/StoperWidget/StoperWidget';
 import WorkoutCard from 'components/Molecules/WorkoutCard/WorkoutCard';
 import { WorkoutCardProps } from 'components/Organisms/Workout/WorkoutTypes';
+import NoCardsFound from 'components/Commons/NoCardsFound/NoCardsFound';
+import useDelay from 'hooks/useDelay';
 import { Tab } from '@mui/material';
 import { v4 as uuid4 } from 'uuid';
 import { clearLocalStorage } from 'helpers/localStorage';
@@ -16,12 +18,13 @@ import { Wrapper } from './Workout.styled';
 const { exercises } = importImages();
 
 const Workout = memo(() => {
-  const [workoutList, setWorkoutList] = useState<WorkoutCardProps[]>([]);
-
   const {
-    pages: { subPageID, sidebarList },
+    pages: { subPageID, sidebarList, mainPage },
     interface: { isEditModeOn, isSidebarItemSelected },
   } = useAppSelector((state) => state);
+
+  const [workoutList, setWorkoutList] = useState<WorkoutCardProps[]>([]);
+  const { isDelayed } = useDelay(300, mainPage);
 
   useEffect(() => {
     return workoutListDBListener(subPageID, setWorkoutList);
@@ -33,7 +36,10 @@ const Workout = memo(() => {
   }, [subPageID]);
 
   const isAddExerciseDisabled =
-    sidebarList.length <= 0 || workoutList.length >= MAX_CARDS || !isSidebarItemSelected;
+    sidebarList.length === 0 || workoutList.length >= MAX_CARDS || !isSidebarItemSelected;
+
+  const showNoCardsFoundInfo =
+    !isEditModeOn && isSidebarItemSelected && workoutList.length === 0 && !isDelayed;
 
   return (
     <Wrapper>
@@ -49,6 +55,7 @@ const Workout = memo(() => {
           ))}
         </AddExerciseTabs>
       )}
+      {showNoCardsFoundInfo && <NoCardsFound text="You don't have any EXERCISES added" />}
       {workoutList.map((workoutItem) => {
         const { exerciseID, name, type, versions } = workoutItem;
         return (

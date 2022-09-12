@@ -1,5 +1,5 @@
-import { fireEvent, screen } from '@testing-library/react';
-import { setEditMode } from 'app/slices/interfaceSlice';
+import { cleanup, fireEvent, screen, waitFor } from '@testing-library/react';
+import { setEditMode, setSidebarItemSelected } from 'app/slices/interfaceSlice';
 import { setupStore } from 'app/store';
 import Food from 'components/Organisms/Food/Food';
 import React from 'react';
@@ -29,15 +29,26 @@ jest.mock('components/Molecules/FoodCard/FoodCard', () => {
   };
 });
 
+jest.mock('components/Commons/NoCardsFound/NoCardsFound', () => {
+  return {
+    __esModule: true,
+    default: () => <div>NoCardsFound</div>,
+  };
+});
+
+const snapshotValue = jest
+  .fn()
+  .mockReturnValue([
+    mockedFoodCardDBSnapshot(1),
+    mockedFoodCardDBSnapshot(2),
+    mockedFoodCardDBSnapshot(3),
+  ]);
+
 jest.mock('firebase/database', () => ({
   ref: jest.fn().mockReturnValue('testRef'),
   onValue: jest.fn((_ref, callback) => {
     const snapshot = {
-      val: () => [
-        mockedFoodCardDBSnapshot(1),
-        mockedFoodCardDBSnapshot(2),
-        mockedFoodCardDBSnapshot(3),
-      ],
+      val: () => snapshotValue(),
     };
     callback(snapshot);
   }),
@@ -55,6 +66,13 @@ const initialState = {
 
 const store = setupStore(mockedReduxState(initialState));
 
+const rerender = (newStore = store) => {
+  cleanup();
+  renderWithProviders(<Food />, {
+    store: newStore,
+  });
+};
+
 describe('testing Food component', () => {
   const searchButton = () => screen.getByTestId(/SearchIcon/i);
 
@@ -66,23 +84,36 @@ describe('testing Food component', () => {
   });
 
   describe('displayed elements', () => {
-    afterAll(() => {
+    afterEach(() => {
       store.dispatch(setEditMode(false));
     });
-    test('elements displayed on initial render', () => {
+
+    test('elements displayed on initial render', async () => {
       expect(searchButton()).toBeInTheDocument();
-      expect(screen.getAllByText(/FoodCard/i)).toHaveLength(3);
+      await waitFor(() => {
+        expect(screen.getAllByText(/FoodCard/i)).toHaveLength(3);
+      });
       expect(scrollToTopIcon()).toBeInTheDocument();
     });
 
     test('elements displayed when isEditModeOn === true', () => {
       store.dispatch(setEditMode(true));
+      rerender();
       expect(screen.getByText(/AddFood/i)).toBeInTheDocument();
     });
 
     test('elements displayed when isSearchModeOn === true', () => {
+      store.dispatch(setEditMode(true));
+      rerender();
       fireEvent.click(searchButton());
       expect(screen.getByText(/SearchFood/i)).toBeInTheDocument();
+    });
+
+    test('display NoCardsFound component', async () => {
+      store.dispatch(setSidebarItemSelected(true));
+      snapshotValue.mockReturnValue([])();
+      rerender();
+      expect(screen.getByText(/NoCardsFound/i)).toBeInTheDocument();
     });
   });
 
