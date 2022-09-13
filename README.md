@@ -36,7 +36,16 @@ setting section:
 
 <br>
 
-<div align="center"><strong>TEST ACCOUNT:<strong></div>
+
+**Go to APP -->> [ [GYM APP](https://gym-app-89ccd.web.app/) ]**
+
+
+
+
+
+<br>
+
+<div align="center"><strong>TEST ACCOUNT:</strong></div>
 <div align="center">Login: test@wp.pl</div>
 <div align="center">Password: test1234</div>
 
@@ -83,8 +92,11 @@ Unit and integration tests with Jest, RTL, enzyme:
  <li>Jest</li>
  <li>React Testing Library</li>
  <li>Enzyme</li>
- 
+ <br>
+ <p>... and more</p>
  </ul>
+ 
+ 
 
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
