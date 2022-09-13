@@ -1,12 +1,16 @@
 export const modifyTimerValue = (value: number) => {
-  const timerValues = value.toString().split('.');
+  const timer = (value / 10).toFixed().toString();
 
-  let firstValue = timerValues[0];
-  let secondValue = timerValues[1];
-
-  firstValue = firstValue.length === 1 ? `0${firstValue}` : firstValue;
-
-  secondValue = !secondValue ? `00` : secondValue.length === 1 ? `${secondValue}0` : secondValue;
-
-  return `${firstValue}:${secondValue}`;
+  switch (timer.length) {
+    case 0:
+      return `00:00`;
+    case 1:
+      return `00:0${timer}`;
+    case 2:
+      return `00:${timer}`;
+    case 3:
+      return `0${timer[0]}:${timer.slice(-2)}`;
+    default:
+      return `${timer.slice(0, -2)}:${timer.slice(-2)}`;
+  }
 };

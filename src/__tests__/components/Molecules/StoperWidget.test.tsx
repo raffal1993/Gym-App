@@ -40,7 +40,7 @@ describe('testing StoperWidget component', () => {
     expect(wrapper()).toHaveAttribute('is_hided', 'false');
     expect(wrapper()).not.toHaveStyle({ transform: 'translateX(260px)' });
   });
-  describe('stoper', () => {
+  describe('stoper usage', () => {
     jest.useFakeTimers();
 
     test('display properly time after about 10 sec', () => {
@@ -48,7 +48,7 @@ describe('testing StoperWidget component', () => {
       act(() => {
         jest.advanceTimersByTime(10000);
       });
-      expect(display()).toHaveTextContent('09:66');
+      expect(display()).toHaveTextContent('09:99');
     });
 
     test('pause stoper', () => {
@@ -57,15 +57,17 @@ describe('testing StoperWidget component', () => {
         jest.advanceTimersByTime(10000);
       });
       fireEvent.click(pauseTimer());
-      jest.advanceTimersByTime(2000);
-      expect(display()).toHaveTextContent('09:66');
+      act(() => {
+        jest.advanceTimersByTime(2000);
+      });
+      expect(display()).toHaveTextContent('09:99');
     });
     test('reset stoper', () => {
       fireEvent.click(startTimer());
       act(() => {
         jest.advanceTimersByTime(10000);
       });
-      expect(display()).toHaveTextContent('09:66');
+      expect(display()).toHaveTextContent('09:99');
       fireEvent.click(resetTimer());
       expect(display()).toHaveTextContent('00:00');
     });

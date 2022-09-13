@@ -9,28 +9,14 @@ import CustomizedSnackbars from 'components/Commons/Snackbar/CustomizedSnackbars
 import { useEffect, useState } from 'react';
 import { IconStyled, TimerStyled, Wrapper } from './StoperWidget.styled';
 
+const initialTimer = setInterval(() => {});
+
 const StoperWidget = () => {
   const [isHided, setIsHided] = useState(true);
   const [timer, setTimer] = useState(0);
   const [isTimerOn, setIsTimerOn] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
-
-  const handleHideStoper = () => {
-    setIsHided(!isHided);
-  };
-
-  const handleStartTimer = () => {
-    setIsTimerOn(true);
-  };
-
-  const handleStopTimer = () => {
-    setIsTimerOn(false);
-  };
-
-  const handleResetTimer = () => {
-    setTimer(0);
-    setIsTimerOn(false);
-  };
+  const [timerInterval, setTimerInterval] = useState(initialTimer);
 
   const handleCopyTimerToClipboard = () => {
     if ('clipboard' in navigator) {
@@ -47,17 +33,49 @@ const StoperWidget = () => {
     setOpenSnackbar(true);
   };
 
+  const startTimerBasedOnDate = () => {
+    const getTime = () => new Date().getTime();
+    let previousTimeStep: number;
+
+    setTimerInterval(
+      setInterval(() => {
+        const currentTimerStep = getTime();
+        previousTimeStep = previousTimeStep === undefined ? getTime() - 30 : previousTimeStep;
+
+        const timerValue = currentTimerStep - previousTimeStep;
+        setTimer((prev) => prev + timerValue);
+        previousTimeStep = currentTimerStep;
+      }, 30),
+    );
+  };
+
+  const handleHideStoper = () => {
+    setIsHided(!isHided);
+  };
+
+  const handleStartTimer = () => {
+    setIsTimerOn(true);
+    startTimerBasedOnDate();
+  };
+
+  const handleStopTimer = () => {
+    clearInterval(timerInterval);
+    setIsTimerOn(false);
+  };
+
+  const handleResetTimer = () => {
+    clearInterval(timerInterval);
+    setTimer(0);
+    setIsTimerOn(false);
+  };
+
   useEffect(() => {
-    let interval: NodeJS.Timer;
-
-    if (isTimerOn) {
-      interval = setInterval(() => {
-        setTimer((prev) => Number((prev + 0.03).toFixed(2)));
-      }, 30);
-    }
-
-    return () => clearInterval(interval);
-  }, [isTimerOn, timer]);
+    return () => {
+      clearInterval(timerInterval);
+      setTimerInterval(initialTimer);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Wrapper data-testid="wrapper" is_hided={isHided.toString()}>
