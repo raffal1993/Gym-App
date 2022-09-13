@@ -44,6 +44,12 @@ describe('testing Register component', () => {
   const inputEmail = () => screen.getByRole('textbox', { name: /email/i });
   const backToLoginPage = () => screen.getByText(/Back to login page/i);
 
+  const provideTestEmailAndPasswords = () => {
+    fireEvent.change(inputEmail(), { target: { value: 'test@test.com' } });
+    fireEvent.change(inputPassword(), { target: { value: 'testPassword' } });
+    fireEvent.change(inputConfirmPassword(), { target: { value: 'testPassword' } });
+  };
+
   beforeEach(() => {
     renderWithProviders(
       <Router location={history.location} navigator={history}>
@@ -84,16 +90,22 @@ describe('testing Register component', () => {
       await waitFor(() => expect(button()).toHaveAttribute('aria-invalid', 'true'));
     });
 
-    test('if error message show up after login with email and password', async () => {
+    test('if error message show up with empty email and password inputs', async () => {
+      fireEvent.click(button());
+      expect(screen.getByText(/Provide email and passwords/i)).toBeInTheDocument();
+    });
+
+    test('if error message show up after register with invalid email and password', async () => {
+      provideTestEmailAndPasswords();
       fireEvent.click(button());
       jest.advanceTimersByTime(1000);
       await waitFor(async () => expect(await screen.findByText(/testError/i)).toBeInTheDocument());
     });
 
     test('if error message show up when password and confirm passwords are different', async () => {
-      fireEvent.change(inputEmail(), { target: { value: 'testEmail@gmail.com' } });
-      fireEvent.change(inputPassword(), { target: { value: 'password' } });
-      fireEvent.change(inputConfirmPassword(), { target: { value: 'differentConfirmPassword' } });
+      fireEvent.change(inputEmail(), { target: { value: 'test@test.com' } });
+      fireEvent.change(inputPassword(), { target: { value: 'testPassword' } });
+      fireEvent.change(inputConfirmPassword(), { target: { value: 'testDifferentPassword' } });
       fireEvent.click(button());
       jest.advanceTimersByTime(1000);
       await waitFor(async () =>
@@ -103,9 +115,9 @@ describe('testing Register component', () => {
 
     test('error message fade out', async () => {
       fireEvent.click(button());
-      await waitFor(async () => expect(await screen.findByText(/testError/i)).toBeInTheDocument());
+      expect(screen.getByText(/Provide email and passwords/i)).toBeInTheDocument();
       jest.advanceTimersByTime(3500);
-      await waitForElementToBeRemoved(screen.queryByText(/testError/i));
+      await waitForElementToBeRemoved(screen.queryByText(/Provide email and passwords/i));
       expect(inputEmail()).toHaveAttribute('aria-invalid', 'false');
       expect(inputPassword()).toHaveAttribute('aria-invalid', 'false');
       expect(inputConfirmPassword()).toHaveAttribute('aria-invalid', 'false');
@@ -123,11 +135,13 @@ describe('testing Register component', () => {
     });
 
     test('button behaviour when submit success', async () => {
+      provideTestEmailAndPasswords();
       fireEvent.click(button());
       await waitFor(() => expect(button('Success')).toBeInTheDocument());
     });
 
     test('redirect to mainPage when submit success', async () => {
+      provideTestEmailAndPasswords();
       fireEvent.click(button());
       await waitFor(() => {
         expect(addNewUserToDB).toHaveBeenCalled();

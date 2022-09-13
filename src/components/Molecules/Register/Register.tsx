@@ -32,6 +32,10 @@ const Register = () => {
 
   // === CREATE NEW USER WITH EMAIL AND PASSWORD ===
   const handleRegister = () => {
+    const areInputsEmpty =
+      email.length === 0 || password.length === 0 || confirmPassword.length === 0;
+    if (areInputsEmpty) return setErrorMessage('Provide email and passwords');
+
     if (password !== confirmPassword && email) return setErrorMessage(`Passwords are different`);
 
     createUserWithEmailAndPassword(auth, email, password)

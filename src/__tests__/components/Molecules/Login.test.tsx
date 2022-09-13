@@ -104,7 +104,14 @@ describe('testing Login component', () => {
       await waitFor(() => expect(button()).toHaveAttribute('aria-invalid', 'true'));
     });
 
+    test('if error message show up when email or password are not provided', () => {
+      fireEvent.click(button());
+      expect(screen.getByText(/Provide email and password/i)).toBeInTheDocument();
+    });
+
     test('if error message show up after login with email and password', async () => {
+      fireEvent.change(emailInput(), { target: { value: 'test@test.com' } });
+      fireEvent.change(passwordInput(), { target: { value: 'testPassword' } });
       fireEvent.click(button());
       jest.advanceTimersByTime(1000);
       await waitFor(async () =>
@@ -127,11 +134,9 @@ describe('testing Login component', () => {
 
     test('error message fade out', async () => {
       fireEvent.click(button());
-      await waitFor(async () =>
-        expect(await screen.findByText(/Error: login failed!/i)).toBeInTheDocument(),
-      );
+      expect(screen.getByText(/Provide email and password/i)).toBeInTheDocument();
       jest.advanceTimersByTime(3500);
-      await waitForElementToBeRemoved(screen.queryByText(/Error: login failed!/i));
+      await waitForElementToBeRemoved(screen.queryByText(/Provide email and password/i));
       expect(emailInput()).toHaveAttribute('aria-invalid', 'false');
       expect(passwordInput()).toHaveAttribute('aria-invalid', 'false');
       expect(button()).toHaveAttribute('aria-invalid', 'false');
@@ -148,11 +153,15 @@ describe('testing Login component', () => {
     });
 
     test('button behaviour when submit success', async () => {
+      fireEvent.change(emailInput(), { target: { value: 'test@test.com' } });
+      fireEvent.change(passwordInput(), { target: { value: 'testPassword' } });
       fireEvent.click(button());
       await waitFor(() => expect(button('Success')).toBeInTheDocument());
     });
 
     test('redirect to mainPage when submit success', async () => {
+      fireEvent.change(emailInput(), { target: { value: 'test@test.com' } });
+      fireEvent.change(passwordInput(), { target: { value: 'testPassword' } });
       fireEvent.click(button());
       jest.advanceTimersByTime(2500);
       await waitFor(() =>

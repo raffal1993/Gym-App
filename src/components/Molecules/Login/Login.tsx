@@ -33,6 +33,9 @@ const Login = () => {
   // === SIGN IN ===
 
   const handleSignIn = () => {
+    const areInputsEmpty = email.length === 0 || password.length === 0;
+    if (areInputsEmpty) return setErrorMessage('Provide email and password');
+
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
         setIsSucceed(true);
